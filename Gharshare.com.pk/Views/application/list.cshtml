@@ -1,0 +1,153 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model List<Application>
+
+@{
+    ViewData["Title"] = "Application list";
+    Layout = "~/Views/Shared/_Layoutlandlord.cshtml";
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Tenancy Application List</span>
+        </h2>
+    </div>
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th style="width:30px;">
+                            <h6>No</h6>
+                        </th>
+                        <th><h6>Address</h6></th>
+                        <th><h6>Applicant</h6></th>
+                        <th><h6>email</h6></th>
+                        <th><h6>Rent</h6></th>
+                        <th><h6>Lease period</h6></th>
+                        <th><h6>Submitted on</h6></th>
+                        <th class="text-center"><h6>Status</h6></th>
+                        <th class="text-center" style="width:74px;"><h6>Action</h6></th>
+                    </tr>
+                </thead>
+                @if (Model.Any())
+                {
+                    int sno = 0;
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        var application = Model[i];
+                        sno = @i + 1;
+                        <tr>
+                            <td>@sno</td>
+                            <td>
+                                @application.Property.Suburb
+                            </td>
+                            <td>@application.User.Name</td>
+                            <td>@application.User.Email</td>
+                            <td>@Utility.Format(application.Rent)</td>
+                            <td>@application.LeasePeriod</td>
+                            <td>@Utility.ConvertToShortDateFormat(application.DateSubmitted)</td>
+                            <td class="text-center">
+                                @if (application.Status == 1)
+                                {
+                                    <span>
+                                        <i class="fa fa-circle text-warning me-1"></i>
+                                        <span>
+                                            Submitted
+                                        </span>
+                                    </span>
+                                }
+                                else if (@application.Status == 2)
+                                {
+                                    <i class="fa fa-circle text-success me-1"></i>
+                                    <span>Approved</span>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-circle text-danger me-1"></i>
+                                    <span>Rejected</span>
+                                }
+                            </td>
+                            <td style="width:140px">
+                                <div class="text-center">
+                                    <a href="#" onclick="showApplication2Landlord(@application.ID);"
+                                       title="View application" class="red-link me-1">
+                                        <i class="fa fa-eye"></i> View Application
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8">
+                            <div id="noplan" class="row text-center p-3">
+                                <h4>No record found</h4>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @* <partial name="_Pager" model="@pager" /> *@
+
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record exists</h4>
+        </div>
+    </div>
+    <div id="divdocument" class="col-xl-12 d-none">
+        <div class="row" style="margin-left:0px;">
+            <div class="col-md-9 p-1">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>
+                            <span>Tenancy Application Document</span>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="dvapplication"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="card" style="height:250px;">
+                    <div class="card-header">
+                        <h6>Action</h6>
+                    </div>
+                    <div class="card-body">
+                        @* <div class="row mb-3">
+                        <span id="spanName"></span>
+                        </div>
+                        <div class="row mb-3">
+                        <span id="spanEmail"></span>
+                        </div> *@
+                        <input type="hidden" id="txtPropId" />
+                        <div class="row mb-3">
+                            <a id="btnCreateLease" href="#"
+                               class="btn btn-primary">Create Lease</a>
+                        </div>
+                        <input type="hidden" id="txtAppId" />
+                        <div class="row">
+                            <a class="btn btn-primary" id="btnReject"
+                               onclick="rejectApplication($('#txtAppId').val())">
+                                Reject Application
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script>  *@
+<script src="~/js/application/showApplication2Landlord.js" type="text/javascript"></script>
+<script src="~/js/application/rejectApplication.js" type="text/javascript"></script>
+@* for reference only<select class="nice-select" asp-for="@application.Status">
+                        <option value="1" data-aid=@application.ID>Submitted</option>
+                        <option value="2" data-eid=@application.ID>Approve</option>
+                        <option value="3" data-eid=@application.ID>Reject</option>
+                        </select> *@
+
+

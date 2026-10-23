@@ -1,0 +1,66 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model Property
+@{
+    ViewData["Title"] = "Edit Property";
+    Layout = null;
+}
+<div class="justify-content-center align-items-center">
+    <form asp-action="editproperty" method="post">
+        <input type="hidden" asp-for="ID" id="txtPropertyId" />
+        <input type="hidden" asp-for="CoverImage" />
+        <div class="auth-form">
+            <div class="offset-md-4" id="dvCoverImage">
+                <img src="@Model.CoverImage" style="height:200px;width:200px;border-radius:10px;"
+                     onclick="document.getElementById('file-upload').click();" />
+            </div>
+            <div>
+                <input id="file-upload" type="file" accept="image/*" style="display: none;"
+                       onchange="updatePropertyCoverImage(this);">
+            </div>
+            <div class="row">
+                <label>Address</label>
+                <input type="text" class="form-control" asp-for="Address" required />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Bed</label>
+                    <input type="number" class="form-control" asp-for="Bed" required />
+                    <span asp-validation-for="Bed" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label>Bath</label>
+                    <input type="number" class="form-control" asp-for="Bathroom" required />
+                    <span asp-validation-for="Bathroom" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Parking</label>
+                    <input type="number" class="form-control" asp-for="TotalParkings" required />
+                    <span asp-validation-for="TotalParkings" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label>Monthly Rent</label>
+                    <input type="number" class="form-control" asp-for="Rent" required />
+                    <span asp-validation-for="Rent" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row text-center mt-3 mb-1">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Save
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-secondary btn-block" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/property/updatePropertyCoverImage.js"></script>

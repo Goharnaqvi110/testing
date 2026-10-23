@@ -1,0 +1,163 @@
+﻿@model Gharshare.Models.Toolkit
+
+@{
+    ViewData["Title"] = "Rental Estimate Report - How Much to Charge For Rent?";
+}
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image " data-bs-bg="/img/bg/14.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner text-center">
+                    <h1 class="page-title">
+                        Rental  <span class="ltn__secondary-color-3">Estimate </span>Report
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+<!--  Rental Estimate Report START  -->
+<div class="ltn__about-us-area">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-6 align-self-center">
+                <div class="about-us-info-wrap">
+                    <div class="section-title-area ltn__section-title-2--- mb-20">
+                        <h1>
+                            <span class="ltn__secondary-color-3">Rental Estimate</span>
+                            Report
+                        </h1>
+                        <p>
+                            Discover how much weekly rent you can expect for your property with Smartpropertymanager.pk. 
+                            Get a comprehensive report, including property details and current local market data.
+                        </p>                         
+                    </div>
+                    <div class="ltn__form-widget">
+                        <form asp-controller="toolkit" asp-action="rentalestimate">
+                            <input id="kittype" type="hidden" asp-for="Type" class="form-control" />
+                            <input id="IPAddress" type="hidden" asp-for="IPAddress" class="form-control" />
+                            <div class="form-inline">
+                                <input type="text" data-val-required="*" data-val="true" id="address"
+                                       asp-for="PropertyAddress" class="input-control"
+                                       onkeypress="javascript:ValidateEstimateRequest();" placeholder="Enter Your Address">
+                                <span asp-validation-for="PropertyAddress" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                                <input type="text" data-val-required="*" data-val="true" id="name"
+                                       asp-for="OwnerName" class="input-control" placeholder="Name">
+                                <span asp-validation-for="@Model.OwnerName" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                                <input type="email" id="email" asp-for="Email" class="input-control"
+                                       placeholder=" email@example.com" data-val-required="*" data-val="true">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                                <input id="mobile" asp-for="Phone" class="input-control"
+                                       maxlength="15" placeholder=" Mobile" oninput="formatMobileNumber(this)"
+                                       data-val-required="*" data-val="true">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                                <select asp-for="NeedFor" data-val-required="*" data-val="true"
+                                        class="input-control" title="Select the purpose of the report">
+                                    <option value="">What will the report help you with?</option>
+                                    <option value="Calculate RENT PRICE">Setting a rental price for my property</option>
+                                    <option value="REFINANCING LOAN">Refinancing my home loan</option>
+                                    <option value="RENEW LEASE">Renewing a lease with my tenant</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                                <span asp-validation-for="NeedFor" class="text-danger"></span>
+                            </div>
+                            <button id="mySubmit" type="submit" class="btn theme-btn-1">Get Report</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 align-self-center">
+                <img src="/img/publicsite/toolkit/rentalestimatereport.webp">
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Rental Estimate Report END  -->
+<!--  Report Features START  -->
+<div class="container mt-30">
+    <div class="row mb-5">
+        <div class="col-lg-6 align-self-center ">
+            <div class="about-us-info-wrap">
+                <div class=" ltn__form-widget">
+                    <div class="content-left home-features">
+                        <h2 class="title home-features">What will my <span class="">report</span> include?<span class="text-span-59"></span></h2>
+                    </div>
+                    <div class="home-feature-wrapper">
+                        <div class="home-feature-content">
+                            <div class="bullets">
+                                <img src="/img/publicsite/common/tick.svg" height="15" width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                                <h3 class="title h4-size home-feature-title animated fadeIn">
+                                    <strong>
+                                        Property Features & Details
+                                    </strong>
+                                </h3>
+                            </div>
+                            <p class="p1 home-feature content-left">
+                                Learn about the key features and details of your property, such as floor area, value, 
+                                and rental history.
+                            </p>
+                        </div>
+                    </div>                    
+                    <div class="home-feature-content">
+                        <div class="bullets">
+                            <img src="/img/publicsite/common/tick.svg" height="15" width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                            <h3 class="title h4-size home-feature-title animated fadeIn">
+                                <strong>
+                                    Comparative Market Analysis
+                                </strong>
+                            </h3>
+                        </div>
+                        <p class="p1 home-feature content-left">
+                            Get insights into the rental and sale prices of similar properties in your area, based on recent listings.
+                        </p>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 offset-md-1 align-self-center mt-4">
+            <div class="home-feature-content">
+                <div class="bullets">
+                    <img src="/img/publicsite/common/tick.svg" height="15" width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                    <h3 class="title h4-size home-feature-title animated fadeIn">
+                        <strong>
+                            Rental Estimate
+                        </strong>
+                    </h3>
+                </div>
+                <p class="p1 home-feature content-left">
+                    Find out the estimated rent amount tailored to your property.
+                </p>
+            </div>
+            <div class="home-feature-content">
+                <div class="bullets">
+                    <img src="/img/publicsite/common/tick.svg" height="15" width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                    <h3 class="title h4-size home-feature-title animated fadeIn">
+                        <strong>
+                            Local Area Insights
+                        </strong>
+                    </h3>
+                </div>
+                <p class="p1 home-feature content-left">
+                    Gain a better understanding of your suburb, including sales trends and local market insights over time.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Report Features End -->
+@section Scripts {
+    <script src="~/js/formatmobilenum.js"></script>
+    <script src="/js/ValidateEstimateRequest.js"></script>
+}
+@*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+

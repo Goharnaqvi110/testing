@@ -1,0 +1,52 @@
+﻿@using Gharshare.Models
+@model Referral
+@{
+    ViewData["Title"] = "Refer to a Friend";
+    Layout = "_LayoutLandlord";
+}
+<div class="container">
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <h1> Refer smartpropertymanager.pk to a friend </h1>
+
+        <h2>How does this work?</h2>
+        <ul>
+            <li> You invite your friend</li>
+            <li> your friend receive an email</li>
+            <li>
+                They sign up and become a smartpropertymanager.pk customer
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row card m-5 justify-content-center h-100 align-items-center">
+
+    <form method="post" asp-action="refertofriend">
+        <h2 class="text-center m-5">Refer to a Friend</h2>
+        <div class="row justify-content-center mb-3">
+            <div class="col-sm-6">
+                <label class="text-label form-label">Name of your friend</label>
+                <div class="flex">
+                    <input asp-for="RecipientName" type="text" class="form-control"
+                           required placeholder="Enter Your Friend's Name...">
+                    <span asp-validation-for="RecipientName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label class="text-label form-label">Your Friend's Email</label>
+                <div class="flex">
+                    <input id="txtEmail" asp-for="Email" type="email" class="form-control"
+                           required placeholder="Enter friend's email...">
+                    <span id="spanEmail" asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="offset-md-4 col-md-3">
+                    <button type="submit" class="btn btn-primary btn-block m-5">Refer Friend Now</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<partial name="_ValidationScriptsPartial" />
+<partial name="_Notification" />
+<script src="~/js/referral/checkReferralStatus.js"></script>

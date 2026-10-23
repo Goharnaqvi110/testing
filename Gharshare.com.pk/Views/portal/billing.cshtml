@@ -1,0 +1,367 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model BillingVm
+@{
+    ViewData["Title"] = "Billing Profile";
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    else
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Billing</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Nav tabs -->
+                    <div class="default-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#home">
+                                    <i class="fa fa-clock me-2"></i> Payment History
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#profile">
+                                    <i class="fa fa-credit-card me-2"></i> Update Payment Method
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#contact">
+                                    <i class="fa fa-university brand me-2"></i> Update Bank Accounts
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home" role="tabpanel">
+                                <div class="col-lg-12 pt-4">
+                                    <div class="m-5">
+                                        <div id="planlist" class="table-responsive">
+                                            <table class="table table-responsive-md text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:50px;">
+                                                            <h6>No</h6>
+                                                        </th>
+                                                        <th><h6>Payment Date</h6></th>
+                                                        <th><h6>Amount</h6></th>
+                                                        <th><h6>Product</h6></th>
+                                                        <th><h6>Description</h6></th>
+                                                        <th><h6>Receipt</h6></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.Payments.Any())
+                                                    {
+                                                        @for (int i = 0; i < Model.Payments.Count(); i++)
+                                                        {
+                                                            var payment = Model.Payments[i];
+                                                            var sno = @i + 1;
+                                                            <tr>
+                                                                <td>@sno</td>
+                                                                <td>@payment.User.Name</td>
+                                                                <td>
+                                                                    @payment.Plan.Title
+                                                                </td>
+                                                                <td>Rs @Utility.Format(@payment.Amount)</td>
+                                                                <td>@Utility.ConvertToShortDateFormat(@payment.Paidon)</td>
+                                                                <td>
+                                                                    <i class="fa fa-circle text-success me-1"></i> Paid
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <div id="noplan" class="text-center p-3">
+                                                                    <h4>no record found</h4>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @*<partial name="_Pager" model="@pager" />*@
+                                        @*</div>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <div class="row pt-5">
+                                    <div class="col-md-3 mt-2">
+                                        <strong>
+                                            Viewing details for lease account:
+                                        </strong>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <select class="nice-select" asp-items="@Model.Properties"
+                                                onchange="getCreditCard(this.value)">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-10 col-lg-8">
+                                        <div id="savedPaymentMethods" style="display: block;">
+                                            <div id="divCard" class="paymentMethodCard p-3 creditCard stripe default active"
+                                                 onclick="selectDefaultCard()">
+                                                <div class="flex pt-2">
+                                                    <div class="col-xs-1 checkDefault">
+                                                        <span id="spanCard" class="fa fa-check-circle"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 col-sm-1">
+                                                        <span class="fa fa-cc-visa brand"></span>
+                                                    </div>
+                                                    <div class="col-xs-9 col-sm-5 methodNumber">
+                                                        <p class="text-left">
+                                                            <span id="cardNo">
+                                                                @if (Model.UserCreditCard != null)
+                                                                {
+                                                                    <small>************</small>
+                                                                    @Model.UserCreditCard.CardNo
+                                                                }
+                                                            </span>
+                                                            <span id="cardexpiry">
+                                                                @if (Model.UserCreditCard != null)
+                                                                {
+                                                                    <small>
+                                                                        @Model.UserCreditCard.Month/
+                                                                        @Model.UserCreditCard.Year
+                                                                    </small>
+                                                                }
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-sm-5 hidden-xs updatedOn text-right mt-2">
+                                                        <small>
+                                                            @if (Model.UserCreditCard != null)
+                                                            {
+                                                                <span id="cardUpdateDate">
+                                                                    Updated:
+                                                                    @Utility.ConvertToShortDateFormat(Model.UserCreditCard.UpdatedOn)
+                                                                </span>
+                                                            }
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="divNewCard" class="paymentMethodCard newMethod newCard p-3"
+                                                 onclick="selectAddNewCard();">
+                                                <div class="flex">
+                                                    <div class="col-xs-1 check">
+                                                        <span id="spanNewCard" class="fa fa-circle-o"></span>
+                                                    </div>
+                                                    <div class="col-xs-8 infoText">
+                                                        <p class="text-left m-1">
+                                                            Add a new card
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form id="frmCreditCard">
+                                            <input id="userCreditCardID" type="hidden"
+                                                   asp-for="@Model.UserCreditCard.ID" />
+                                            <input id="propertyID" type="hidden"
+                                                   value="@Model.selectedProperty.ID"
+                                                   asp-for="@Model.UserCreditCard.PropertyId" />
+                                            <div class="cardEntrySection" style="display: none;">
+                                                <div style="margin-top: 3vh;">
+                                                    <input id="cardHolderName" class="form-control" placeholder="Card holder full name"
+                                                           required asp-for="@Model.UserCreditCard.CardHolderName">
+                                                    <span asp-validation-for="@Model.UserCreditCard.CardHolderName"></span>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-md-4">
+                                                        <select class="nice-select w-100" required id="cardType"
+                                                                asp-for="@Model.UserCreditCard.CardType">
+                                                            <option value="" selected>--select card type--</option>
+                                                            <option value="@UserBankAccount.cardtype.express">Express</option>
+                                                            <option value="@UserBankAccount.cardtype.visa">Visa</option>
+                                                        </select>
+                                                        <span asp-validation-for="@Model.UserCreditCard.CardType"></span>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input id="cardNumber" required placeholder="Card number"
+                                                               asp-for="@Model.UserCreditCard.CardNo"
+                                                               class="form-control integeronly" />
+                                                        <span asp-validation-for="@Model.UserCreditCard.CardNo"></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input id="month" asp-for="@Model.UserCreditCard.Month"
+                                                               maxlength="2" placeholder="Month"
+                                                               class="form-control integeronly" required />
+                                                        <span asp-validation-for="@Model.UserCreditCard.Month"></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input id="year" asp-for="@Model.UserCreditCard.Year" placeholder="Year"
+                                                               maxlength="2" class="form-control" required />
+                                                        <span asp-validation-for="@Model.UserCreditCard.Year"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check custom-checkbox mb-3 mt-3 checkbox-success">
+                                                    <input id="chkUsedForPayment" type="checkbox" class="form-check-input"
+                                                           asp-for="@Model.UserCreditCard.IsSelectedForPayment">
+                                                    <label class="form-check-label" for="customCheckBox3">
+                                                        Use this card for making payments
+                                                    </label>
+                                                </div>
+
+                                                @*<div id="cardElement" style="margin-top: 10px;" class="form-control mt-2 p-3">
+                                                <div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important; --stripeElementWidth: 0px;">
+                                                <iframe name="__privateStripeFrame8776" frameborder="0" allowtransparency="true" scrolling="no" role="presentation" allow="payment *" src="https://js.stripe.com/v3/elements-inner-card-c935e4865ee77cbad99943e1a92b43e6.html#wait=false&amp;mids[guid]=NA&amp;mids[muid]=1916b903-4b57-4264-9967-3f84a933e05991b8e8&amp;mids[sid]=b01d246e-157f-4499-abac-b92c4e2f3fc293c29f&amp;style[base][color]=%2332325d&amp;style[base][lineHeight]=18px&amp;style[base][fontFamily]=%22Helvetica+Neue%22%2C+Helvetica%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;rtl=false&amp;componentName=card&amp;keyMode=live&amp;apiKey=pk_live_A4CQ0SQB6VLX0zFOGD16HJ6I&amp;referrer=https%3A%2F%2Frentbetter.com.au%2Fbilling-profile%2F%3FportalFrame%3D1&amp;controllerId=__privateStripeController8771" title="Secure card payment input frame" style="border: none !important; margin-top: 1.33e-05px; margin-right: 0px !important; margin-bottom: 0px !important; margin-left: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; transform: translate(0px) !important; color-scheme: light only !important; height: 18px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: -1px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important; z-index: -1 !important;"><div style="display: block !important; position: absolute !important; top: 50% !important; right: -12px !important; width: 108px !important; margin: -19px 0px 0px !important; padding: 0px !important; border: 0px !important; background: none !important; opacity: 1 !important; overflow: hidden !important; height: 38px !important; transition: none 0s ease 0s !important;"><iframe name="cardButton8778" frameborder="0" allowtransparency="true" scrolling="no" src="https://js.stripe.com/v3/elements-inner-link-button-for-card-c75d9b3cfe00e207e4fd7c379039e3a7.html#locale=en&amp;style[foregroundColor]=%2332325d&amp;frameId=__privateStripeFrame8776&amp;publishableKey=pk_live_A4CQ0SQB6VLX0zFOGD16HJ6I&amp;stripeJsId=395805bd-7599-4b1c-9764-344032a9e8b3&amp;mids[guid]=38cf4bbb-0d76-4033-87f0-9c85742397cf33e775&amp;mids[muid]=1916b903-4b57-4264-9967-3f84a933e05991b8e8&amp;mids[sid]=b01d246e-157f-4499-abac-b92c4e2f3fc293c29f&amp;component=card" style="margin: 0px !important; user-select: none !important; transform: translate(0px) !important; color-scheme: light only !important; display: block !important; position: absolute !important; top: 0px !important; right: 0px !important; height: 38px !important; width: calc(var(--stripeElementWidth) + 23.99993896484375px) !important; padding: 0px !important; border: 0px !important; overflow: hidden !important; opacity: 1 !important; transition: none 0s ease 0s !important;" tabindex="-1"></iframe></div></div>
+                                                </div>*@
+                                            </div>
+                                            <p class="text-center tabProcessing" style="display: none;">
+                                                <span id="cardProcessing" class="fa fa-spin fa-spinner"></span> Processing...
+                                            </p>
+                                            <div class="text-center">
+                                                <button id="btnUpdateCard" type="submit" class="btn btn-primary w-50 disabled">
+                                                    Update Card
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="contact">
+                                <div class="row pt-5">
+                                    <div class="col-md-3 mt-2">
+                                        <strong>
+                                            Viewing details for lease account:
+                                        </strong>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <select class="nice-select" onchange="getBankAccount(this.value)"
+                                                asp-items="@Model.Leases">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-10 col-lg-8">
+                                        <div id="savedBankAccounts" style="display: block;">
+                                            <div id="divBank" class="paymentMethodCard bankDetails ezidebit default active"
+                                                 data-method-id="undefined" data-payment-method="ezidebit"
+                                                 onclick="selectDefaultBank()">
+                                                <div class="flex">
+                                                    <div class="col-xs-1 checkDefault">
+                                                        <span id="spanBank" class="fa fa-check-circle p-3"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 col-sm-1 mt-2">
+                                                        <span class="fa fa-university brand"></span>
+                                                    </div>
+                                                    @if (@Model.selectedProperty.Lease != null)
+                                                    {
+                                                        <div class="col-xs-9 col-sm-6 methodNumber mt-2">
+                                                            <p class="text-left">
+                                                                <span id="bankname" style="margin-right:5px;">
+                                                                    @Model.selectedProperty.Lease.BankName
+                                                                </span>
+                                                                @{
+                                                                    string accountNo = Model.selectedProperty.Lease.AccountNo;
+                                                                    string lastFourDigits = accountNo;
+                                                                    if (accountNo != null && accountNo.Length > 4)
+                                                                        lastFourDigits = accountNo.Substring(accountNo.Length - 4);
+                                                                }
+                                                                <span id="account">******@lastFourDigits</span>
+                                                            </p>
+                                                        </div>
+                                                    }
+                                                    @*<div class="col-sm-6 hidden-xs updatedOn text-right">
+                                                    <small>Updated: -</small>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                            <div id="divNewBank" class="paymentMethodCard newMethod newBankAccount"
+                                                 onclick="deSelectDefaultBank();">
+                                                <div class="flex">
+                                                    <div class="col-xs-1 check mt-2">
+                                                        <span id="spanNewBank" class="fa fa-circle-o p-3"></span>
+                                                    </div>
+                                                    <div class="col-xs-8 infoText mt-3">
+                                                        <p class="text-left m-1">
+                                                            Use a new bank account
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p id="accountProcessing" class="text-center tabProcessing" style="display: none;">
+                                            <span class="fa fa-spin fa-spinner"></span> Processing...
+                                        </p>
+                                        @if (@Model.selectedProperty.Lease != null)
+                                        {
+                                            <form id="frmBank">
+                                                <div class="bankAccountEntrySection" style="display: none;">
+                                                    <div class="row">
+                                                        <input id="txtLeaseId" type="hidden"
+                                                               asp-for="@Model.selectedProperty.Lease.ID" />
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Bank Name</label>
+                                                                <input type="text" asp-for="@Model.selectedProperty.Lease.BankName"
+                                                                       value="" id="txtBank" class="form-control" required>
+                                                                <span asp-validation-for="@Model.selectedProperty.Lease.BankName"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="accountName">Account Title</label>
+                                                                <input type="text" class="form-control" required id="txtAccTitle"
+                                                                       asp-for="@Model.selectedProperty.Lease.AccountTitle">
+                                                                <span asp-validation-for="@Model.selectedProperty.Lease.AccountTitle"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="bsb">Branch</label>
+                                                                <input type="text" class="form-control" required id="txtBranch"
+                                                                       value="" asp-for="@Model.selectedProperty.Lease.Branch">
+                                                                <span asp-validation-for="@Model.selectedProperty.Lease.Branch"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="accountNumber">Account Number</label>
+                                                                <input type="text" class="form-control integeronly" value="" required id="txtAccNo"
+                                                                       asp-for="@Model.selectedProperty.Lease.AccountNo">
+                                                                <span asp-validation-for="@Model.selectedProperty.Lease.AccountNo"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button id="btnUpdateBankAccount" type="submit"
+                                                            class="btn btn-primary w-50 disabled"
+                                                            style="display: inline-block;">
+                                                        Update Bank Account
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/commonFunctions/formatDateToDDMMYY.js"></script>
+<script src="~/js/portal/selectAddNewCard.js"></script>
+<script src="~/js/portal/selectDefaultCard.js"></script>
+<script src="~/js/portal/selectDefaultBank.js"></script>
+<script src="~/js/portal/updateUserBank.js"></script>
+<script src="~/js/portal/getBankAccount.js"></script>
+<script src="~/js/portal/saveUserCard.js"></script>
+<script src="~/js/portal/getCreditCard.js"></script>
+<script src="~/js/commonfunctions/integersOnly.js"></script>

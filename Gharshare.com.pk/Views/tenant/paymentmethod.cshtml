@@ -1,0 +1,139 @@
+﻿@using Gharshare.Models
+@model UserAccountVM
+
+@{
+    ViewData["Title"] = "Add payment method";
+    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+}
+<div class="container">
+    <h1>Let's add your payment method</h1>
+    <hr />
+    <div class="text-center"><strong>Your Lease details</strong></div>
+    <div class="row">
+        <div class="col-md-12 offset-md-4 form-floating p-1">
+            <span>@Model.Lease.Property.Suburb</span>
+        </div>
+    </div><hr />
+    <div class="row">
+        <div class="col-md-4 form-floating p-1">
+            <label class="control-label">Start Date</label>
+            <span>@Model.Lease.From</span>
+        </div>
+        <div class="col-md-4 form-floating p-1">
+            <label class="control-label">Start Date</label>
+            <span>@Model.Lease.To</span>
+        </div>
+        <div class="col-md-4 form-floating p-1">
+            <label class="control-label">First payment due date</label>
+            <span>@Model.Lease.FirstRentPaymentDueDate</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-floating p-1">
+            <label class="control-label">Weekly Rental Amount</label>
+            <span>@Model.Lease.WeeklyRent</span>
+        </div>
+        <div class="col-md-4 form-floating p-1">
+            <label class="control-label">Payment Frequecny</label>
+            <span>@Model.Lease.AgreementType</span>
+        </div>
+        <div class="col-md-4 form-floating p-1">
+            <label class="control-label">Payment Frequecny</label>
+            <span>@Model.Lease.PeriodicRent</span>
+        </div>
+    </div>
+    <form asp-action="paymentmethod">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div>
+            <input type="hidden" asp-for="Lease.Property.ID" />
+            <input type="hidden" asp-for="Lease.Property.OwnerId" />
+            <input id="Bank" type="hidden" value="BankAccount" asp-for="userBankAccount.AccountType" />
+        </div>
+        <hr />
+        <div class="row p-1 text-center">
+            <strong>Your Payment details</strong>
+        </div><hr />
+        <div class="row">
+            <div class="col-md-4 form-group p-1">
+                <label class="form-check-label p-1">
+                    <input id="rdocreditcard" type="radio" class="form-radio-input" value="true" /> Credit or Debit Card
+                </label>
+            </div>
+            <div class="col-md-4 form-group p-1">
+                <label class="form-check-label p-1">
+                    <input id="rdoRemovetenant" type="radio" class="form-radio-input" value="false" /> Bank Account
+                </label>
+            </div>
+        </div>
+        <div class="text-center"><strong>Bank Account</strong></div>
+        <div class="row">
+            <div class="col-md-6 form-group p-1">
+                <label class="control-label">Your Bank Name</label>
+                <input class="form-control" asp-for="userBankAccount.BranchCode" required />
+                <span class="text-d" />
+            </div>
+            <div class="col-md-6 form-group p-1">
+                <label class="control-label">Your Account Name</label>
+                <input class="form-control" asp-for="userBankAccount.AccountTitle" required />
+                <span class="text-d" asp-for="Property.Owner.BankName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group p-1">
+                <label class="control-label">Your Branch</label>
+                <input class="form-control" asp-for="userBankAccount.BranchCode" required />
+                <span class="text-d" />
+            </div>
+            <div class="col-md-6 form-group p-1">
+                <label class="control-label">Your Account Number</label>
+                <input class="form-control" asp-for="userBankAccount.AccountNo" required />
+                <span class="text-d" asp-for="userAccount.AccountNo" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group p-1 pl-4">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="userBankAccount.IsSelectedForPayment" />
+                    Use this account for payment
+                </label>
+            </div>
+            </div>
+        <div class="row col-md-6">
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </div></form>
+        <div class="row p-1">
+            <strong class="text-center">Credit or Debit Card</strong>
+        </div><hr />        
+        <form asp-action="paymentmethod">
+            <div>
+                <input id="card" type="hidden" value="Card" asp-for="userBankAccount.AccountType" />
+            </div>
+        <div class="row">
+            <div class="col-md-4 form-group p-1">
+                <label class="control-label p-1">Cardholder Name</label>
+                <input class="form-control" asp-for="userBankAccount.CardHolderName" />
+                <span class="text-d" asp-for="userAccount.CardHolderName" />
+            </div>
+            <div class="col-md-4 form-group p-1">
+                <label class="control-label p-1">Card number</label>
+                <input class="form-control p-1" asp-for="userBankAccount.CardNo" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group p-1 pl-4">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="userBankAccount.IsSelectedForPayment" />
+                    Use this card for payment
+                </label>
+            </div>
+            </div>
+        <div class="row col-md-6 p-1">
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </div>
+    </form>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/loadTenant.js" type="text/javascript"></script>
+<script src="~/js/addTenant.js" type="text/javascript"></script>
+<script src="~/js/leaseType.js" type="text/javascript"></script>
+<script src="~/js/earlyPaymentstatus.js" type="text/javascript"></script>

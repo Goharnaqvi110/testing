@@ -1,0 +1,337 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model LeaseViewVM
+@{
+    Layout = "~/Views/Shared/_Layoutlandlord.cshtml";
+    ViewData["Title"] = "Lease Summary";
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h3 class="page-heading heading-secondary">
+            <span id="property-address">Lease Set-up</span>
+        </h3>
+    </div>
+    <div class="row m-1">
+        <div class="row bd-callout bd-callout-default" style="width:70%;">
+            <div class="row">
+                <div class="col-md-3"><strong>Property Address:</strong></div> @Model.Property.Address
+            </div>
+            <div class="row">
+                <label>This is the summary of your lease for this property.</label>
+                <select class="nice-select" asp-for=@Model.PrimaryTenant.ID
+                        asp-items="@Model.AllTenants" style="margin-left:10px;">
+                </select>
+            </div>
+        </div>
+        <div class="row bd-callout" style="width:30%; margin-left:3%;">
+            <h3 class="text-primary">Lease Activity</h3>
+            <div class="row">
+                @if (Model.leaseAgreement.SignedByLandlord && Model.leaseAgreement.SignedByTenant)
+                {
+                    <span>
+                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                        Finalised and Signed.
+                    </span>
+                }
+                else if (Model.leaseAgreement.SignedByTenant)
+                {
+                    <span>
+                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                        Tenant has signed the Lease.
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        <i class="fa fa-times" style="font-size:15px;color:#EE3232"></i>
+                        Tenant has not signed the Lease.
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="row bd-callout" style="width:70%;padding-top:30px;">
+            <div class="row pb-2">
+                <div class="col-md-8">
+                    <h4 class="mt-2">Lease Agreement</h4>
+                </div>
+                <div class="col-md-4 text-right">
+                    <a asp-action="viewleasedoc" asp-controller="portal"
+                       asp-route-uid="@Model.leaseAgreement.uid"
+                       class="btn btn-primary">Lease Agreement</a>
+                </div>
+            </div>
+            <span>This is where your lease agreement will be stored.</span>
+            @if (Model.leaseAgreement.SignedByTenant && (!Model.leaseAgreement.SignedByLandlord))
+            {
+                <a asp-action="viewleasedoc" asp-controller="lease"
+                   asp-route-uid="@Model.leaseAgreement.uid" class="red-link">
+                    Go to Lease Agreement
+                </a>
+            }
+            <div class="row col-md-7 lease-agreement-grid-box">
+                <div class="row"><h5>Lease Agreement 1</h5></div>
+                <div class="row mb-0">
+                    <div class="col-md-4">
+                        <label>Created on:</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Model.leaseAgreement.AgreementDate.ToShortDateString()
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col-md-4">
+                        <label>Term:</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Model.leaseAgreement.AgreementType
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col-md-4">
+                        <label>Tenant:</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Model.PrimaryTenant.FirstName
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col-md-4">
+                        <label>Status:</label>
+                    </div>
+                    <div class="col-md-8">
+                        @if (Model.leaseAgreement.SignedByTenant && (!Model.leaseAgreement.SignedByLandlord))
+                        {
+                            <span class="red-link">Signature Required</span>
+                        }
+                        else if (Model.leaseAgreement.SignedByTenant && Model.leaseAgreement.SignedByLandlord)
+                        {
+                            @*<div class="signdone"></div>*@
+                            <strong>
+                                <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                Finalised and Signed
+                            </strong>
+                        }
+                        else
+                        {
+                            <span>Created</span>
+                        }
+                    </div>
+                </div>
+                @if (@Model.LeasePdfDoc != null)
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a class="red-link" href="@Model.LeasePdfDoc.FilePath" target="_blank">View</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="red-link" asp-action="download" asp-route-ID=@Model.leaseAgreement.ID class="pl-5">Download</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="row bd-callout" style="width:70%;">
+            <div class="row">
+                <h4>Lease Summary</h4>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Tenant</h4>
+            </div>
+            <div class="row mb-0">
+                <div class="col-md-8">
+                    <div class="row mb-0">
+                        <div class="col-md-6">
+                            <h3 class="header-text">Primary Tenant:</h3>
+                        </div>
+                        <div class="col-md-6">
+                            @Model.PrimaryTenant.FirstName
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <a asp-action="createlease" asp-controller="lease"
+                       asp-route-ID=@Model.leaseAgreement.Property.uid
+                        class="btn btn-primary">New Tenant Set-up
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-4 col-md-4">
+                    @Model.PrimaryTenant.Mobile
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-4 col-md-4">
+                    @Model.PrimaryTenant.Email
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Lease</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">Term:</h3>
+                </div>
+                <div class="col-md-4">
+                    @Model.leaseAgreement.From.ToShortDateString() -
+                    @Utility.ConvertToShortDateFormat(@Model.leaseAgreement.To)
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Rent Details</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">Rent Status:</h3>
+                </div>
+                <div class="col-md-4">
+                    <span class="txt-green">Collecting Rent</span><br />
+                    <a class="red-link" asp-action="rentalpayments" asp-controller="portal"
+                       asp-route-lid=@Model.leaseAgreement.uid asp-route-pid="@Model.Property.uid">
+                       View Rental Payment Schedule
+                   </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">First Payment Date:</h3>
+                </div>
+                <div class="col-md-4">
+                    @Utility.ConvertToShortDateFormat(@Model.leaseAgreement.FirstRentPaymentDueDate)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">Price Per Week:</h3>
+                </div>
+                <div class="col-md-4">
+                    Rs @Utility.Format(@Model.leaseAgreement.WeeklyRent)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">Payment Frequency:</h3>
+                </div>
+                <div class="col-md-4">
+                    @Model.leaseAgreement.PaymentFrequency
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">Payment Per Period:</h3>
+                </div>
+                <div class="col-md-4">
+                    Rs @Utility.Format(Model.leaseAgreement.PeriodicRent)
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Lease Adjustment</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h3 class="header-text">Changes to Your Lease:</h3>
+                </div>
+                <div class="col-md-2">
+                    <span>Status: No Request</span>
+                </div>
+                <div class="col-md-3">
+                    <a href="#" onclick="loadlease2renew(@Model.leaseAgreement.ID)"
+                       data-bs-toggle="modal" data-bs-target="#AccountModal"
+                        class="btn btn-primary">Adjust Lease</a>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary">Terminate Lease</button>
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Maintenance</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h3 class="header-text">Tasks:</h3>
+                </div>
+                <div class="col-md-3">
+                    <span>Submitted: 2</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Pending: 0</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Completed: 1</span>
+                </div>
+            </div>
+            <div class="row text-center">
+                <a class="red-link" asp-action="maintenance" asp-controller="portal"
+                   asp-route-pid=@Model.leaseAgreement.Property.uid
+                   asp-route-lid=@Model.leaseAgreement.uid>
+                    Go to Maintenance
+                </a>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Expenses</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h3 class="header-text">Total Expenses:</h3>
+                </div>
+                <div class="col-md-3">
+                    <span>Paid: 2</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Unpaid: 0</span>
+                </div>
+            </div>
+            <div class="row text-center">
+                <a class="red-link" asp-action="expense" 
+                asp-route-pid=@Model.leaseAgreement.Property.uid
+                asp-controller="portal">Go to Expenses</a>
+            </div>
+            <div class="row">
+                <h4 class="section-list-title">Reports</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="header-text">Financial Year 2023-24:</h3>
+                </div>
+                <div class="col-md-4">
+                    <span>Total rental income</span>
+                </div>
+                <div class="col-md-4">
+                    <span>+ Rs 0.00</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-4 col-md-4">
+                    <span>Total expenses</span>
+                </div>
+                <div class="col-md-4">
+                    <span>+ Rs 0.00</span>
+                </div>
+                <div class="report-net-total"></div>
+            </div>
+            <div class="row">
+                <div class="offset-md-4 col-md-4"><strong>Net total</strong></div>
+                <div class="col-md-4">- Rs 125.00</div>
+            </div>
+            <div class="row text-center">
+                <a class="red-link" href="#">Go to Reports</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/lease/loadLease2Renew.js"></script>
+@*<div class="container">
+    <div class="row">
+        <div class="col-md-8 form-floating p-1">
+            @if (@Model.LeasePdfDoc != null)
+            {
+                <embed src="@Model.LeasePdfDoc.FilePath" width="500" height="500" hidden="false" />
+            }
+        </div>
+    </div>
+</div>
+*@

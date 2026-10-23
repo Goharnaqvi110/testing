@@ -1,0 +1,87 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model Document
+@{
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+    {
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    }
+    ViewData["Title"] = "Document";
+}
+    
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h6>
+                        <strong>@Model.DocumentType.Title</strong>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.FilePath != null)
+                    {
+                        <embed src="@Model.FilePath" style="height:900px; width:100%;" />
+                    }
+                    else
+                    {
+                        <p>document does not exist</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bd-callout-default" style="height:140px;">
+                <div class="card-header">
+                    <strong>Download Document</strong>
+                </div>
+                <div class="card-body">
+                    @if (Model.FilePath != null)
+                    {
+                        <div class="row mt-4">
+                            <a class="red-link" asp-controller="portal" asp-action="download"
+                               asp-route-uid=@Model.uid>
+                                <i class="fa fa-download"></i> Download
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="container-fluid">
+    <h3 class="heading-main">@Model.DocumentType.Title</h3>
+    <div class="row bd-callout">
+        <div class="col-md-10 form-floating p-1">
+            <div class="row">
+                @if (Model.FilePath != null)
+                {
+                    <embed src="@Model.FilePath" height="900" width="1000" />
+                }
+                else
+                {
+                    <p>document does not exist</p>
+                }
+            </div>
+        </div>
+        <div class="col-md-2 text-center p-1">
+
+            @if (Model.FilePath != null)
+            {
+                <div class="row mt-4">
+                    <a class="red-link" asp-controller="portal" asp-action="download"
+                       asp-route-id=@Model.ID>
+                        <i class="fa fa-download"></i> Download
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div> *@
+

@@ -1,0 +1,534 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model ApplicationVm
+@{
+    Layout = null;
+    ViewData["Title"] = "My Profile";
+}
+<html>
+<head>
+    <title>@ViewData["Title"]</title>     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        label:not(.form-check-label):not(.custom-file-label) {
+            font-weight: 700;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-5">
+            <img src="~/img/logo-2.png" style="width:300px;" alt="">
+        </div>
+        <div class="text-center mb-2 mt-2">
+            <h3 class="text-center">Application For Tenancy</h3>
+        </div>
+        <div class="row mt-2">
+            <label class="control-label">Lease Information</label>
+        </div>
+        <div class="row">
+            <div class="col-md-1 form-floating p-1">
+                <label>Rent</label>
+                <input value="@Utility.Format(Model.Application.Rent)" class="form-control" />
+            </div>
+            <div class="col-md-4 form-floating p-1">
+                <label>Lease Period</label>
+                <input asp-for="@Model.Application.LeasePeriod" class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <label class="control-label">Personal Details</label>
+        </div>
+        <div class="row">
+            <div class="col-md-1 form-floating p-1">
+                <label>Title</label>
+                <input asp-for="@Model.Applicant.Title" class="form-control" />
+            </div>
+            <div class="col-md-4 form-floating p-1">
+                <label>First Name</label>
+                <input asp-for="@Model.Applicant.FirstName" class="form-control" />
+            </div>
+            <div class="col-md-4 form-floating p-1">
+                <label>Last Name</label>
+                <input asp-for="@Model.Applicant.LastName" class="form-control" />
+            </div>
+            <div class="col-md-3 form-floating p-1">
+                <label>Gender</label>
+                <select class="form-control" asp-for="@Model.Applicant.Gender">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="US">Unspecified</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-floating p-1">
+                <label>Date of birth</label>
+                <input value=@Utility.ConvertToShortDateFormat(Model.Applicant.DOB) class="form-control" />
+            </div>
+            <div class="col-md-4 form-floating p-1">
+                <label>Mobile</label>
+                <input asp-for="@Model.Applicant.Mobile" class="form-control" />
+            </div>
+            <div class="col-md-4 form-floating p-1">
+                <label>Email</label>
+                <input asp-for="@Model.Applicant.Email" class="form-control" />
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="form-group">
+                <span>
+                    <input type="checkbox" asp-for="@Model.Applicant.IsSmoker"
+                           asp-for="@Model.Applicant.IsSmoker" class="mt-2" />
+                    Are you a smoker?
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label">Dependants</label>
+        </div>
+        <div class="row">
+            <p class="text-left mb-1">
+                A person who depends on you and cannot be a lease holder
+                (i.e. your child or any other person that relies on you financially).
+            </p>
+        </div>
+        <hr>
+        @for (int i = 0; i < @Model.Applicant.Dependents.Count(); i++)
+        {
+            <div class="row p-1">
+                @{
+                    int count = @i + 1;
+                }
+                <label class="control-label">Dependant-@count</label>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>First Name</label>
+                    <input asp-for="@Model.Applicant.Dependents[i].FirstName" class="form-control">
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Last Name</label>
+                    <input asp-for="@Model.Applicant.Dependents[i].LastName" class="form-control">
+                </div>
+                <div class="col-md-2 form-floating p-1">
+                    <label>Age</label>
+                    <input asp-for="@Model.Applicant.Dependents[i].Age" class="form-control">
+                </div>
+                <div class="col-md-2 form-floating p-1">
+                    <label>Gender</label>
+                    <select asp-for="@Model.Applicant.Dependents[i].Gender" class="form-control">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="US">Unspecified</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>Relationship</label>
+                    <input asp-for="@Model.Applicant.Dependents[i].Relationship" class="form-control">
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Status</label>
+                    <select asp-for="@Model.Applicant.Dependents[i].IsLivingWithYou" class="form-control">
+                        <option value="Yes" selected="selected">Living with me</option>
+                        <option value="No">Not living with me</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Status</label>
+                    <select asp-for="@Model.Applicant.Dependents[i].IsReceivingChildSupport" class="form-control">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <label>Additional Information</label>
+                    <textarea asp-for="@Model.Applicant.Dependents[i].AdditionalInformation" class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        }
+
+        <div class="row mt-2">
+            <label class="control-label">Pets</label><hr>
+        </div>
+        @for (int i = 0; i < @Model.Applicant.Pets.Count(); i++)
+        {
+            <div class="row">
+                @{
+                    int count = @i + 1;
+                }
+                <label>Pet-@count</label><hr>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Name</label>
+                    <input asp-for="@Model.Applicant.Pets[i].Name" class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Type</label>
+                    <select asp-for="@Model.Applicant.Pets[i].Type" class="form-control">
+                        <option value="Bird">Bird</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Breed</label>
+                    <input asp-for="@Model.Applicant.Pets[i].Breed" class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Age</label>
+                    <input asp-for="@Model.Applicant.Pets[i].age" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Size</label>
+                    <input asp-for="@Model.Applicant.Pets[i].Size" class="form-control" />
+                </div>
+                @* <div class="col-md-6 form-floating p-1 custom-file">
+            <label for="petimage">Picture</label>
+            <img src="@Model.Applicant.Pets[i].PicturePath" />
+            </div> *@
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <label>Additional Information</label>
+                    <textarea asp-for="@Model.Applicant.Pets[i].AdditionalInformation" class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        }
+        <div class="row mt-2">
+            <label class="control-label">Motor Vehicles</label>
+        </div>
+        @for (int i = 0; i < @Model.Applicant.Vehicles.Count(); i++)
+        {
+            <div class="row p-1">
+                <div class="form-group">
+                    <span>
+                        <input type="checkbox" asp-for="@Model.Applicant.Vehicles[i].IsPrimaryVehicle"
+                               asp-for="@Model.Applicant.Vehicles[i].IsPrimaryVehicle" class="mt-2" />
+                        Primary Vehicle
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-floating p-1">
+                    <label>Vehicle Type </label>
+                    <select asp-for="@Model.Applicant.Vehicles[i].Type" class="form-control">
+                        <option value="Other">Other</option>
+                        <option value="Car">Car</option>
+                        <option value="Truck">Truck</option>
+                        <option value="Caravan">Caravan</option>
+                        <option value="Motorbike">Motorbike</option>
+                        <option value="Boat">Boat</option>
+                        <option value="No Vehicle">No Vehicle</option>
+                    </select>
+                </div>
+                <div class="col-md-3 form-floating p-1">
+                    <label>Registration</label>
+                    <input asp-for="@Model.Applicant.Vehicles[i].Registration" class="form-control" />
+                </div>
+                <div class="col-md-3 form-floating p-1">
+                    <label>Make</label>
+                    <input asp-for="@Model.Applicant.Vehicles[i].Make" class="form-control" />
+                </div>
+                <div class="col-md-3 form-floating p-1">
+                    <label>Model</label>
+                    <input asp-for="@Model.Applicant.Vehicles[i].Model" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <span>
+                        <input type="checkbox" asp-for="@Model.Applicant.Vehicles[i].NeedParking"
+                               asp-for="@Model.Applicant.Vehicles[i].NeedParking" class="mt-2" />
+                        Will you be parking the motor vehicle on the property?
+                    </span>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <label class="control-label">Residential History</label>
+        </div>
+        @for (int i = 0; i < @Model.Applicant.History.Count(); i++)
+        {
+            <div class="row">
+                @{
+                    int count = @i + 1;
+                }
+                Residence-@count
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-floating p-1">
+                    <label>Unit No</label>
+                    <input asp-for="@Model.Applicant.History[i].UnitNo" class="form-control" />
+                </div>
+                <div class="col-md-3 form-floating p-1">
+                    <label>Street No</label>
+                    <input asp-for="@Model.Applicant.History[i].StreetNo" class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Street Name</label>
+                    <input asp-for="@Model.Applicant.History[i].StreetName" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-floating p-1">
+                    <label>Suburb</label>
+                    <input asp-for="@Model.Applicant.History[i].Suburb" class="form-control" />
+                </div>
+                <div class="col-md-3 p-1">
+                    <label>Postcode</label>
+                    <input asp-for="@Model.Applicant.History[i].PostCode" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>Landlord Type</label>
+                    <select asp-for="@Model.Applicant.History[i].LandlordType" class="form-control">
+                        <option value="Real estate agent">Real estate agent</option>
+                        <option value="I own this home">I own this home</option>
+                        <option value="Living with family/friends">Living with family/friends</option>
+                    </select>
+                </div>
+                <div class="col-md-4 p-1">
+                    <label>Date started living</label>
+                    <input asp-for="@Model.Applicant.History[i].DateStartedLiving" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <label class="control-label">Additional Information</label>
+                    <textarea asp-for=@Model.Applicant.History[i].AdditionalInformation class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <label class="control-label">Reason for leaving</label>
+                    <textarea asp-for=@Model.Applicant.History[i].Reasonforleaving class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <label>Financials</label>
+            <hr>
+        </div>
+        <div class="row">
+            <label class="left-text">
+                Currently I am
+            </label>
+        </div>
+        <div class="row">
+            <div class="col-md-6 p-1">
+                <label>Job Status</label>
+                <select asp-for="@Model.Applicant.JobStatus" class="form-control">
+                    <option value="employed">Employed</option>
+                    <option value="selfemployed">Self-Employed</option>
+                    <option value="unemployed">Unemployed</option>
+                </select>
+            </div>
+            <div class="col-md-6 p-1 btn-group">
+                <span class="p-1">
+                    <input type="checkbox" />
+                    Are you a student?
+                </span>
+            </div>
+        </div>
+
+        <div>
+            <label class="control-label">My Current Employer Details</label>
+        </div>
+        @for (int i = 0; i < Model.Applicant.Employers.Count(); i++)
+        {
+            <div class="row">
+                @{
+                    int count = @i + 1;
+                }
+                <label>Previous Employer-@count</label>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>Occupation</label>
+                    <input asp-for="@Model.Applicant.Employers[i].Occupation" class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Employer Name</label>
+                    <input asp-for="@Model.Applicant.Employers[i].EmployerName" class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Contact Name</label>
+                    <input asp-for="@Model.Applicant.Employers[i].ContactName" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>Email</label>
+                    <input asp-for="@Model.Applicant.Employers[i].Email" class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Mobile</label>
+                    <input asp-for="@Model.Applicant.Employers[i].Mobile" class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Phone</label>
+                    <input asp-for="@Model.Applicant.Employers[i].Phone" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Website</label>
+                    <input asp-for="@Model.Applicant.Employers[i].Website" class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Address</label>
+                    <input asp-for="@Model.Applicant.Employers[i].Address" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>Start Date</label>
+                    <input value=@Utility.ConvertToShortDateFormat(Model.Applicant.Employers[i].StartDate) class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Annual income</label>
+                    <input value=@Utility.Format(Model.Applicant.Employers[i].AnnualIncome) class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <label>Job Type</label>
+                    <select asp-for="@Model.Applicant.Employers[i].JobType" class="form-control">
+                        <option value="Casual">Casual</option>
+                        <option value="PartTime">Part-Time</option>
+                        <option value="FullTime">Full-Time</option>
+                        <option value="Contract">Contract</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <label class="control-label">Additional information</label>
+                    <textarea asp-for=@Model.Applicant.Employers[i].AdditionalInformation class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="p-1 btn-group">
+                <span class="p-1">
+                    <input type="checkbox" />
+                    Do you have any additional source of income?
+                </span>
+            </div>
+        </div>
+
+        @for (int i = 0; i < @Model.Applicant.AdditionalIncome.Count(); i++)
+        {
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Title</label>
+                    <input asp-for="@Model.Applicant.AdditionalIncome[i].Title" class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Amount</label>
+                    <input asp-for="@Model.Applicant.AdditionalIncome[i].Amount" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <select asp-for="@Model.Applicant.AdditionalIncome[i].PaymentTerm" class="form-control">
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Fortnightly">Fortnightly</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label class="control-label">Annual Total</label>
+                    <textarea asp-for=@Model.Applicant.AdditionalIncome[i].AnnualTotal class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <label class="control-label">Personal References</label>
+            <hr>
+        </div>
+        @for (int i = 0; i < Model.Applicant.References.Count(); i++)
+        {
+            <div class="row">
+                @{
+                    int count = i + 1;
+                }
+                <label>Reference-@count</label>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <select asp-for="@Model.Applicant.References[i].Type" class="form-control">
+                        <option value="Reference">Reference</option>
+                        <option value="Emergency contact">Emergency contact</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-4 form-floating p-1">
+                    <label>First Name</label>
+                    <input asp-for="@Model.Applicant.References[i].FirstName" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Last Name</label>
+                    <input asp-for="@Model.Applicant.References[i].LastName" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Relationship</label>
+                    <input asp-for="@Model.Applicant.References[i].Relationship" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <label>Email</label>
+                    <input asp-for="@Model.Applicant.References[i].Email" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Mobile</label>
+                    <input asp-for="@Model.Applicant.References[i].Mobile" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Phone</label>
+                    <input asp-for="@Model.Applicant.References[i].Phone" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <label class="control-label">Additional Information</label>
+                    <textarea asp-for=@Model.Applicant.References[i].AdditionalInformation class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        }
+        <div class="row mt-3">
+            <label>Applicant Documents</label>
+        </div>
+        <div class="row mt-3 mb-3">
+            @foreach (var doc in Model.Applicant.Documents.Where(doc => doc.DocumentTypeID != 4))
+            {
+                <div class="col-md-4">
+                    <img src="@doc.DocumentPath" style="height:300px;width:300px;" />
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

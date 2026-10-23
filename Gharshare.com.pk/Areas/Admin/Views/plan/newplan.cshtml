@@ -1,0 +1,151 @@
+﻿@using Gharshare.Models
+@model PlanVM
+@{
+    ViewData["Title"] = "";
+    Layout = null;
+}
+<div class="row justify-content-center h-100 align-items-center">
+    <div class="col-md-12">
+        <div class="authincation-content">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="auth-form">
+                        <form id="frmplan">
+                            <input id="txtintroPersonId" type="hidden" />
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-sm-12">
+                                    <label class="text-label form-label">Plan name</label>
+                                    <div class="flex">
+                                        <input asp-for="@Model.plan.Title" type="text" class="form-control"
+                                               required placeholder="Enter plan name...">
+                                        <span asp-validation-for="@Model.plan.Title" id="spanname" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Plan Type</label>
+                                    <div class="d-flex">
+                                        <select required asp-for="@Model.plan.PlanType" class="nice-select w-100">
+                                            <option value="" selected>select plan type</option>
+                                            <option value="1">For landlord</option>
+                                            <option value="2">For tenant</option>
+                                            <option value="3">For both</option>
+                                        </select>
+                                        <span asp-validation-for="@Model.plan.PlanType" id="spantype" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Plan Status</label>
+                                    <div class="flex">
+                                        <select asp-for="@Model.plan.PlanStatus" class="nice-select w-100" required>
+                                            <option value="" selected>select plan status</option>
+                                            <option value="1">Active</option>
+                                            <option value="2">Pending</option>
+                                        </select>
+                                        <span asp-validation-for="@Model.plan.PlanStatus" id="spanstatus" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Upfront Price</label>
+                                    <div class="flex">
+                                        <input asp-for="@Model.plan.UpFrontPrice" type="number" class="form-control"
+                                               required placeholder="Enter plan price...">
+                                        <span asp-validation-for="@Model.plan.UpFrontPrice" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Monthly charges</label>
+                                    <div class="flex">
+                                        <input type="number" asp-for="@Model.plan.MonthlyCharges" required
+                                               class="form-control" />
+                                        <span asp-validation-for="@Model.plan.MonthlyCharges" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="text-label form-label">Box Heading</label>
+                                <div class="flex">
+                                    <input type="text" maxlength="20" asp-for="@Model.plan.BoxHeading" required
+                                           class="form-control" />
+                                    <span asp-validation-for="@Model.plan.BoxHeading" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Tagline</label>
+                                    <div class="flex">
+                                        <input asp-for="@Model.plan.Tagline" type="text" class="form-control"
+                                               required placeholder="Enter tagline...">
+                                        <span asp-validation-for="@Model.plan.Tagline" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row justify-content-center mb-3">
+                                    <label class="text-label form-label">Plan description</label>
+                                    <div class="flex">
+                                        <textarea rows="10" style="height:100px;"
+                                                  class="form-control" placeholder="Enter plan description..."
+                                                  asp-for="@Model.plan.Description"></textarea>
+                                        <span id="spandescription" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label>Select services to be added to the plan</label>
+                                <div id="servicelist" class="table-responsive">
+                                    <table class="table table-responsive-md">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50px;">
+                                                    <div class="form-check custom-checkbox checkbox-success check-lg me-3">
+                                                        <input type="checkbox" class="form-check-input" 
+                                                        id="checkAll" onchange="toggleCheckboxes()" />
+                                                    </div>
+                                                </th>
+                                                <th><strong>Service Name</strong></th>
+                                                <th><strong>Description</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.services.Count(); i++)
+                                            {
+                                                var service = Model.services[i];
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check custom-checkbox checkbox-success check-lg me-3">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                asp-for="@Model.services[i].isSelected">
+                                                                <input type="hidden" asp-for="@Model.services[i].ID">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="w-space-no">@service.Name</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>@service.Description</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <button type="submit" class="btn btn-primary w-50">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_ValidationScriptsPartial" />
+<partial name="_dtpPartial" />
+@*<script src="~/js/plan/createplanlist.js"></script>*@
+<script src="~/js/plan/savePlan.js"></script>
+<script src="~/js/commonFunctions/toggleCheckboxes.js"></script>

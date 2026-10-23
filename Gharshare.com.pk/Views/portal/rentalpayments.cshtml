@@ -1,0 +1,190 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model LeaseViewVM
+@{
+    ViewData["Title"] = "Rental Payments";
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    else if (User.IsInRole(WebSiteRoles.Role_Tenant))
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Rental Payments</span>
+        </h2>
+    </div>
+    <label class="mt-3">Lease History</label>
+    <div class="row">
+        <div class="col-md-4">
+            <select class="nice-select w-100" asp-items="@Model.Leases">
+            </select>
+        </div>
+        <div class="col-md-8 text-end" style="padding-right:25px;">
+            <a class="red-link" href="#"><i class="fa fa-download"></i> Download</a>
+        </div>
+    </div>
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <div class="row">
+            <div class="col-md-2">
+                <strong>Property Address:</strong>
+            </div>
+            <div class="col-md-10">
+                @Model.leaseAgreement.Property.Address
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mt-3">
+                <div class="row">
+                    <div class="col-md-4"><strong>Lease Id:</strong></div>
+                    <div class="col-md-8">@Model.leaseAgreement.ID</div>
+                </div>
+                <p>
+                    <strong>Monthly rental amount:</strong>
+                    @Utility.Format(Model.leaseAgreement.MonthlyRent)
+                </p>
+                <p>
+                    <strong>Payment frequency:</strong>
+                    @Utility.GetEnumDisplayName(Model.leaseAgreement.PaymentFrequency)
+                </p>
+                <p>
+                    <strong>Owner Name:</strong> @Model.leaseAgreement.Property.Owner.Name
+                </p>
+                <p>
+                    <strong>Tenant Name:</strong> @Model.leaseAgreement.PrimaryTenant.FirstName
+                </p>
+            </div>
+            <div class="col-md-9">
+                <div class="table-responsive">
+                    <table class="table table-responsive-md">
+                        <thead>
+                            <tr>
+                                <th><h6>Next Payment Due</h6></th>
+                                <th><h6>Next Payment Date</h6></th>
+                                <th><h6>Payments Remaining</h6></th>
+                                <th><h6>Payments Completed</h6></th>
+                                <th><h6>Outstanding Balance</h6></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">Rs @ViewBag.nextPaymentDueAmount</td>
+                                <td class="text-center">@ViewBag.nextPaymentDueDate</td>
+                                <td class="text-center">@ViewBag.PaymentsRemaining</td>
+                                <td class="text-center"> @ViewBag.PaymentsCompleted</td>
+                                <td class="text-center">Rs @ViewBag.outstandingBalance</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12 bd-callout">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">
+                            <h6>Period</h6>
+                        </th>
+                        <th><h6>Start Date</h6></th>
+                        <th><h6>End Date</h6></th>
+                        <th><h6>Payment Date</h6></th>
+                        <th><h6>Amount Due</h6></th>
+                        <th><h6>Amount Paid</h6></th>
+                        <th><h6>Outstanding</h6></th>
+                        <th><h6>Payment Status</h6></th>
+                        <th><h6>Receipt</h6></th>
+                    </tr>
+                </thead>
+                @if (Model.RentalPayments.Any())
+                {
+                    <tbody>
+                        @{
+                            int sno = 0;
+                            decimal totalAmountDue = 0;
+                            decimal totalAmountPaid = 0;
+                        }
+                        @for (int i = 0; i < Model.RentalPayments.Count(); i++)
+                        {
+                            var payment = Model.RentalPayments[i];
+                            sno = @i + 1;
+                            totalAmountDue = totalAmountDue + payment.AmountDue;
+                            totalAmountPaid = totalAmountPaid + payment.AmountDue;
+                            <tr>
+                                <td class="text-center">@sno</td>
+                                <td class="text-center">
+                                    @Utility.ConvertToShortDateFormat(payment.From)
+                                </td>
+                                <td class="text-center">
+                                    @Utility.ConvertToShortDateFormat(payment.To)
+                                </td>
+                                <td class="text-center">
+                                    @Utility.ConvertToShortDateFormat(payment.PaymentDate)
+                                </td>
+                                <td class="text-center">
+                                    @Utility.Format(payment.AmountDue)
+                                </td>
+                                <td class="text-center">
+                                    @Utility.Format(payment.AmountPaid)
+                                </td>
+                                <td class="text-center">
+                                    @Utility.Format(payment.Outstanding)
+                                </td>
+                                <td class="text-center">
+                                    @if (payment.PaymentStaus == @RentalPayment.status.paid)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-success me-1"></i> Paid
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-danger me-1"></i> Un-paid
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="#" class="red-link">Download</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        <hr />
+                        <tr>
+                            <td class="text-end"><strong>Total</strong></td>
+                            <td colspan="4" class="text-end">
+                                <strong style="margin-right:40px;">
+                                    @Utility.Format(totalAmountDue)
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    @Utility.Format(totalAmountPaid)
+                                </strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+                else
+                {
+                    <tbody>
+                        <tr>
+                            <td colspan="9" class="text-center">
+                                <h4>No record found</h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+        @* <partial name="_Pager" model="@pager" /> *@
+
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record exists</h4>
+        </div>
+    </div>
+</div>

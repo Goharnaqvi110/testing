@@ -1,0 +1,43 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model BondAttachment
+@{
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+    {
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    }
+    ViewData["Title"] = "View document";
+}
+<div class="container-fluid">
+    <h3 class="heading-main">Document</h3>
+    <div class="row bd-callout">
+        <div class="col-md-10 form-floating p-1">
+            <div class="row">
+                @if (Model != null)
+                {
+                    <embed src="@Model.FilePath" height="900" width="1000" />
+                }
+                else
+                {
+                    <p>document does not exist</p>
+                }
+
+            </div>
+        </div>
+        <div class="col-md-2 text-center p-1">
+            <div class="row pt-4">
+                <h4>About</h4>
+                <div class="align-items-center">
+                    <i class="fa fa-circle text-success me-1"></i>
+                    Uploaded on
+                    @Utility.ConvertToShortDateFormat(Model.CreatedOn)
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+

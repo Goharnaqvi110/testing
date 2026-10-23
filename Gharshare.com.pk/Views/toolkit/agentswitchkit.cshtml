@@ -1,0 +1,137 @@
+﻿@model Gharshare.Models.Toolkit
+
+@{
+    ViewData["Title"] = "Real Estate Agent Switch Kit";
+}
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image " data-bs-bg="/img/bg/14.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner text-center">
+                    <h1 class="page-title">
+                        Agent <span class="ltn__secondary-color-3">Switch</span> Kit
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+<!--  Switch From Your Agent Kit START  -->
+<div class="ltn__about-us-area">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-6 align-self-center">
+                <div class="about-us-info-wrap">
+                    <div class="section-title-area ltn__section-title-2--- mb-20">
+                        <h1>
+                            <span class="ltn__secondary-color-3">
+                                Switch From Your
+                                Agent
+                            </span>
+                            Kit
+                        </h1>
+                        <p>
+                            Ready to take control of your property? This kit will walk you through the process of saying 
+                            goodbye to your agent (and their fees) and transitioning to self-management.
+                        </p>                         
+                    </div>
+                    <div class="ltn__form-widget">
+                        <form asp-controller="toolkit" asp-action="agentswitchkit">
+                            <input id="kittype" type="hidden" asp-for="Type" />
+                            <input type="hidden" asp-for="PropertyAddress" />
+                            <input id="IPAddress" type="hidden" asp-for="IPAddress" class="form-control" />
+                            <div class="form-inline">
+                                <input type="text" data-val-required="*" data-val="true" id="name"
+                                       asp-for="OwnerName" class="input-control"
+                                       onkeypress="javascript:ValidateToolkitRequest();" placeholder="Name">
+                                <span asp-validation-for="@Model.OwnerName" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                                <input type="email" id="email" asp-for="Email" class="input-control"
+                                       placeholder=" email@example.com" data-val-required="*" data-val="true">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                                <input id="mobile" asp-for="Phone" class="input-control"
+                                       maxlength="15" placeholder=" Mobile" oninput="formatMobileNumber(this)"
+                                       data-val-required="*" data-val="true">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <button id="mySubmit" type="submit" class="btn theme-btn-1">Get Report</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6 align-self-center">
+                <img src="/img/publicsite/toolkit/switchkit.webp" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, (max-width: 991px) 95vw, (max-width: 1279px) 48vw, (max-width: 1919px) 587px, 636px" alt="" class="image-5 start-tracking-1 switch-agent" style="will-change: transform; transform: translate3d(0px, 0.2204px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Switch From Your Agent Kit End  -->
+<!--  What Agent Switch Kit Start  -->
+<div class="container mt-30">
+    <div class="row mb-5">
+        <div class="col-lg-6 align-self-center ">
+            <div class="about-us-info-wrap">
+                <div class=" ltn__form-widget">
+                    <div class="content-left home-features">
+                        <h2 class="title home-features">What's Included in Your Kit?</h2>
+                    </div>
+                    <div class="home-feature-wrapper">
+                        <div class="home-feature-content">
+                            <div class="bullets">
+                                <img src="/img/publicsite/common/tick.svg" height="15"
+                                     width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                                <h3 class="title h4-size home-feature-title animated fadeIn">
+                                    <strong>
+                                        Agent Switch Checklist
+                                    </strong>
+                                </h3>
+                            </div>
+                            <p class="p1 home-feature content-left">
+                                Follow these basic steps to smoothly transition from your agent to self-management while
+                                keeping your tenant onboard.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="home-feature-content">
+                        <div class="bullets">
+                            <img src="/img/publicsite/common/tick.svg" height="15" width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                            <h3 class="title h4-size home-feature-title animated fadeIn">
+                                <strong>
+                                    FAQs on Self-Management
+                                </strong>
+                            </h3>
+                        </div>
+                        <p class="p1 home-feature content-left">
+                            Find answers to common questions about starting to manage your property yourself. 
+                            Save money, take control, and rent better with Smartpropertymanager.pk.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 offset-md-1 align-self-center">
+            <div class="home-feature-content">
+                <div class="bullets">
+                    <img src="/img/publicsite/common/tick.svg" height="15" width="15" alt="" class="image analytics-tool-feature-icon-copy">
+                    <h3 class="title h4-size home-feature-title animated fadeIn">
+                        <strong>Formal termination letter</strong></h3>
+                </div>
+                <p class="p1 home-feature content-left">
+                    A pre-written letter ready for you to send to your property agent.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/formatmobilenum.js"></script>
+    <script src="/js/ValidateToolkitRequest.js"></script>
+}
+<!--  What Agent Switch Kit End  -->

@@ -1,0 +1,60 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantVehicle
+
+@{
+    ViewData["Title"] = "Delete Vehicle";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-controller="tenant" asp-action="deletevehicle">
+        <input type="hidden" asp-for="ID">
+        <div class="row">
+            <div class="p-1 btn-group">
+                <div class="p-1">
+                    <input type="checkbox" asp-for="IsPrimaryVehicle" />
+                </div>
+                <div class="col-md-11 p-1">
+                    <div class="v">
+                        <strong class="vv">Primary Vehicle</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avc row">
+            <div class="col-md-3  p-1">
+                <select disabled asp-for=Type class="form-control">
+                    <option value="Other">Other</option>
+                    <option value="Car">Car</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Caravan">Caravan</option>
+                    <option value="Motorbike">Motorbike</option>
+                    <option value="Boat">Boat</option>
+                    <option value="No Vehicle">No Vehicle</option>
+                </select>
+            </div>
+            <div class="col-md-3  p-1">
+                <input disabled type="text" asp-for=Registration placeholder="Registration" class="form-control" />
+            </div>
+            <div class="col-md-3  p-1">
+                <input disabled type="text" asp-for=Make placeholder="Make" class="form-control" />
+            </div>
+            <div class="col-md-3  p-1">
+                <input disabled type="text" asp-for=Model placeholder="Model" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-12 btn-group">
+            <div class="p-2">
+                <input disabled type="checkbox" asp-for="NeedParking" class="form-control" aria-required="true" />
+            </div>
+            <div class="pt-3 p-1">
+                <label>Will you be parking the motor vehicle on the property?</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

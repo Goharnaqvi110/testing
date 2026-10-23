@@ -1,0 +1,130 @@
+﻿@page "/detail"
+@using Gharshare.Models
+@model Property
+
+@{
+    ViewData["Title"] = "Delete Property";
+}
+<div class="container" style="padding:60px;">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Delete Property</h1>
+        </div>
+        <div class="col-md-6 text-end" style="padding-top:20px;">
+            <a asp-action="Index" class="link-info">Go back to list</a>
+        </div>
+        <hr/>
+    </div>
+    @*<section class="section-property section-t8">
+        <div class="container">
+            <div id="property-carousel" class="swiper">
+                <div class="swiper-wrapper">
+                    @if (@Model.Property.CoverImage != "")
+                    {
+                        <div class="carousel-item-b swiper-slide">
+                            <div class="card-box-a card-shadow">
+                                <div class="img-box-a">
+                                    <img src="@Model.Property.CoverImage" alt="" class="img-a img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @{
+                        if (@Model.PropertyImages != null)
+                        {
+                            @foreach (var propertyImage in @Model.PropertyImages)
+                            {
+                                <div class="carousel-item-b swiper-slide">
+                                    <div class="card-box-a card-shadow">
+                                        <div class="img-box-a">
+                                            <img src="@propertyImage.ImagePath" alt="" class="img-a img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- End carousel item -->
+                            }
+                        }
+                    }
+                </div>
+            </div>
+            <div class="propery-carousel-pagination carousel-pagination"></div>
+        </div>
+    </section>*@
+    <form method="Post" asp-action="Delete" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">                
+                <div class="form-floating p-1">
+                   <input type="hidden" asp-for=@Model.ID />                    
+                    <input type="hidden" asp-for="@Model.City.ID"/>
+                    <input type="hidden" asp-for="@Model.State.ID" />
+                </div>
+                <div class="form-floating p-1">
+                    <input type="hidden" asp-for="CoverImage" />
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="@Model.Owner.Name" class="form-control" aria-required="true" />
+                    <label asp-for="@Model.Owner.Name">Landlord Name</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Address" class="form-control" aria-required="true" />
+                    <label asp-for="Address">Address</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Street" class="form-control" aria-required="true" />
+                    <label asp-for="Street">Street</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="@Model.City.Name" class="form-control" aria-required="true" />
+                    <label asp-for="@Model.City.Name">City</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="@Model.State.Name" class="form-control" aria-required="true" />
+                    <label asp-for="@Model.State.Name">State</label>
+                </div>
+                <div class="form-floating p-1">
+                    <textarea id="Description" asp-for="Description" class="form-control" cols="45" rows="8" placeholder="Description" required="" style="Height:170px;"></textarea>
+                    <label asp-for="Description">Description</label>
+                </div>
+            </div>
+            <div class="col-md-6 p-3">
+                @*<div class="form-floating">
+                    <input type="text" asp-for="Type" class="form-control" aria-required="true" />
+                    <label asp-for="Type">Property Type</label>
+                </div>*@
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Bed" class="form-control" aria-required="true" />
+                    <label asp-for="Bed">Bed Room</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Bathroom" class="form-control" aria-required="true" />
+                    <label asp-for="Bathroom">Bathroom</label>
+                </div>
+                @*<div class="form-floating p-1">
+                    <input type="text" asp-for="ParkingType" class="form-control" aria-required="true" />
+                    <label asp-for="ParkingType">Parking</label>
+                </div>*@
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="TotalArea" class="form-control" aria-required="true" />
+                    <label asp-for="TotalArea">TotalArea</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Rent" class="form-control" aria-required="true" />
+                    <label asp-for="Rent">Rent</label>
+                </div>
+                <div class="form-floating p-1" style="padding-top:7px;">
+                    <textarea id="Description" asp-for="Features" class="form-control" cols="45" rows="16" placeholder="Description" required="" style="Height:100px;"></textarea>
+                    <label asp-for="Description">Features</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit" class="w-100 btn btn-danger">Delete Property</button>
+            </div>
+            <div class="col-md-6">
+                <a asp-action="Index" class="w-50 btn btn-secondary">Go Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,96 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model List<PropertiesViewed>
+
+@{
+    ViewData["Title"] = "Favourite Properties";
+    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Favourite Properties List</span>
+        </h2>
+    </div>
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <p>
+            Below is the list of properties you have added to your favourite list.
+            Click on 'Apply For Tenancy', if you want to apply for tenancy.
+        </p>
+    </div>
+    <div class="col-xl-12 bd-callout">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th style="width:30px;">
+                            <h6>No</h6>
+                        </th>
+                        <th><h6>Property Address</h6></th>
+                        <th><h6>Viewed by</h6></th>
+                        <th><h6>Viewed on</h6></th>
+                        @if (@ViewBag.profileExists)
+                        {
+                            <th class="text-center">Action</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int sno = 0;
+
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            var item = Model[i];
+                            sno = @i + 1;
+                            <tr>
+                                <td>@sno</td>
+                                <td>@item.Property.Address</td>
+                                <td>@item.User.Name</td>
+                                <td>@Utility.ConvertToShortDateFormat(item.ViewDate)</td>
+                                <td class="text-center" style="width:150px;">
+                                    @if (@ViewBag.profileExists)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <a href="#" data-bs-target="#largeModal" data-bs-toggle="modal"
+                                               onclick="loadApplyUI(@item.PropertyID)">
+                                                <i class="fa fa-eye"></i> Apply For Tenancy
+                                            </a>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td></td>
+                            <td colspan="4">
+                                <div id="noplan" class="text-center p-3">
+                                    <h4>No record found</h4>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @* <partial name="_Pager" model="@pager" /> *@
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record found</h4>
+        </div>
+        @if (@ViewBag.profileExists == false)
+        {
+            <div>
+                You tenancy profile is incomplete. Please
+                
+                <a asp-action="profile" class="red-link">
+                    <strong>Complete your profile</strong>
+                    </a>before applying for tenancy.                
+            </div>
+        }
+    </div>
+</div>
+<script src="~/js/tenant/loadApplyUI.js"></script>

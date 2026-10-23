@@ -1,0 +1,97 @@
+﻿@model Gharshare.Models.vmBlog
+@{
+    ViewData["Title"] = "Smart Property Manager Blog ";
+}
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image " data-bs-bg="img/bg/14.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner text-center">
+                    <h1 class="page-title">
+                        Blog <span class="ltn__secondary-color-3">Smart</span> Property
+                        <span class="ltn__secondary-color-3">Manager</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+<div class="container">
+    @if (@Model.FeaturedArticle != null)
+    {
+        <a asp-action="detail" asp-asp-controller="cms" asp-route-id=@Model.FeaturedArticle.UId>
+            <div class="row mb-5">
+                <h1 class="section-title mb-5">Featured <span>Article</span></h1>
+                <div class="col-lg-6 align-self-center">
+                    <div class="about-us-img-wrap about-img-left">
+                        <img src="@Model.FeaturedArticle.Imagepath" alt="About Us Image" height="400px">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-us-info-wrap">
+                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                            <h1 class="section-title">
+                                @Model.FeaturedArticle.Heading
+                            </h1>
+                            <p>
+                                @Model.FeaturedArticle.Topsection
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+    <div class="row">
+        <div class="col-lg-12 mt-5">
+            <div class="section-title-area ltn__section-title-2--- text-center">
+                <h1 class="section-title">Latest <span>Articles</span></h1>
+            </div>
+        </div>
+    </div>
+    @if (@Model.Articles != null)
+    {
+        @if (@Model.Articles.Count > 0)
+        {
+            <div class="row ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal slick-initialized slick-slider">
+                <!-- Blog Item -->
+                <div aria-live="polite" class="slick-list draggable">
+                    <div class="slick-track" style="opacity: 1; width: 1200px; transform: translate3d(0px, 0px, 0px);" role="listbox">
+                        @foreach (var article in Model.Articles)
+                        {
+                            <a asp-action="detail" asp-asp-controller="cms" asp-route-id=@article.UId>
+                                <div class="col-lg-12 slick-slide slick-current slick-active" data-slick-index="0"
+                                     aria-hidden="false" style="width: 400px;" tabindex="-1" role="option"
+                                     aria-describedby="slick-slide10">
+                                    <div class="ltn__blog-item ltn__blog-item-3">
+                                        <div class="ltn__blog-img">
+                                            <img src="@article.Imagepath" alt="Blog image">
+                                        </div>
+                                        <div class="ltn__blog-brief">
+                                            <h3 class="ltn__blog-title position-relative animated fadeIn">
+                                                @article.Heading
+                                            </h3>
+                                            <p>@article.Topsection</p>
+                                            <div class="ltn__blog-meta-btn">
+                                                <span class="ltn__service-btn">
+                                                    Read More <i class="fa fa-arrow-right"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <!-- Blog Item -->
+            </div>
+        }
+        else
+        {
+            <p class="text-center">No article found</p>
+        }
+    }
+</div>

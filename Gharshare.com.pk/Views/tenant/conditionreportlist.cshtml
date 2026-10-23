@@ -1,0 +1,106 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model List<ConditionReport>
+@{
+    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    ViewData["Title"] = "Condition Report";
+}
+<div class="container-fluid">
+    <h3 class="heading-main">Condition Report</h3>
+    <div class="row bd-callout bd-callout-default  m-1 mb-4">
+        <div class="col-xl-12">
+            <p>
+                <strong>Property Address:</strong> Model Town, Lahore.
+            </p>
+            <p><b>About this report</b></p>
+            <p>
+                This report should be completed and signed by both landlord and tenant to accurately
+                record the condition of the property at the beginning, middle, and end of the lease.
+                It can be a useful reference if any issues arise.
+            </p>
+            <p>
+                For specific details of how condition reports should be handled in each state
+                please visit our blog post where we provide tips on inspections as well as link
+                to the government guidelines.
+            </p>
+        </div>
+        <div><a class="red-link" href="#">Go to blog</a></div>
+    </div>
+    <div class="row bd-callout  m-1 mb-4">
+        @if(Model.Count()==0)
+        {
+            <p><strong>No record found</strong></p>
+        }
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            Int32 count = i + 1;
+            var actionName = "";
+            var controllerName = string.Empty;
+            if (@Model[i].status == ConditionReport.Status.Created ||
+            @Model[i].status == ConditionReport.Status.SignedByLandlord)
+            {
+                actionName = "conditionreport";
+                controllerName = "tenant";
+            }
+            else
+            {
+                actionName = "viewconditionreport";
+                controllerName = "portal";
+            }
+            <div class="lease-agreement-grid-box" style="padding-left:25px;width:31%">
+                <div class="row">
+                    <div class="col-md-10">
+                        <a asp-action=@actionName asp-controller=@controllerName asp-route-id=@Model[i].uid>
+                            <div class="row" style="margin-top:5px;"><h5>Condition Report-@count.ToString()</h5></div>
+                            <div class="row mb-0">
+                                <div class="col-md-6">
+                                    <label>Received on:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    @Utility.ConvertToShortDateFormat(Model[i].CreatedOn)
+                                </div>
+                            </div>
+                            <div class="row mb-0">
+                                <div class="col-md-6">
+                                    <label>Inspection date:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    @Utility.ConvertToShortDateFormat(Model[i].InspectionDate)
+                                </div>
+                            </div>
+                            <div class="row mb-0">
+                                <div class="col-md-6">
+                                    <label>Status:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (Model[i].status == ConditionReport.Status.Completed)
+                                    {
+                                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)">
+                                        </i>
+                                        <span>Signed by both landlord & tenant</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@Utility.GetEnumDisplayName(Model[i].status)</span>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="dropdown custom-dropdown mb-0">
+                            <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
+                            </div>
+                            <div class="dropdown-menu dropdown-menu-end" style="margin: 0px;">
+                                <a class="dropdown-item" href="javascript:void();">View</a>
+                                <a class="dropdown-item" href="javascript:void();">Download</a>
+                                <a class="dropdown-item text-danger" href="javascript:void();">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

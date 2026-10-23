@@ -1,0 +1,68 @@
+﻿@using Gharshare.Models
+@model TenantBill
+
+@{
+    ViewData["Title"] = "Delete bill";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-action="deletebill">         
+        <div class="row">
+            <div class="col-md-6">
+                <input type="hidden" asp-for="ID" />
+                <input type="hidden" asp-for="LeaseAgreementID" />
+                <input type="hidden" asp-for="CategoryID" />
+                <div class="mb-1">Category</div>
+                <select asp-for="CategoryID" class="nice-select w-100" 
+                asp-items="@ViewBag.Categories">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label>Title</label>
+                <input readonly type="text" asp-for="Title" class="form-control" /> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Amount</label>
+                <input readonly type="text" asp-for="Amount" class="form-control integeronly" />
+            </div>
+            <div class="col-md-6">
+                <label>Due date</label>
+                <input readonly  type="text" asp-for="DueDate" class="form-control datepicker"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Description</label>
+                <input readonly type="text" asp-for="Description" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>
+                    <input onclick="    return false;" type="checkbox" class="form-check-input" asp-for="IsGSTIncluded" /> Is GST included?
+                </label>
+            </div>
+            <div class="col-md-6">
+                <label>
+                    <input onclick="    return false;" type="checkbox" class="form-check-input" asp-for="BillTenantNow" /> Bill tenant now?
+                </label>
+            </div>
+        </div>         
+        <div class="row">
+            <label>Message</label>
+            <input type="text" readonly  asp-for="Message" class="form-control" />
+        </div>
+        <div class="row">
+            <label class="form-check-label">
+                <input onclick="    return false;" type="checkbox" class="form-check-input" asp-for="CollectViaGharshare" /> Collect bill via this application?
+            </label>
+        </div>
+        <div class="text-center">
+            <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger w-50" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

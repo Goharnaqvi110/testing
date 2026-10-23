@@ -1,0 +1,30 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.Document
+
+@{
+    ViewData["Title"] = "Delete document";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-action="deletedocument">
+        <div class="row">
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="FilePath" />
+        </div>
+        <label>Document</label>
+        <div class="row">
+            <span>@Model.DocumentType.Title</span>
+        </div>
+        <div class="row">
+            <label>Property</label>
+            <input readonly asp-for="@Model.Property.Address" class="form-control" />
+        </div>
+        <div class="row">
+            <embed src="@Model.FilePath" height="400" width="1000" />
+        </div>         
+        <div class="text-center">
+            <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger w-50" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

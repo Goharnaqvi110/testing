@@ -1,0 +1,904 @@
+﻿@using Gharshare.Models
+@model LeaseVM
+
+@{
+    ViewData["Title"] = "Create Property Lease";
+    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+}
+<div class="container-fluid">
+    <h3 class="heading-main">Set up Your Tenant</h3>
+    <div class="row bd-callout bd-callout-default  m-1 mb-4">
+        <div class="col-xl-6">
+            <p>
+                <strong>Property Address:</strong> @Model.Property.Address
+            </p>
+            <p><b>About lease agreement</b></p>
+            <p>
+                A lease agreement is a legally binding written agreement between a
+                landlord and a tenent. The lease agreement will be generated automatically
+                for you based on where your property is located.
+            </p>
+        </div>
+        <div class="col-xl-6 mt-4">
+            <p class="mt-3"><b>How to complete lease agreement</b></p>
+            <p>
+                Enter the details and terms of your lease between you and your tenant. Capture
+                the amount, frequency and duration of the payment schedule and enter any
+                additional terms or inclusions.
+            </p>
+            <p>
+                Once the PDF version of the lease agreement has been generated, you can view a
+                draft of it and make any update or changes before finalising the agreement. You
+                will need to send the completed copy to your tenant(s) to sign digitally through
+                this application.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-xxl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        Lease Set-up
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form id="frmLease" asp-action="createlease">
+                        <div id="smartwizard">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-1">
+                                        <span>Lease Type</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-2">
+                                        <span>Property Address</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-5">
+                                        <span>Landlord Details</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-4">
+                                        <span>Tenant Details</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-3">
+                                        <span>Lease & Rental Payment</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-6">
+                                        <span>Landlod Bank Details</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-7">
+                                        <span>Bond Details</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-8">
+                                        <span>Electronic Consent Details</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#step-9">
+                                        <span>Other Details</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="height: 518.125px;">
+                                <div>
+                                    <input type="hidden" asp-for="Property.ID" />
+                                    <input type="hidden" asp-for="Property.OwnerId" />
+                                </div>
+                                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                    <div class="row">
+                                        <div class="Col-lg-12">
+                                            <div class="text-center">
+                                                <img src="~/img/lease-setup-pink.png" alt="How would you like to set up your lease?" width="122">
+                                                <h3>How would you like to set up your lease?</h3>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="container p-3 border" style="width: 70%; height: 30%;">
+                                                <div class="form-group">
+                                                    <label>
+                                                        @Html.RadioButtonFor(m => m.Property.HideAddress, false, new { @class = "form-check-input" })
+                                                        I need a new lease agreement for <span class="text-primary">my new tenant</span>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                            <div class="container p-3 my-3 border" style="width: 70%; height: 30%;">
+                                                <div class="form-group">
+                                                    <label>
+                                                        @Html.RadioButtonFor(m => m.Property.HideAddress, true, new
+                                                            {
+                                                                @class = "form-check-input",
+                                                            })
+                                                        I already have a lease agreement and would like to set up <span class="text-primary">my existing tenant</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                                    <h3 class="text-center">
+                                        Property <span class="text-primary"> Address</span>
+                                    </h3>
+                                    <div class="property-section" id="property-section">
+                                        <div class="property-fields">
+                                            <div class="row">
+                                                <div class="col-lg-4 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Unit Number</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" class="form-control" readonly
+                                                                       asp-for="Property.UnitNo"
+                                                                       placeholder="Enter your Unit number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Street</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" readonly asp-for="Property.Street" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Suburb</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" class="form-control"
+                                                                       readonly asp-for="Property.Suburb">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label d-flex">City</label>
+                                                        <select required id="city" asp-for="Property.CityID"
+                                                                asp-items="Model.Cities" class="nice-select btn-block">
+                                                            <option value="">--select city--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Postcode</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" class="form-control"
+                                                                       readonly asp-for="Property.PostalCode">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                                    <h3 class="text-center">
+                                        Lease <span class="text-primary">Details</span>
+                                    </h3>
+                                    <div class="property-section" id="property-section">
+                                        <div class="property-fields">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                    <div class="checkbox custom-checkbox prices">
+                                                        @Html.CheckBoxFor(m => m.leaseAgreement.IsPeriodicAgreement,
+                                                                 new
+                                                                 {
+                                                                     @class = "form-check-input",
+                                                                 })
+                                                        <lebal>
+                                                            Periodic
+                                                        </lebal>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label d-flex">Duration</label>
+                                                        <select class="nice-select btn-block" required
+                                                                asp-for="@Model.leaseAgreement.AgreementType">
+                                                            <option value="">--select agreement type</option>
+                                                            <option value=1>Fixed</option>
+                                                            <option value=2>Periodic</option>
+                                                        </select>
+                                                        <span asp-validation-for="@Model.leaseAgreement.AgreementType"
+                                                              class="text-danger">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <label>Lease start Date</label>
+                                                    <div class="input-group mb-2">
+                                                        <div class="input-group-text fa fa-calendar"></div>
+                                                        <input type="text" asp-for="@Model.leaseAgreement.From"
+                                                               required class="form-control datepicker" value="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label>Lease end Date</label>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-text fa fa-calendar"></div>
+                                                            <input type="text" asp-for="@Model.leaseAgreement.To"
+                                                                   required class="form-control datepicker" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label>This agreement is made on the day of</label>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-text fa fa-calendar"></div>
+                                                            <input type="text" asp-for="@Model.leaseAgreement.AgreementDate"
+                                                                   required class="form-control datepicker" value="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <h3 class="text-center">
+                                                Rental <span class="text-primary"> Payment</span> Details
+                                            </h3>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label d-flex">Payment Frequency</label>
+                                                        <select id="dllrentperiod" class="nice-select btn-block" required
+                                                                asp-for="@Model.leaseAgreement.PaymentFrequency">
+                                                           @*  <option value="">--select payment frequency</option> *@
+                                                            <option value=1>Monthly</option>
+                                                            @*<option value=2>Fortnightly</option>*@
+                                                        </select>
+                                                        <span asp-validation-for="@Model.leaseAgreement.PaymentFrequency"
+                                                              class="text-danger">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        @* <label>Rental Price Per Week*</label> *@
+                                                        <label>Rental Price Per Month*</label>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-text ">Rs.</div>
+                                                            <input id="txtMonthlyRent" type="number" class="form-control integeronly" required
+                                                                   asp-for="@Model.leaseAgreement.MonthlyRent placeholder="Enter Monthly Payment" />                                                             
+                                                            <input type="hidden" id="txtPeriodicRent" asp-for="@Model.leaseAgreement.PeriodicRent">
+                                                            @* <input type="number" class="form-control integeronly" required
+                                                            id="txtweeklyrent" asp-for="@Model.leaseAgreement.WeeklyRent"
+                                                            placeholder="Enter Weekly Payment"> *@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @* <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <label>Amount Per Payment*</label>
+                                                    <div class="input-group mb-2">
+                                                        <div class="input-group-text ">Rs.</div>
+                                                        <input type="number" readonly class="form-control integeronly"
+                                                               id="txtperiodicrent" asp-for="@Model.leaseAgreement.PeriodicRent">
+                                                        <input type="hidden" id="txtmonthlyrent" asp-for="@Model.leaseAgreement.MonthlyRent">
+                                                    </div>
+                                                </div>
+                                            </div> *@
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="form-group" id="tenantAppOption">
+                                                        <label>
+                                                            Have you received, or will you receive a payment outside
+                                                            smartpropertymanager.pk?
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="input-group mt-13">
+                                                        <div class="mb-3 mb-0">
+                                                            <label class="radio-inline me-3">
+                                                                <input type="radio" id="rdoPaymentMade" class="form-check-input"
+                                                                       value="true" asp-for="@Model.leaseAgreement.IsPaymentMadeOutside">
+                                                                Yes
+                                                            </label>
+                                                            <label class="radio-inline me-3">
+                                                                <input type="radio" value="false" id="rdoPaymentNotMade" class="form-check-input"
+                                                                       asp-for="@Model.leaseAgreement.IsPaymentMadeOutside">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" id="outsidePaymentPeriods" style="display: none">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label>
+                                                            How many periods received outside <span class="text-red">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control integeronly" id="outsidePaymentPeriods" min="1">
+                                                        <span class="input-group-addon" maxlength="2" id="outsidePaymentPeriodUnit">&nbsp; month(s)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <label for="paymentStartDate">
+                                                        First Payment Date
+                                                        <i class="fa fa-question-circle" aria-hidden="true"
+                                                           rel="popover" data-placement="right" data-html="true" data-content="
+                                                            For your information, your tenant will be asked to make their
+                                                            first payment before this date" title="" data-original-title="">
+                                                        </i>
+                                                    </label>
+                                                    <div class="input-group mb-2">
+                                                        <div class="input-group-text fa fa-calendar"></div>
+                                                        <input type="text"
+                                                               asp-for="@Model.leaseAgreement.FirstRentPaymentDueDate"
+                                                               required class="form-control datepicker" value="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="form-group" id="tenantAppOption">
+                                                        <label>
+                                                            Would you like to collect this payment early?
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="input-group mt-13">
+                                                        <div class="mb-3 mb-0">
+                                                            <label class="radio-inline me-3">
+                                                                <input type="radio" id="rdoneedearlypayment" class="form-check-input"
+                                                                       value="true"
+                                                                       asp-for="@Model.leaseAgreement.NeedEarlyFirstPayment" />
+                                                                Yes
+                                                            </label>
+                                                            <label class="radio-inline me-3">
+                                                                <input type="radio" id="rdonoearlypayment"
+                                                                       value="true" class="form-check-input"
+                                                                       asp-for="@Model.leaseAgreement.NeedEarlyFirstPayment" />
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" id="earlyPaymentRow" style="display:none;">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label>First payment due date</label>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-text fa fa-calendar"></div>
+                                                            <input type="text"
+                                                                   asp-for="@Model.leaseAgreement.EarlyFirstPaymentDueDate"
+                                                                   required class="form-control datepicker" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                                    <h3 class="text-center">
+                                        Primary <span class="text-primary"> Tenant</span> Details
+                                    </h3>
+                                    <div class="property-section m-4" id="property-section">
+                                        @*<h3 class="property-section-heading">Primary Tenant </h3>*@
+                                        <div class="row">
+                                            <div class="col-md-4 p-1">
+                                                <label class="text-label d-flex">Select Primary Tenant from applications</label>
+                                                <select id="ddlprimarytenant" asp-for="@Model.leaseAgreement.PrimaryTenantID"
+                                                        asp-items=@Model.Applicants class="nice-select btn-block">
+                                                    <option selected="selected" value="">--Select Applicant--</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="divprimarytenant">
+                                            <div class="row col-md-6 p-1">
+                                                <label>First Name</label>
+                                                <input type="text" required id="txtfname" asp-for="PrimaryTenant.FirstName"
+                                                       class="form-control" />
+                                                <span asp-validation-for="PrimaryTenant.FirstName" class="text-danger"></span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 p-1">
+                                                    <label>Current Address</label>
+                                                    <input type="text" asp-for="PrimaryTenant.CurrentAddress" required
+                                                           class="form-control" aria-required="true" />
+                                                    <span asp-validation-for="PrimaryTenant.CurrentAddress" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Postcode</label>
+                                                    <input type="text" asp-for="PrimaryTenant.PostCode"
+                                                           class="form-control integeronly" aria-required="true" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label asp-for="Property.Suburb">Mobile No</label>
+                                                    <input type="text" id="txtmobile" required oninput="formatMobileNumber(this)" maxlength="15"
+                                                           asp-for="PrimaryTenant.Mobile" class="form-control"
+                                                           aria-required="true" />
+                                                    <span asp-validation-for="PrimaryTenant.Mobile" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 p-1">
+                                                    <label>Email</label>
+                                                    <input id="txtemail" onchange="checkUser(this)" oninput="clearError(this)"
+                                                           type="email" asp-for="PrimaryTenant.Email" required
+                                                           class="form-control" aria-required="true" />
+                                                    <span asp-validation-for="PrimaryTenant.Email" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <span>Do you have any additional tenant?</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1 form-group p-1">
+                                                <label class="form-check-label p-1">
+                                                    <input id="rdotenant" type="radio" class="form-check-input" value="true" asp-for="@Model.leaseAgreement.AdditionalTenants" /> Yes
+                                                </label>
+                                            </div>
+                                            <div class="col-md-1 form-group p-1">
+                                                <label class="form-check-label p-1">
+                                                    <input id="rdoRemovetenant" type="radio" class="form-check-input" value="false" asp-for="@Model.leaseAgreement.AdditionalTenants" /> No
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="addtionaltenants">
+                                        </div>
+
+                                        @* <div class="property-fields">
+                                        <div class="row">
+                                        <div id="tenant-name-individual">
+                                        <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#"><button type="button" class="btn btn-primary btn-block">Select tenants from applications</button></a></li>
+                                        </ol>
+                                        <br>
+                                        <div class="row">
+                                        <div class="col-lg-6 mb-2">
+                                        <div class="mb-3">
+                                        <label class="text-label form-label">Tenant First Name *</label>
+                                        <div class="col-auto">
+                                        <div class="input-group mb-2">
+                                        <input type="text" class="form-control" placeholder="First Name">
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+
+                                        <div class="col-lg-6 mb-2">
+                                        <div class="mb-3">
+                                        <label class="text-label form-label">Tenant Last Name *</label>
+                                        <div class="col-auto">
+                                        <div class="input-group mb-2">
+                                        <input type="text" class="form-control" placeholder="Last Name">
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-lg-6 mb-2">
+                                        <div class="mb-3">
+                                        <label class="text-label form-label">Tenant Mobile Number *</label>
+                                        <div class="col-auto">
+                                        <div class="input-group mb-2">
+                                        <input type="text" class="form-control" placeholder="Enter 11 digit Mobile Number">
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6 mb-2">
+                                        <div class="mb-3">
+                                        <label class="text-label form-label">Tenant Email *</label>
+                                        <div class="col-auto">
+                                        <div class="input-group mb-2">
+                                        <input type="email" class="form-control" placeholder="Enter Tenant Email">
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+
+
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="form-group" id="secondaryTenants">
+                                        <label style="display: block">Any additional tenant(s)?</label>
+                                        <div class="input-group">
+                                        <div class="mb-3 mb-0">
+                                        <label class="radio-inline me-3">
+                                        <input type="radio" name="option" value="1" onclick="showText(this.value)">
+                                        Yes
+                                        </label>
+                                        <label class="radio-inline me-3">
+                                        <input type="radio" name="option" value="0" onclick="showText(this.value)">
+                                        No
+                                        </label>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                                    <h3 class="text-center">
+                                        Landlord <span class="text-primary"> Details</span>
+                                    </h3>
+                                    <div class="property-section" id="property-section">
+                                        <div class="property-fields">
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Owner First Name *</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" readonly class="form-control"
+                                                                       asp-for=Property.Owner.Name>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Owner Address</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" readonly class="form-control"
+                                                                       asp-for=Property.Owner.Address />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Owner Mobile Number *</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" class="form-control" asp-for=Property.Owner.Mobile
+                                                                       oninput="formatMobileNumber(this)" maxlength="15" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <div class="mb-3">
+                                                        <label class="text-label form-label">Owner Email *</label>
+                                                        <div class="col-auto">
+                                                            <div class="input-group mb-2">
+                                                                <input type="email" type="text" readonly asp-for=Property.Owner.Email
+                                                                       class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                                    <h3 class="text-center">
+                                        Bank <span class="text-primary"> Details</span>
+                                    </h3>
+                                    <div class="property-section">
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-2">
+                                                <div class="mb-3">
+                                                    <label class="text-label form-label">Bank Name *</label>
+                                                    <div class="col-auto">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control"
+                                                                   asp-for="@Model.leaseAgreement.BankName" value="@Model.Property.Owner.BankName" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <div class="mb-3">
+                                                    <label class="text-label form-label">Account Title *</label>
+                                                    <div class="col-auto">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control"
+                                                                   asp-for="@Model.leaseAgreement.AccountTitle" value="@Model.Property.Owner.AccountTitle" required
+                                                                   placeholder="Your Account (Where Rent Will be transferd)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-2">
+                                                <div class="mb-3">
+                                                    <label class="text-label form-label">Your Branch</label>
+                                                    <div class="col-auto">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control"
+                                                                   asp-for="@Model.leaseAgreement.Branch" value="@Model.Property.Owner.Branch" required
+                                                                   placeholder="Your Account Branch">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <div class="mb-3">
+                                                    <label class="text-label form-label">Bank Account Number *</label>
+                                                    <div class="col-auto">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control"
+                                                                   asp-for="@Model.leaseAgreement.AccountNo" value="@Model.Property.Owner.AccountNo" required
+                                                                   placeholder="Your Account Number">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- button -->
+                                    @*<ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                    <a href="#">
+                                    <button type="button" class="btn btn-primary btn-block">Save </button>
+                                    </a>
+                                    </li>
+                                    </ol>*@
+
+                                </div>
+                                <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
+                                    <h3 class="text-center">
+                                        Bond <span class="text-primary">Details</span>
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-2">
+                                            <label>Bond Amount*</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-text ">Rs.</div>
+                                                <input type="number" required class="form-control"
+                                                       asp-for="@Model.leaseAgreement.BondAmount">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="mb-3">
+                                                <label>Bond Payment Date</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-text fa fa-calendar"></div>
+                                                    <input type="text"
+                                                           asp-for="@Model.leaseAgreement.BondPaymentDate"
+                                                           required class="form-control datepicker" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 mb-2">
+                                            <div class="form-group" id="tenantAppOption">
+                                                <label>
+                                                    Would you like to collect Bond through sharehouse.pk?
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="input-group mt-13">
+                                                <div class="mb-3 mb-0">
+                                                    <label class="radio-inline me-3">
+                                                        <input type="radio"
+                                                               value="true" class="form-check-input"
+                                                               asp-for="@Model.leaseAgreement.PaybondviaGharshare" />
+                                                        Yes
+                                                    </label>
+                                                    <label class="radio-inline me-3">
+                                                        <input type="radio"
+                                                               value="false" class="form-check-input"
+                                                               asp-for="@Model.leaseAgreement.PaybondviaGharshare" />
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-8" class="tab-pane" role="tabpanel" aria-labelledby="step-8">
+                                    <h3 class="text-center">
+                                        Electronic <span class="text-primary">Consent</span> Details
+                                    </h3>
+                                    <div class="property-section">
+                                        <div class="property-fields">
+                                            <div class="row">
+                                                <div class="col-lg-4 mb-2">
+                                                    <label>Landlord Agreed to Get e-Notices?</label>
+                                                    <div class="input-group mb-2">
+                                                        <div class="col-md-1 form-group p-1">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input" value="true"
+                                                                       asp-for=@Model.leaseAgreement.IsLandlordAgreedtoServeENotices /> Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-1 form-group p-1">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input" value="false"
+                                                                       asp-for="@Model.leaseAgreement.IsLandlordAgreedtoServeENotices" /> No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <label>Email</label>
+                                                    <div class="input-group mb-2">
+                                                        <input type="email" asp-for="@Model.leaseAgreement.LandlordEmailForENotices"
+                                                               required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 mb-2">
+                                                    <label>Renter Agreed to Get e-Notices?</label>
+                                                    <div class="input-group mb-2">
+                                                        <div class="col-md-1 form-group p-1">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input" value="true"
+                                                                       asp-for=@Model.leaseAgreement.IsRenterAgreedtoGetENotices /> Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-1 form-group p-1">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input" value="false"
+                                                                       asp-for="@Model.leaseAgreement.IsRenterAgreedtoGetENotices" /> No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-2">
+                                                    <label>Email</label>
+                                                    <div class="input-group mb-2">
+                                                        <input type="email" asp-for="@Model.leaseAgreement.RenterEmailForENotices"
+                                                               required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-9" class="tab-pane" role="tabpanel" aria-labelledby="step-9">
+                                    <h3 class="text-center">
+                                        Other <span class="text-primary">Details</span>
+                                    </h3>
+                                    <div class="pb-3"><span>Details of person the renter should contact for an urgent repair</span></div>
+                                    <div class="row">
+                                        <div class="col-lg-4 mb-2">
+                                            <label>Emergency contact name</label>
+                                            <div class="input-group mb-2">
+                                                <input asp-for="@Model.leaseAgreement.EmergencyContactName"
+                                                       class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 mb-2">
+                                            <div class="mb-3">
+                                                <label>Emergency phone no</label>
+                                                <div class="input-group mb-2">
+                                                    <input type="number" asp-for="@Model.leaseAgreement.EmergencyPhoneNo"
+                                                           class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 mb-2">
+                                            <div class="mb-3">
+                                                <label>Emergency email</label>
+                                                <div class="input-group mb-2">
+                                                    <input type="email" asp-for="@Model.leaseAgreement.EmergencyEmail"
+                                                           class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <span> Do owners corporation rules apply to premises?</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1 form-group p-1">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" value="true"
+                                                       asp-for="@Model.leaseAgreement.OwnerCorpRulesApply" /> Yes
+                                            </label>
+                                        </div>
+                                        <div class="col-md-1 form-group p-1">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input"
+                                                       value="false" asp-for="@Model.leaseAgreement.OwnerCorpRulesApply" /> No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <span>Condition Report</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group p-1">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" value="true" asp-for="@Model.leaseAgreement.IsConditionReportProvided" />
+                                                The Condition Report has been provided
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group p-1">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" value="false" asp-for="@Model.leaseAgreement.IsConditionReportProvided" />
+                                                The Condition Report will be provided to the renter on or before the agreement starts
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-2">
+                                            <label>Addtional Terms</label>
+                                            <div class="input-group mb-2">
+                                                <textarea asp-for="@Model.leaseAgreement.AddtionalTerms"
+                                                          class="form-control" rows="6"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="stepalert" class="alert alert-success alert-dismissible fade show d-none m-3 p-3">
+                                        <i class="fa fa-spin fa-spinner"></i> Lease agreement is being created. Please wait....
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 form-group pl-4">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input"
+                                                       asp-for="@Model.leaseAgreement.AgreetoTermsAndConditions" />
+                                                @Html.DisplayNameFor(model => @Model.leaseAgreement.AgreetoTermsAndConditions)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">&nbsp;</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/lease/createLease.js" type="text/javascript"></script>
+<script src="~/js/lease/loadTenant.js" type="text/javascript"></script>
+<script src="~/js/lease/addTenant.js" type="text/javascript"></script>
+<script src="~/js/lease/leaseType.js" type="text/javascript"></script>
+<script src="~/js/lease/earlyPaymentstatus.js" type="text/javascript"></script>
+<script src="~/js/commonFunctions/integersOnly.js" type="text/javascript"></script>
+<script src="~/js/commonFunctions/formatmobilenum.js" type="text/javascript"></script>
+<script src="~/js/commonFunctions/checkUser.js" type="text/javascript"></script>
+<script src="~/js/lease/calcualteRent.js" type="text/javascript"></script>

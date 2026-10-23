@@ -1,0 +1,36 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantDocument
+
+@{
+    ViewData["Title"] = "Delete Document";
+    Layout = null;
+}
+<div class="container">    
+    <form id="DeleteForm" asp-controller="tenant" asp-action="deletedocument">
+        <div><input type="hidden" asp-for="DocumentPath">
+        <input type="hidden" asp-for="ID">    
+        </div>        
+        <div class="text-center">
+            <strong>Your @Model.DocumentType.Name</strong>
+            <div class="col-md-12 form-floating">                
+                    <div class="offset-md-4 col-md-4">
+                        <div class="p-1">
+                            <img src="@Model.DocumentPath" style="height:300px; width:300px" alt="" class="img-a img-fluid">
+                        </div>
+                        <div>
+                            <strong>Document:</strong><span>@Model.DocumentType.Name</span>
+                        </div>
+                        <div>
+                            <strong>Added on:</strong><span>@Model.CreatedOn</span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </form>    
+</div> 
+<script type="text/javascript" src="~/js/ConfirmDelete.js"/>

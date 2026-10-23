@@ -1,0 +1,70 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantDependent
+
+@{
+    ViewData["Title"] = "Delete depedent";
+    Layout = null;
+}
+<div class="container">
+    @*<h1>Delete Dependent</h1>
+    <hr />*@
+   <form id="DeleteForm" asp-controller="tenant" asp-action="deletedependent">
+        <div class="ad">
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <input type="hidden" asp-for="ID">
+                    <input type="hidden" asp-for=ApplicantID>
+                    <input type="text" disabled asp-for=FirstName placeholder="First Name" class="form-control" />
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <input type="text" disabled asp-for=LastName placeholder="Last Name" class="form-control" />
+                </div>
+                <div class="col-md-2 form-floating p-1">
+                    <input type="text" disabled asp-for=Age placeholder="Age" class="form-control" />
+                </div>
+                <div class="col-md-2 form-floating p-1">
+                    <select disabled asp-for=Gender class="form-control">
+                        <option selected value="">--Select Gender--</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="US">Unspecified</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-floating p-1">
+                    <input type="text" disabled asp-for=Relationship placeholder="Relationship" class="form-control">
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <select disabled asp-for=IsLivingWithYou class="form-control">
+                        <option selected value="">--Select Living Status--</option>
+                        <option value="Yes">Living with me</option>
+                        <option value="No">Not living with me</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-floating p-1">
+                    <select disabled asp-for=IsReceivingChildSupport class="form-control">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-floating p-1">
+                    <textarea type="text" disabled asp-for=AdditionalInformation 
+                    style="height: 70px;" placeholder="Additional Information" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-end">
+                    <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger"  />
+                </div>
+            </div>
+        </div>
+    </form>
+    @*<div>
+        <a asp-action="profile">Back to List</a>
+    </div>*@
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

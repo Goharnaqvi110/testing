@@ -1,0 +1,2320 @@
+﻿@*@model IEnumerable<Gharshare.Models.StaticContent>*@
+
+@{
+    ViewData["Title"] = "Match, manage & maintain features";
+}
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image " data-bs-bg="/img/bg/14.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner text-center">
+                    <h1 class="page-title">
+                        Features <span class="ltn__secondary-color-3">Smart</span> Property
+                        <span class="ltn__secondary-color-3">Manager</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- WISHLIST AREA START -->
+<div id="view-container" style="display:none;"></div>
+<div class="liton__wishlist-area pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- PRODUCT TAB AREA START -->
+                <div class="ltn__product-tab-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 sticky_effect">
+                                <div class="ltn__tab-menu-list mb-50">
+                                    <div class="nav">
+                                        <a class="fw-bold">Match</a>
+                                        <a id="aAd" class="stepsTab" data-bs-toggle="tab" href="#advertiseprop">
+                                            Advertise
+                                            Your Property
+                                        </a>
+                                        <a id="aEnq" class="stepsTab" data-bs-toggle="tab"
+                                           href="#ltn_tab_1_2">
+                                            Receive
+                                            Enquiries
+                                        </a>
+                                        <a id="aMa" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_1_3">
+                                            Manage
+                                            Applications
+                                        </a>
+                                        <a id="aCt" class="stepsTab d-none" data-bs-toggle="tab" href="#ltn_tab_1_4">
+                                            Conduct
+                                            Tenant Checks
+                                        </a>
+                                        <a id="aCl" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_1_5">
+                                            Create Your
+                                            Lease
+                                        </a>
+                                        <a class="fw-bold">Manage</a>
+                                        <a id="aSt" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_1_6">
+                                            Set-up a
+                                            Tenant
+                                        </a>
+                                        <a id="aCr" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_1_7">
+                                            Conduct a
+                                            Condition
+                                            Report
+                                        </a>
+                                        <a id="aCb" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_1_8">
+                                            Collect
+                                            Bond
+                                        </a>
+                                        <a id="aCp" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_1_9">
+                                            Collect
+                                            Rental Payments
+                                        </a>
+                                        <a id="aTe" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_2_1">
+                                            Track
+                                            Expenses
+                                        </a>
+                                        <a id="aCe" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_2_2">
+                                            Create
+                                            Tenant Bills
+                                        </a>
+                                        <a class="fw-bold">Maintain</a>
+                                        <a id="aGr" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_2_3">
+                                            Generate
+                                            Reports
+                                        </a>
+                                        <a id="aOm" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_2_4">
+                                            Organise
+                                            Maintenance &
+                                            Repairs
+                                        </a>
+                                        <a id="aci" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_2_5">
+                                            Conduct
+                                            Routine
+                                            Inspections
+                                        </a>
+                                        <a id="aSd" class="stepsTab" data-bs-toggle="tab" href="#ltn_tab_2_6">
+                                            Store Your
+                                            Documents
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 bg-white">
+                                <div class="tab-content">
+                                    <div class="tab-pane featureStepsContent fade adv" id="advertiseprop">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                <span class="ltn__secondary-color-3">Advertise</span> Your
+                                                Property
+                                            </h2>
+                                            <p>
+                                                Advertise your property for rent on Pakistan’s top property sites.
+                                                You will see our advertisements on our websites (smartpropertymanager.pk
+                                                or sharehouse.pk) and on Zameen.com/Gharan.com and our social media
+                                                platforms (facebook /instagram/ youtube).
+                                            </p>
+                                            <p>
+                                                Get listed on popular platforms at a fraction of the cost, usually
+                                                reserved for real estate agents, now available for you with SmartPropertyManager.pk.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 register"
+                                               href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep1">
+                                                <div class="col-lg-5 sticky_effect order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Create your
+                                                                property advertisement
+                                                            </h2>
+                                                            <p>
+                                                                Add some simple details about your
+                                                                property via <span class="ltn__secondary-color-3">smartpropertymanager.pk</span>
+                                                                including
+                                                                availability, price and high quality
+                                                                photos. Once complete, you’ll be able to list your
+                                                                property, with full control to edit or
+                                                                update your rental advertisement if
+                                                                required.
+                                                            </p>
+                                                        </div>
+                                                        @* <div class="btn-wrapper animated mt-3">
+                                                        <a href="feature.html"
+                                                        class="theme-btn-1 btn btn-effect-1 text-uppercase btn-sm">
+                                                        Book
+                                                        a Photo Shoot
+                                                        </a>
+                                                        </div> *@
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/advertise/createad.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep2">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/advertise/setlisting.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 sticky_effect">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Set your property listing live
+                                                            </h2>
+                                                            <p>
+                                                                With just a click, set your property live on major property sites. 
+                                                                Your ad will stay up until you find a tenant. You can also upgrade to a 
+                                                                featured ad for extra visibility.                                                                 
+                                                            </p>                                                            
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep3">
+                                                <div class="col-lg-5 sticky_effect order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Find a tenant & remove your ad
+                                                            </h2>
+                                                            <p>
+                                                                Once you’ve found a tenant, you can remove your
+                                                                property advertisement at the click of a button.
+                                                                Next step: onboarding
+                                                                your tenant!
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/advertise/findtenant.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See more Advertising
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 register" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3"                                                
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_2';window.location.reload(); return false;">
+                                                NEXT
+                                                STEP : Receive Enquiries
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade t1" id="ltn_tab_1_2">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Receive <span class="ltn__secondary-color-3">Enquiries</span>
+                                            </h2>
+                                            <p>
+                                                Get, organize, and respond to inquiries about your property.
+                                            </p>
+                                            <p>
+                                                Once your rental property listing is live, you'll start getting interest from prospective tenants. 
+                                                All inquiries will show up in your 'My Properties' dashboard, where you can easily view, sort, 
+                                                manage, and respond to them.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep4">
+                                                <div class="col-lg-12 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/enquiries/enquiries.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep5">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Instant alerts
+                                                            </h4>
+                                                            <p>
+                                                                You’ll receive instant alerts and notifications
+                                                                when new enquiries come through for your rental
+                                                                advertisement.
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Record of enquiries
+                                                            </h4>
+                                                            <p>
+                                                                All inquiries, whether by email or phone, are recorded 
+                                                                in your 'My Properties' dashboard. No need to juggle 
+                                                                multiple websites – everything is in one place.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Sort & manage enquiries
+                                                            </h4>
+                                                            <p>
+                                                                You can sort inquiries by type, date, name, and source to 
+                                                                keep them organized. You can also update the status of 
+                                                                each inquiry to track your progress with potential tenants.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Conduct viewings
+                                                            </h4>
+                                                            <p>
+                                                                Arrange times for in-person viewings with your potential 
+                                                                tenants easily.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See more Enquiries
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_3';window.location.reload(); return false;">                                                 
+                                                NEXT
+                                                STEP : Manage Applications
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_3">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Manage <span class="ltn__secondary-color-3">Applications</span>
+                                            </h2>
+                                            <p>
+                                                Once your rental property listing is live, you will start getting interest from prospective 
+                                                tenants. All inquiries will show up in your 'My Properties' dashboard, 
+                                                where you can easily view, sort, manage, and respond to them.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep4">
+                                                <div class="col-lg-12 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manageapplications/applications.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep5">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Instant alerts
+                                                            </h4>
+                                                            <p>
+                                                                Get instant notifications when new inquiries come through for 
+                                                                your rental ad.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Record of enquiries
+                                                            </h4>
+                                                            <p>
+                                                                All inquiries, whether by email or phone, are recorded in 
+                                                                your 'My Properties' dashboard. No need to juggle multiple
+                                                                websites – everything is in one place.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg" alt="Image"
+                                                                         class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Choose a tenant
+                                                            </h4>
+                                                            <p>
+                                                                Found the right tenant? Select your preferred tenant, 
+                                                                run an instant digital tenant check, and create your 
+                                                                lease agreement online. It is that simple.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See More Application
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1"
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_5';window.location.reload(); return false;">
+                                                NEXT
+                                                STEP : Create & Sign Lease
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_4">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Conduct <span class="ltn__secondary-color-3">
+                                                    Tenant
+                                                    Checks
+                                                </span>
+                                            </h2>
+                                            <p>
+                                                Always check references! Before signing your lease, run a
+                                                comprehensive digital tenancy check for only $25 (or $18 if
+                                                you’re a RentBetter customer).
+                                            </p>
+                                            <p>
+                                                RentBetter uses the National Tenancy Database, the
+                                                market-leading
+                                                solution by Equifax to check the background of your
+                                                prospective
+                                                tenant. This is the most extensive database of tenant
+                                                information in Australia.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="theme-btn-3 btn " href="">Run Tenant Check</a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep1">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Enter tenant details
+                                                            </h2>
+                                                            <p>
+                                                                All you’ll need are your prospective tenant’s
+                                                                basic details, current address and one form of
+                                                                ID (e.g. Driver Licence Number and State OR
+                                                                Passport Number and Country).
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/tenant/tenantdetails.webp"
+                                                             alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep2">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/tenant/tenantrecords.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Submit request
+                                                            </h2>
+                                                            <p>
+                                                                Submit your report to check your tenant’s
+                                                                background for only $25 (or $18 as a RentBetter
+                                                                customer).
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep3">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Receive your report in minutes
+                                                            </h2>
+                                                            <p>
+                                                                Choose to download your report or have it emailed
+                                                                to you.
+                                                            </p>
+                                                            <div class="btn-wrapper animated mt-3">
+                                                                <a href="feature.html"
+                                                                   class="theme-btn-3 btn btn-effect-1 text-uppercase btn-sm">
+                                                                    See
+                                                                    Sample Report
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/tenant/tenantrecords.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep4">
+                                                <div class="col-lg-12 ">
+                                                    <h2 class="">
+                                                        What will my report include?
+                                                    </h2>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep5">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="https://uploads-ssl.webflow.com/627b58c5f197ff6af1d383c0/628afbaaebec8871400bc6a0_6272219da6fa444374923fbb_tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Past tenant history
+                                                            </h4>
+                                                            <p>
+                                                                Review the rental history of your prospective
+                                                                tenant, with information about previous agency
+                                                                screenings. RentBetter will also check if
+                                                                they’ve been listed on the tenant blacklist by a
+                                                                member of the National Tenancy Database.
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="https://uploads-ssl.webflow.com/627b58c5f197ff6af1d383c0/628afbaaebec8871400bc6a0_6272219da6fa444374923fbb_tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Identity information
+                                                            </h4>
+                                                            <p>
+                                                                RentBetter will verify your prospective or
+                                                                current tenant’s identity. This will be checked
+                                                                against a number of national databases and
+                                                                directories to give you peace of mind.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="https://uploads-ssl.webflow.com/627b58c5f197ff6af1d383c0/628afbaaebec8871400bc6a0_6272219da6fa444374923fbb_tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Bankruptcy information & court records
+                                                            </h4>
+                                                            <p>
+                                                                Has your tenant had past financial troubles or
+                                                                legal issues? RentBetter will double check their
+                                                                previous bankruptcy information and court
+                                                                records.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="https://uploads-ssl.webflow.com/627b58c5f197ff6af1d383c0/628afbaaebec8871400bc6a0_6272219da6fa444374923fbb_tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Directorship information
+                                                            </h4>
+                                                            <p>
+                                                                Your check will include a search of ASIC company
+                                                                data for any directorship and proprietorship
+                                                                info, including whether your tenant has been
+                                                                disqualified from managing a company.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                Create Your Lease
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="">
+                                                Run Tenant
+                                                Check
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" href="features/features#ltn_tab_1_5">
+                                                NEXT
+                                                STEP : Create Your Lease
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_5">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Create & Sign Your <span class="ltn__secondary-color-3">Lease</span>
+                                            </h2>
+                                            <p>
+                                                Draft, view, send, and digitally sign your lease agreement.
+                                            </p>
+                                            <p>
+                                                If you’ve signed up for a Match, Manage & Maintain or Manage
+                                                &  Maintain account, both you and your tenant will be able to
+                                                digitally sign your lease.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep7">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Create lease agreement
+                                                            </h2>
+                                                            <p>
+                                                                Enter the details and terms of the lease
+                                                                agreement between you and your tenant. Input the
+                                                                amount, frequency and duration of the payment
+                                                                schedule and enter any additional information or
+                                                                inclusions.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/lease/createlease.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep8">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/lease/viewlease.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                View lease agreement
+                                                            </h2>
+                                                            <p>
+                                                                Once the PDF version of the lease agreement has
+                                                                been generated, you can view a draft of it and
+                                                                make any updates or changes before finalising
+                                                                the agreement.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep9">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Send lease to your tenant
+                                                            </h2>
+                                                            <p>
+                                                                Send the completed lease agreement directly to
+                                                                your tenant to sign, at the click of a button.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/lease/sendlease.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep18">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/lease/signlease.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Digitally sign your lease*
+                                                            </h2>
+                                                            <p>
+                                                                You and your tenant will both be able to view and
+                                                                digitally sign your lease agreement. This will
+                                                                then be stored in your RentBetter 'My
+                                                                Properties' dashboard, where you can access it
+                                                                if you need to make changes in future.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                Create Your Lease
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1"
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_6';window.location.reload(); return false;">
+                                                NEXT
+                                                STEP : Set-up a Tenant
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_6">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Set-Up Your <span class="ltn__secondary-color-3">Tenant</span>
+                                            </h2>
+                                            <p>
+                                                Once you’ve chosen a tenant for your rental property 
+                                                (or if you have an existing tenant), you can set them up on 
+                                                SmartPropertyManager.pk in minutes. Here, your tenant can view and 
+                                                sign their lease, access their rental payment schedule, and more.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep12">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Add tenant details
+                                                            </h2>
+                                                            <p>
+                                                                Add your tenant’s basic details and set up the
+                                                                terms of your lease agreement.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/setuptenant/addtenant.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep8">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/manage/setuptenant/tenantinvite.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Tenant receives invite
+                                                            </h2>
+                                                            <p>
+                                                                Your tenant will get an invitation to set up their 
+                                                                SmartPropertyManager.pk account and start managing 
+                                                                their lease and rental payments online.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep13">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Instant access
+                                                            </h2>
+                                                            <p>
+                                                                Your tenant will have their own SmartPropertyManager.pk dashboard, 
+                                                                where they can access all details of their lease, payment schedule, 
+                                                                bond and receipts, make maintenance requests, and more.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/setuptenant/instantaccess.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                Set-Up Your Tenant
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1"
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_7';window.location.reload(); return false;">
+                                                NEXT
+                                                STEP : Condition Report
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_7">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Conduct a <span class="ltn__secondary-color-3">
+                                                    Condition
+                                                    Report
+                                                </span>
+                                            </h2>
+                                            <div>
+                                                There are two ways that you can do this:
+                                                <div class="bullets">
+                                                    <img src="/img/publicsite/common/tick.svg"
+                                                         alt="tick" class="image tick" width="15" height="15">
+                                                    <div class="_3m-bullets">
+                                                        by completing a digital
+                                                        condition
+                                                        report, or
+                                                    </div>
+                                                </div>
+                                                <div class="bullets">
+                                                    <img src="/img/publicsite/common/tick.svg"
+                                                         alt="" class="image tick" width="15" height="15">
+                                                    <div class="_3m-bullets">
+                                                        by hiring a professional to
+                                                        conduct
+                                                        an in-person inspection for you in person (for only 30k Rupee).
+                                                    </div>
+                                                </div>
+                                                <p>
+                                                    All reports will be saved in your 'My Properties'
+                                                    dashboard,
+                                                    so you can easily refer back to them or update them at
+                                                    the
+                                                    beginning, middle and end of your lease.
+                                                </p>
+                                            </div>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="theme-btn-3 btn " href="">Book a Professional</a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50">
+                                            <div class="row mb-5" id="featureStep17">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Custom to your property
+                                                            </h2>
+                                                            <p>
+                                                                Your SmartPropertyManager.pk condition report template 
+                                                                can be customized to reflect the specific number of rooms 
+                                                                in your property. No need to add extra info to a generic 
+                                                                report.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/conditionreport/unique.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep19">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/manage/conditionreport/inspect.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Inspect with ease
+                                                            </h2>
+                                                            <p>
+                                                                You can add pictures and comments to thoroughly inspect all rooms of your property 
+                                                                from your computer or mobile.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep21">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Report completed
+                                                            </h2>
+                                                            <p>
+                                                                Send the completed condition report to your tenant for 
+                                                                them to review and complete their part if needed. 
+                                                                You can save the report and access it in the future for 
+                                                                any updates.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/conditionreport/reportcompleted.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep4">
+                                                <div class="col-lg-12 ">
+                                                    <h2 class="">
+                                                        Book a Professional for your <span class="ltn__secondary-color-3">
+                                                            Condition
+                                                            Report
+                                                        </span>
+                                                    </h2>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep5">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    1.
+                                                                </span>Request booking
+                                                            </h4>
+                                                            <p>
+                                                                Sign in to your  smartpropertymanager.pk account, click on
+                                                                ‘Condition Report’ in the 'My Properties'
+                                                                dashboard, and opt to ‘Book a
+                                                                Professional’.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    2.
+                                                                </span>Booking confirmed
+                                                            </h4>
+                                                            <p>
+                                                                Your booking request will be confirmed within 24
+                                                                hours by a member of the team.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    3.
+                                                                </span>Report completed
+                                                            </h4>
+                                                            <p>
+                                                                A certified professional will complete your report 
+                                                                in-person.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    4.
+                                                                </span>Approve & sign
+                                                            </h4>
+                                                            <p>
+                                                                Once your report is done, it will be available online for you to digitally 
+                                                                sign and approve.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See More Application
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_8';window.location.reload(); return false;">
+                                                NEXT
+                                                STEP : Set Up Bond
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_8">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Collect <span class="ltn__secondary-color-3">Bond</span>
+                                            </h2>
+                                            <p>
+                                                With SmartPropertyManager.pk, you can collect the rental bond directly 
+                                                from your tenant according to the rules of your state.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep22">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Create bond details
+                                                            </h2>
+                                                            <p>
+                                                                Fill out the bond details and attach any related documents you want to 
+                                                                share with your tenant.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/collectbond/createbond.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep23">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/manage/collectbond/sendbond.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Send bond details to your tenant
+                                                            </h2>
+                                                            <p>
+                                                                Choose to send the bond details to your tenant immediately or 
+                                                                save them to send later. Your tenant will be notified and 
+                                                                receive the bond details on their SmartPropertyManager.pk 
+                                                                dashboard.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep24">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Tenant pays bond
+                                                            </h2>
+                                                            <p>
+                                                                Your tenant can pay their bond through SmartPropertyManager.pk. 
+                                                                The payment status will be shown on your 'My Properties' dashboard. 
+                                                                You can also upload any bond-related documents for your records.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/collectbond/paybond.png" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See More Application
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_1_9';window.location.reload(); return false;">
+                                                NEXT
+                                                STEP : Rental Payments
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_1_9">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Collect & Track <span class="ltn__secondary-color-3">
+                                                    Rental
+                                                    Payments
+                                                </span>
+                                            </h2>
+                                            <p>
+                                                Tired of chasing tenants for rent? SmartPropertyManager.pk gives you 
+                                                more control over rental payments to make sure you are paid on time, 
+                                                every time.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep26">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Tenant selects preferred payment method
+                                                            </h2>
+                                                            <p>
+                                                                Your tenants can pay rent using a credit card or
+                                                                their bank account. The system will ensure
+                                                                payments run on schedule as
+                                                                per your lease agreement.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/collectrentalpayments/paymentmethod.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep27">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/manage/collectrentalpayments/paymenttracking.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Payment tracked and receipt generated
+                                                            </h2>
+                                                            <p>
+                                                                Payments are tracked, the ledger is automatically
+                                                                updated, and receipts are sent to you and your
+                                                                tenant.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep28">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Automatic notifications
+                                                            </h2>
+                                                            <p>
+                                                                SmartPropertyManager.pk will send automatic alerts and 
+                                                                notifications to you and your tenant. It ensures nothing 
+                                                                is missed, and all payments are received on time.
+                                                            </p>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/collectrentalpayments/notifications.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See More Application
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_2_1';window.location.reload(); return false;">                                                
+                                                NEXT
+                                                STEP : Track Expenses
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_2_1">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Track <span class="ltn__secondary-color-3">Expenses</span>
+                                            </h2>
+                                            <p>
+                                                Keep track of all your property expenses and manage everything in one place with SmartPropertyManager.pk.
+                                                No more shoeboxes full of receipts or trying to remember when you paid a bill. It’s all available and 
+                                                searchable with a click.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep29">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Upload expense
+                                                            </h2>
+                                                            <p>
+                                                                Upload your property-related expense, add a description, the amount, and the date.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/trackexpenses/uploadexpense.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep30">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left about-img-left">
+                                                        <img src="/img/publicsite/features/manage/trackexpenses/takephoto.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Take a photo
+                                                            </h2>
+                                                            <p>
+                                                                Take a photo or scan a copy of the receipt and
+                                                                attach it to the expense item.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep31">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Save for reporting
+                                                            </h2>
+                                                            <p>
+                                                                Save the details of your expense item. It will
+                                                                then automatically populate in any report for
+                                                                your property, so you'll
+                                                                always know your financial position.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/trackexpenses/saveforreporting.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See More Application
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="">
+                                                See more
+                                                Expenses FAQs
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_2_2';window.location.reload(); return false;">                                                 
+                                                NEXT
+                                                STEP : Tenant Bills
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_2_2">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Create <span class="ltn__secondary-color-3">Tenant Bills </span>
+                                            </h2>
+                                            <p>
+                                                Billing your tenant is hassle-free with SmartPropertyManager.pk. 
+                                                Simply create and send your invoice in under a minute, then click to send 
+                                                it directly to your tenant. No more unnecessary back-and-forth!
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep33">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Create and send your bill
+                                                            </h2>
+                                                            <p>
+                                                                Quickly create and send an invoice to your tenant. 
+                                                                Enter the amount owed, attach any receipts or related 
+                                                                documents, then instantly send your bill.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/tenantbills/createbill.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep34">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/manage/tenantbills/billstatus.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                See bill status & details
+                                                            </h2>
+                                                            <p>
+                                                                Each bill is stored with details of the invoice
+                                                                and tagged with payment status
+                                                                (paid/unpaid/processing). Bills are
+                                                                organized by financial year.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep35">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Tenant pays bill
+                                                            </h2>
+                                                            <p>
+                                                                Your tenant will receive an automatic
+                                                                notification about the bill. They can make
+                                                                payment directly via SmartPropertyManager.Pk.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/manage/tenantbills/paybill.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See more Tenant Bill
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_2_3';window.location.reload(); return false;">                                                
+                                                NEXT
+                                                STEP : Reports
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_2_3">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Generate <span class="ltn__secondary-color-3">
+                                                    Reports
+                                                </span>
+                                            </h2>
+                                            <p>
+                                                Create property reports for tax time or any other time with 
+                                                SmartPropertyManager.pk! Your rental payments and expenses will 
+                                                automatically populate reports whenever you need them. They will 
+                                                be ready in minutes.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep36">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Review information
+                                                            </h2>
+                                                            <p>
+                                                                Check the information automatically filled under 
+                                                                ‘income’ or ‘expense’ for your property.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/reports/review.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep37">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/reports/newreport.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                New report items
+                                                            </h2>
+                                                            <p>
+                                                                Enter new report items by adding ‘income’ or
+                                                                ‘expense’, then attaching receipts or relevant
+                                                                documents for your record.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep38">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Download report
+                                                            </h2>
+                                                            <p>
+                                                                Download a copy of the report immediately or access it on 
+                                                                SmartPropertyManager.pk anytime. Your reports will be 
+                                                                saved for each financial year.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/reports/download.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">See more Report FAQs</a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_2_4';window.location.reload(); return false;">
+                                                 
+                                                NEXT
+                                                STEP : Organise Maintenance & Repairs
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_2_4">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Organise <span class="ltn__secondary-color-3">
+                                                    Maintenance &
+                                                    Repairs
+                                                </span>
+                                            </h2>
+                                            <p>
+                                                Both you and your tenant can submit maintenance requests through 
+                                                SmartPropertyManager.pk and track their progress. You can then hire a 
+                                                local tradesperson to complete the job. Here's how:
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="theme-btn-3 btn " href="">Hire a Tradesperson</a>
+
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep43">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Add task
+                                                            </h2>
+                                                            <p>
+                                                                Enter a new task or review existing tasks entered
+                                                                by your tenant.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right  about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/repairs/addtask.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep44">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/repairs/taskdetails.webp" alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Task details & receipts
+                                                            </h2>
+                                                            <p>
+                                                                Enter the details of the task, then attach
+                                                                receipts or other relevant documents for your
+                                                                records.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep21">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Complete maintenance & generate report
+                                                            </h2>
+                                                            <p>
+                                                                Once done, the maintenance expense details will be 
+                                                                automatically logged in SmartPropertyManager.pk and 
+                                                                will appear in your reports.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/repairs/completemaintenance.webp" alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep41">
+                                                <div class="col-lg-12 ">
+                                                    <h2 class="">
+                                                        Hire a<span class="ltn__secondary-color-3"> Tradesperson</span>
+                                                    </h2>
+                                                    <p>
+                                                        Need a gardener, plumber, or electrician? With 
+                                                        SmartPropertyManager.pk, you can easily find and hire a 
+                                                        qualified professional to handle essential property jobs.
+                                                    </p>                                                    
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep42">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    1.
+                                                                </span>Search for a tradesperson
+                                                            </h4>
+                                                            <p>
+                                                                Search by what kind of tradesperson you’re after
+                                                                (tiler, cleaner, electrician etc.) in your
+                                                                particular suburb or
+                                                                postcode.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    2.
+                                                                </span>Set-up your job
+                                                            </h4>
+                                                            <p>
+                                                                Provide job details and attach photos if available. 
+                                                                Specify when you need the job done.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    3.
+                                                                </span>Receive quotes
+                                                            </h4>
+                                                            <p>
+                                                                Get prices and quotes from local professionals.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    4.
+                                                                </span>Select your tradie
+                                                            </h4>
+                                                            <p>
+                                                                Compare quotes and decide on the best person for
+                                                                the job. Finalise the time and details with your
+                                                                tenant. Easy!
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See more Maintenance
+                                                FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_2_5';window.location.reload(); return false;">
+                                                 
+                                                NEXT
+                                                STEP : Conduct Routine Inspections
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_2_5">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Conduct <span class="ltn__secondary-color-3">
+                                                    Routine
+                                                    Inspections
+                                                </span>
+                                            </h2>
+                                            <div>
+                                                It’s essential to check the condition of your property regularly. 
+                                                You can do this through SmartPropertyManager.pk in two ways:
+                                                <div class="bullets">
+                                                    <img src="/img/publicsite/common/tick.svg"
+                                                         alt="" class="image tick" width="15" height="15">
+                                                    <div class="_3m-bullets">
+                                                        by completing a digital
+                                                        inspection
+                                                        (using the smartpropertymanager.pk condition report template), or
+                                                    </div>
+                                                </div>
+                                                <div class="bullets">
+                                                    <img src="/img/publicsite/common/tick.svg"
+                                                         alt="" class="image tick" width="15" height="15">
+                                                    <div class="_3m-bullets">
+                                                        by hiring a professional to
+                                                        conduct an in-person inspection for you in only 30k Rupee.
+                                                    </div>
+                                                </div>
+                                                <p>
+                                                    All reports will be saved in your 'My Properties'
+                                                    dashboard,
+                                                    so you can easily refer back to them or update them as
+                                                    required.
+                                                </p>
+                                            </div>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="theme-btn-3 btn " href="">Book a Professional</a>
+
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep46">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                1
+                                                            </span>
+                                                            <h2 class="">
+                                                                Customize Your Inspection Template
+                                                            </h2>
+                                                            <p>
+                                                                Your SmartPropertyManager.pk inspection template can be 
+                                                                tailored to reflect the specific rooms in your property, 
+                                                                making it easier to use.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/routineinspections/unique.webp"
+                                                             alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep47">
+                                                <div class="col-lg-6 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/routineinspections/inspect.webp"
+                                                             alt="Image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                2
+                                                            </span>
+                                                            <h2 class="">
+                                                                Inspect with ease
+                                                            </h2>
+                                                            <p>
+                                                                Add pictures and comments to thoroughly inspect all rooms 
+                                                                of your property from your computer, tablet, or mobile 
+                                                                device.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5" id="featureStep48">
+                                                <div class="col-lg-5  order-2 order-lg-1">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <span class="ltn__secondary-color-3">
+                                                                Step
+                                                                3
+                                                            </span>
+                                                            <h2 class="">
+                                                                Sign & send to your tenant
+                                                            </h2>
+                                                            <p>
+                                                                Send the completed condition report to your tenant for 
+                                                                their review and input if needed. You can save the report
+                                                                for future reference or updates.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 align-self-center order-1 order-lg-2">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/routineinspections/signandsend.webp"
+                                                             alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep49">
+                                                <div class="col-lg-12 ">
+                                                    <h2 class="">
+                                                        Booking a Professional for your<span class="ltn__secondary-color-3">Inspection</span>
+                                                    </h2>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep50">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    1.
+                                                                </span>Request booking
+                                                            </h4>
+                                                            <p>
+                                                                Sign in to your SmartPropertyManager.pk account, click on ‘Condition Report,’ 
+                                                                and choose ‘Book a Professional.’
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    2.
+                                                                </span>Report completed
+                                                            </h4>
+                                                            <p>
+                                                                Your booking request will be confirmed within 24
+                                                                hours by a member of the team.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    3.
+                                                                </span>Report completed
+                                                            </h4>
+                                                            <p>
+                                                                Your inspection will be completed in-person by a
+                                                                qualified professional.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    4.
+                                                                </span>Approve & sign
+                                                            </h4>
+                                                            <p>
+                                                                Once your inspection is complete, the report will
+                                                                be available online so you can digitally sign
+                                                                and approve it.
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                            <a class="btn btn-transparent btn-effect-3 nextStepFeature"
+                                               id="nextStepFeature1" 
+                                               onclick="window.location.href = this.href + '#ltn_tab_2_6';window.location.reload(); return false;">                                                
+                                                NEXT
+                                                STEP : Store Documents
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane featureStepsContent fade" id="ltn_tab_2_6">
+                                        <div class="ltn__myaccount-tab-content-inner">
+                                            <h2>
+                                                Store <span class="ltn__secondary-color-3">Documents </span>
+                                            </h2>
+                                            <p>
+                                                Forget about paper clutter! With SmartPropertyManager.pk, you can store all 
+                                                your important property documents securely online.
+                                            </p>
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0" href="/register">
+                                                Get
+                                                Started
+                                            </a>
+                                        </div>
+                                        <!-- feature steps AREA START -->
+                                        <div class="ltn__about-feature-area pt-50 ">
+                                            <div class="row mb-5" id="featureStep4">
+                                                <div class="col-lg-12 align-self-center">
+                                                    <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                                                        <img src="/img/publicsite/features/maintain/storedocuments/storedocuments.webp"
+                                                             alt="Image">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-5" id="featureStep5">
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Documents automatically saved
+                                                            </h4>
+                                                            <p>
+                                                                Any documents you create through SmartPropertyManager.pk 
+                                                                will be automatically saved to ‘My Documents’ in your dashboard.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span>Upload other documents
+                                                            </h4>
+                                                            <p>
+                                                                Say goodbye to the filing cabinet! Upload and save any 
+                                                                extra property documents directly to
+                                                                SmartPropertyManager.pk.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span>Sort through documents
+                                                            </h4>
+                                                            <p>
+                                                                Easily search and sort your documents by type, category,
+                                                                property ID, or address. No more wasting time searching 
+                                                                for misplaced lease agreements!
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 ">
+                                                    <div class="about-us-info-wrap">
+                                                        <div class="section-title-area ltn__section-title-2--- mb-20">
+                                                            <h4 class="">
+                                                                <span class="ltn__secondary-color-3">
+                                                                    <img src="/img/publicsite/common/tick.svg"
+                                                                         alt="" class="image tick" width="15"
+                                                                         height="15">
+                                                                </span> Organise viewings
+                                                            </h4>
+                                                            <p>
+                                                                Schedule in-person viewings of your property with potential 
+                                                                tenants effortlessly.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- feature steps AREA END -->
+                                        <!-- next-btn -->
+                                        <div class="faq mb-4 d-none">
+                                            <a href="" class="ltn__secondary-color-3">
+                                                See More Routine
+                                                Inspection FAQs
+                                            </a>
+                                        </div>
+                                        <div class="ltn__tab-options  ">
+                                            <a class="theme-btn-1 btn btn-effect-1 m-md-0 " href="/register">
+                                                Get Started</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PRODUCT TAB AREA END -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- WISHLIST AREA START -->
+@section Scripts {
+    <script src="~/js/publicsite/featureNavigation.js"></script>
+    <script src="~/js/publicsite/fullPageload.js"></script>
+}

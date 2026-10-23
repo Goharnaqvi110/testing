@@ -1,0 +1,17 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model Transactionresult
+@{
+    ViewData["Title"] = "index";     
+    Layout = "~/Views/Shared/_Layoutmain.cshtml";
+}
+<div class="row">
+    @if (Model.TransactionStatus=="F")
+    {
+        <span>Transaction Failed !</span>
+    }
+    else
+    {
+        <span>Transaction Successfull !</span>
+    }    
+</div>

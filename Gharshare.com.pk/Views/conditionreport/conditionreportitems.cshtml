@@ -1,0 +1,173 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ConditionReportVm
+
+@{
+    ViewData["Title"] = "Condition Report";
+    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+}
+<div class="container-fluid">
+    <div class="page-heading heading-secondary">
+        <h2>Condition Report</h2>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 col-lg-6">
+            <form method="post" asp-action="createconditionreport">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Property Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="basic-form">
+                            <p class="text-center">Please confirm that the following details are correct</p>
+                            <div><input type="hidden" asp-for="@Model.Property.ID" /></div>
+                            <p><strong>Address</strong></p>
+                            <p>@Model.Property.Address</p>
+                            <div class="mb-3">
+                                <label class="text-label form-label">Property Type:</label>
+                                <select required class="form-control wide mb-3"
+                                        asp-for="Property.CatogryID">
+                                    <option selected value="">--select type--</option>
+                                    <option value="1">House</option>
+                                    <option value="2">Room</option>
+                                    <option value="3">Apartment</option>
+                                    <option value="4">Hostel</option>
+                                    <option value="5">Hostel Room</option>
+                                    <option value="6">Shop</option>
+                                    <option value="7">Office</option>
+                                    <option value="8">Luxury Villa</option>
+                                </select>
+                            </div>
+                            <p class="text-center">Please select areas that are available in your property</p>
+                            @for (int i = 0; i < @Model.PropertyArea.Count(); i++)
+                            {
+                                if (Model.PropertyArea[i].DefaultSelection == false)
+                                {
+                                    <div class="col-md-6 pa">
+                                        <div class="form-check custom-checkbox mb-3">
+                                            <input type="checkbox" class="form-check-input"
+                                           asp-for=@Model.PropertyArea[i].isSelected>
+                                            <label class="form-check-label">
+                                                @Model.PropertyArea[i].Name
+                                            </label>
+                                            <input type="hidden" asp-for="@Model.PropertyArea[i].ID" />
+                                            <input type="hidden" asp-for="@Model.PropertyArea[i].Name" />
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-6" style="display:none;">
+                                        <div class="form-check custom-checkbox mb-3">
+                                            <input type="checkbox" class="form-check-input"
+                                           asp-for=@Model.PropertyArea[i].isSelected>
+                                            <label class="form-check-label">
+                                                @Model.PropertyArea[i].Name
+                                            </label>
+                                            <input type="hidden" asp-for="@Model.PropertyArea[i].ID" />
+                                            <input type="hidden" asp-for="@Model.PropertyArea[i].Name" />
+                                        </div>
+                                    </div>
+                                }
+                                <div class="num row col-md-4" style="display:none; margin-left:2px;">
+                                    <input type="text" value="1" asp-for="@Model.PropertyArea[i].TotalNo" class="form-control">
+                                </div>
+                            }
+
+                            @*<div class="add-selector-container">
+                            <a href="javascript:void(0)" class="add-new-item" id="add-selector">
+                            <span class="fa fa-plus"></span> Add
+                            New Type
+                            </a>
+                            </div>
+                            <p><strong>Import Options</strong> </p>
+                            <div class="col-md-12">
+                            <div class="form-check custom-checkbox mb-3">
+                            <input type="checkbox" class="form-check-input" id="impCheckBox1" required="">
+                            <label class="form-check-label" for="impCheckBox1">
+                            Import all images from
+                            previous report.
+                            </label>
+                            </div>
+                            </div>
+                            <div class="col-md-12">
+                            <div class="form-check custom-checkbox mb-3">
+                            <input type="checkbox" class="form-check-input" id="impCheckBox2" required="">
+                            <label class="form-check-label" for="impCheckBox2">
+                            Import all comments from
+                            previous report.
+                            </label>
+                            </div>
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text d-inline">
+                            <button class="btn btn-primary">
+                                <span class="nav-text">Cancel</span>
+                            </button>
+                        </p>
+                        <button class="btn btn-primary float-end">
+                            <span class="nav-text">Confirm</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col col-lg-6">
+             <div class="">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>
+                            Would like to know more about creating a condition report?
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <p>Take a look at the preview</p>
+                        <div class="text-center">
+                            <a href="" class="btn btn-primary">
+                                <span class="nav-text">How condition report works</span>
+                            </a>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Hire a certified professional to complete a condition report for you</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="mb-4">
+                            <ul>
+                                <li>
+                                    <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                    Certified and trusted professionals
+                                </li>
+                                <li>
+                                    <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                    Easily book online
+                                </li>
+                                <li>
+                                    <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                    Fast turnarounds
+                                </li>
+                                <li>
+                                    <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                    All the work taken care of for you
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <a href="" class="btn btn-primary w-50">
+                                <span class="nav-text">Book Now</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+<script src="~/js/property/showHideCRInput.js"></script>
+

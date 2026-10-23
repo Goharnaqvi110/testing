@@ -1,0 +1,62 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantReference
+@{
+    ViewData["Title"] = "Delete Vehicle";
+    Layout = null;
+}
+<div class="container">     
+    <form id="DeleteForm" asp-controller="tenant" asp-action="deletereference">
+        <input type="hidden" asp-for="ID">
+        <div class="row">
+            <div class="col-md-4  p-1">
+                <label>Reference Type</label>
+                <select disabled asp-for=Type class="form-control">
+                    <option value="Reference">Reference</option>
+                    <option value="Emergency contact">Emergency contact</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  p-1">
+                <label>First Name</label>
+                <input disabled type="text" asp-for=FirstName placeholder="First Name" class="form-control" />
+                <span asp-validation-for=FirstName class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label>Last Name</label>
+                <input disabled type="text" asp-for=LastName placeholder="Last Name" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label>Relationship</label>
+                <input disabled type="text" asp-for=Relationship placeholder="Relationship" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  p-1">
+                <label>Email</label>
+                <input disabled type="text" asp-for=Email placeholder="Email" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label>Mobile</label>
+                <input disabled type="text" asp-for=Mobile placeholder="Mobile" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label>Phone</label>
+                <input disabled type="text" asp-for=Phone placeholder="Phone" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12  p-1">
+                <label>Additional Information</label>
+                <textarea disabled type="text" asp-for=AdditionalInformation placeholder="Additional Information" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <input disabled id="delete" type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </form>    
+</div>
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

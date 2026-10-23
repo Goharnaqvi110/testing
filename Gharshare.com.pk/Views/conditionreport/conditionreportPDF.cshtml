@@ -1,0 +1,509 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model Gharshare.Models.ConditionReportVm
+
+@{
+    ViewData["Title"] = "Condition Report";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: bold;
+            margin-right: 1px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: .375rem .75rem;
+            color: #737B8B;
+            border: 1px solid #C1C1C1;
+            border-radius: .75rem;
+        }
+
+        .textbox {
+            width: 100%;
+            padding: .375rem .75rem;
+            color: #737B8B;
+            border: 1px solid #C1C1C1;
+            border-radius: .75rem;
+        }
+
+        .sig {
+            padding: .375rem .75rem;
+            color: #737B8B;
+            border: 1px solid #C1C1C1;
+            border-radius: .75rem;
+        }
+
+        .cover-page {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        div.page-break {
+            page-break-before: always;
+        }
+
+        .cust-flex {
+            display: flex;
+        }
+
+        .m-left {
+            margin-left: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form>
+            <div class="row">
+                <div style="width:75%">&nbsp;</div>
+                <div style="width:20%;">
+                    <img src="~/img/conditionreport-top.png" style="width:150px;height:150px" />
+                </div>
+                <div style="width:5%">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="text-center" style="padding-top:250px;padding-left:200px;color:#3196DA">
+                    <h1>Condition Report</h1>
+                </div>
+            </div>
+            <div class="row" style="margin-top:350px;">
+                <div class="col-md-4">
+                    <img src="~/img/conditionreport-bottom.png" style="width:150px;height:150px" />
+                </div>
+            </div>
+            <div class="md-col-12" style="margin-top:10px;">
+                <h6>Property Details</h6>
+            </div><hr />
+            <div class="row m-1">
+                <div class="md-col-3"><h6>Address:</h6></div>
+                @if (Model.Property.Address != null)
+                {
+                    <div class="md-col-9">
+                        @Model.Property.Address
+                    </div>
+                }
+                else
+                {
+                    <div class="md-col-9">@Model.Property.Suburb</div>
+                }
+            </div>
+            <div class="row m-1">
+                <h6>Created On:</h6>
+                <div>
+                    <label>
+                        @Utility.ConvertToShortDateFormat(Model.CondtionReport.CreatedOn)
+                    </label>
+                </div>
+            </div>
+            <div class="row m-1">
+                <h6>Landlord Name:</h6>
+                <div>@Model.Property.OwnerName</div>
+            </div>
+            <div class="row m-1">
+                <h6>Tenant Name:</h6>
+                <div>@Model.Property.Lease.PrimaryTenant.FirstName</div>
+            </div>
+            <div class="row m-1">
+                <h6>Date of Inspection:</h6>
+                <div>
+                    <label>
+                        @Utility.ConvertToShortDateFormat(Model.CondtionReport.InspectionDate)
+                    </label>
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="md-col-6">
+                    <h6>Status:</h6>
+                </div>
+                <div class="md-col-6">
+                    @{
+            //string status = ConditionReport.GetEnumDisplayName(@Model.CondtionReport.status);
+                        <label>Signed by both landlord & tenant</label>
+                    }
+                </div>
+            </div>
+            <hr />
+            @{
+                string areaName = string.Empty;
+                for (int i = 0; i < Model.ReportItemDetail.Count(); i++)
+                {
+                    bool photoField = @Model.ReportItemDetail[i].PhotoField;
+
+                    bool additionalComments = @Model.ReportItemDetail[i].AddComments;
+
+                    bool yesNoField = @Model.ReportItemDetail[i].YesNoField;
+
+                    bool meterReadingField = @Model.ReportItemDetail[i].MeterReadingField;
+
+                    bool lastWorkedOnField = @Model.ReportItemDetail[i].LastWorkedOnField;
+
+                    bool normalField = @Model.ReportItemDetail[i].NormalField;
+
+                    bool tobedoneByField = @Model.ReportItemDetail[i].TobedoneByField;
+
+                    bool DeadlineDateField = @Model.ReportItemDetail[i].DeadlineDateField;
+                    bool giveHeading = false;
+
+                    <div class="text-center">
+                        @if (@Model.ReportItemDetail[i].CRItem.Name != areaName)
+                        {
+                            <h6>@Model.ReportItemDetail[i].CRItem.Name</h6>
+                            areaName = @Model.ReportItemDetail[i].CRItem.Name;
+                            giveHeading = true;
+                        }
+                    </div>
+                    <hr />
+                    if (normalField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row mt-5">
+                                    <label class="control-label">@Model.ReportItemDetail[i].AreaItem.Name</label>
+                                </div>
+                                <div class="row mt-3">
+                                    <span>Comments</span><br />
+                                </div>
+                                <div class="row">
+                                    <span>(Max. 500 characters)</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="col-md-12 text-center">
+                                    @*@if (i == 0)*@
+                                    @if (giveHeading)
+                                    {
+                                        <h6>Landlord</h6>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">Clean</div>
+                                    <div class="col-md-4 text-center">Undamaged</div>
+                                    <div class="col-md-4 text-center">Working</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        @if (@Model.ReportItemDetail[i].Clean)
+                                        {
+                                            <img src="~/img/checkboxes/greenchkbox.png">
+                                            <img src="~/img/checkboxes/unChecked.png">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/checkboxes/unChecked.png">
+                                            <img src="~/img/checkboxes/redchkbox.png">
+                                        }
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        @if (@Model.ReportItemDetail[i].Undamaged)
+                                        {
+                                            <img src="~/img/checkboxes/greenchkbox.png">
+                                            <img src="~/img/checkboxes/unChecked.png">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/checkboxes/unChecked.png">
+                                            <img src="~/img/checkboxes/redchkbox.png">
+                                        }
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                            @if (@Model.ReportItemDetail[i].Working)
+                                            {
+                                                <img src="~/img/checkboxes/greenchkbox.png">
+                                                <img src="~/img/checkboxes/unChecked.png">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/img/checkboxes/unChecked.png">
+                                                <img src="~/img/checkboxes/redchkbox.png">
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <textarea readonly row=4 asp-for="@Model.ReportItemDetail[i].LandlordComments"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                @*@if (i == 0)*@
+                                @if (giveHeading)
+                                {
+                                    <div class="text-center">
+                                        <h6>Tenant</h6>
+                                    </div>
+                                }
+                                <div class="text-center">
+                                    <span>Agrees?</span>
+                                </div>
+                                <div class="text-center">
+                                    @if (@Model.ReportItemDetail[i].TenantAgreed)
+                                    {
+                                        <div style="width=100%;">
+                                            <img src="~/img/checkboxes/greenchkbox.png">
+                                        </div>
+                                        <div style="width=100%;">
+                                            <img src="~/img/checkboxes/unChecked.png">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="width=100%;">
+                                            <img src="~/img/checkboxes/unChecked.png">
+                                        </div>
+                                        <div style="width=100%;">
+                                            <img src="~/img/checkboxes/redchkbox.png">
+                                        </div>
+                                    }
+                                </div>
+                                <div class="text-center">
+                                    <textarea row=4 asp-for=@Model.ReportItemDetail[i].TenantComments></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (photoField == true)
+                    {
+                        if (@Model.ReportItemDetail[i].CRItem.CRItemImages.Count() > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-2 mt-5">
+                                    <label>Additional Comments</label>
+                                </div>
+                                <div class="col-md-10 mt-2">
+                                    <textarea row=4 asp-for=@Model.ReportItemDetail[i].TenantComments></textarea>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                    }
+                    else if (additionalComments == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="row mt-2">
+                                    <label>Additional Comments</label>
+                                </div>
+                                <div class="row mt-3">
+                                    <span>(Max. 500 characters)</span>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <textarea readonly
+                              row=4 asp-for="@Model.ReportItemDetail[i].AdditionalComments">
+                                                                                                                              </textarea>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    else if (yesNoField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label">@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="text-center">Landlord</div>
+                                <div class="text-center">
+                                    @if (@Model.ReportItemDetail[i].True)
+                                    {
+                                        <img src="~/img/checkboxes/greenchkbox.png">
+                                        <img src="~/img/checkboxes/unChecked.png">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/img/checkboxes/unChecked.png">
+                                        <img src="~/img/checkboxes/redchkbox.png">
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center ml-5">
+                                @if (i == 0)
+                                {
+                                    <div class="col-md-12 text-center">
+                                        <label>Tenant</label>
+                                    </div>
+                                }
+                                <div class="text-center">
+                                    <span>Agrees?</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    @if (Model.ReportItemDetail[i].TenantAgreed)
+                                    {
+                                        <img src="~/img/checkboxes/greenchkbox.png">
+                                        <img src="~/img/checkboxes/unChecked.png">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/img/checkboxes/unChecked.png">
+                                        <img src="~/img/checkboxes/redchkbox.png">
+                                    }
+                                </div>
+                                <div class="offset-md-2 text-center">
+                                    <textarea row=4 asp-for=@Model.ReportItemDetail[i].TenantComments></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (meterReadingField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" readonly value=@Model.ReportItemDetail[i].Reading />
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    }
+                    else if (lastWorkedOnField == true)
+                    {
+                        <div class="row page-break">
+                            <div class="col-md-4">
+                                <label class="control-label">@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text"
+                               value="@Utility.ConvertToShortDateFormat(Model.ReportItemDetail[i].LastWorkedDate)">
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    }
+                    else if (tobedoneByField == true && DeadlineDateField == false)
+                    {
+                        <div class="row col-md-12">
+                            <p>(Skip if not required)</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <textarea readonly rows=4 asp-for=@Model.ReportItemDetail[i].LandlordPromise></textarea>
+                        </div>
+                    }
+                    else if (tobedoneByField == true && DeadlineDateField == true)
+                    {
+                        <div class="row mb-5">
+                            <div class="col-md-4">
+                                <label class="control-label">@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text"
+                               value="@Utility.ConvertToShortDateFormat(Model.ReportItemDetail[i].DeadlineDate)">
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <h6>Landlord Signature</h6>
+                        @if (Model.CondtionReport.LandlordSign != null)
+                        {
+                            <div class="row">
+                                @{
+                                    byte[] imageBytes = @Model.CondtionReport.LandlordSign;
+                                    string base64Image = Convert.ToBase64String(imageBytes);
+                                    string dataUri = "data:image/png;base64," + base64Image;
+                                    <span class="sig">
+                                        <img src=@dataUri style="width:200px;height:200px" />
+                                    </span>
+                                }
+                            </div>
+                        }
+                        <div class="row">
+                            @if (Model.CondtionReport.LandlordSignedOn != null
+                        && Model.CondtionReport.LandlordSign != null)
+                            {
+                                <span style="margin-top:10px;">
+                                    Date:
+                                    @Utility.ConvertToShortDateFormat(@Model.CondtionReport.LandlordSignedOn)
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Tenant Signature</h6>
+                        @if (Model.CondtionReport.TenantSign != null)
+                        {
+                            <div class="row">
+                                @{
+                                    byte[] tenantSigimageBytes = @Model.CondtionReport.TenantSign;
+                                    string base64TenantImage = Convert.ToBase64String(tenantSigimageBytes);
+                                    string tenantDataUri = "data:image/png;base64," + base64TenantImage;
+                                    <span class="sig">
+                                        <img src=@tenantDataUri width="200px" height="200px" />
+                                    </span>
+                                }
+                            </div>
+                        }
+                        <div class="row">
+                            @if (@Model.CondtionReport.TenantSignedOn != null
+                        && @Model.CondtionReport.TenantSign != null)
+                            {
+                                <span style="margin-top:10px;">
+                                    Date:
+                                    @Utility.ConvertToShortDateFormat(Model.CondtionReport.TenantSignedOn)
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                var itemName = string.Empty;
+                foreach (var item in Model.ReportItems)
+                {
+                    if (item.CRItemImages.Count() > 0)
+                    {
+                        if (item.Name != itemName)
+                        {
+                            <div class="page-break"><h4>@item.Name</h4></div>
+                            itemName = item.Name;
+                            <hr />
+                        }
+                        <div class="row mt-5"><h5>Photos added by Landlord</h5></div>
+                        foreach (var img in item.CRItemImages)
+                        {
+                            if (img.AddedByLandlord == true)
+                            {
+                                <div class="row m-5">
+                                    <img src=@img.ImagePath style="height:400px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                    width:400px" alt="" class="img-a img-fluid">
+                                </div>
+                            }
+                        }
+                        <hr />
+                        <div class="page-break">
+                            <div class="row mt-5"><h5>Photos added by Tenant</h5></div>
+                        </div>
+                        foreach (var img in item.CRItemImages)
+                        {
+                            if (img.AddedByTenant == true)
+                            {
+                                <div class="row m-5">
+                                    <img src=@img.ImagePath style="height:400px;                                                                                                                                                                                                    width:400px" alt="" class="img-a img-fluid">
+                                </div>
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        </form>
+    </div>
+</body>
+</html>

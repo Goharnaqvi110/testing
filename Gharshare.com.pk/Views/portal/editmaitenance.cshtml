@@ -1,0 +1,114 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.Maintenance
+
+@{
+    ViewData["Title"] = "addmaintenance";
+    //if (User.IsInRole(WebSiteRoles.Role_Landlord))
+    //    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    //else
+    //    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    Layout = null;
+
+}
+<div class="container">
+    <div class="row">
+        <form asp-action="editmaitenance" asp-action="POST" enctype="multipart/form-data">
+            <div>
+                <input type="hidden" asp-for="Addedby" />
+                <input type="hidden" asp-for="PropertyID" />
+                <input type="hidden" asp-for="LeaseAgreementID" />
+                <input type="hidden" asp-for="CreatedbyUserID" />
+                <input type="hidden" asp-for="ID" />
+                @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+                {
+                    <input type="hidden" asp-for="Status" />
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div cclass="mb-1">Status</div>
+                    @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+                    {
+                        <select name="status" disabled asp-for="Status" class="nice-select w-100">
+                            <option value="1">Submitted</option>
+                            <option value="2">Pending</option>
+                            <option value="3">Complete</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <select asp-for="Status" class="nice-select w-100" name="status">
+                            <option value="" selected>Select Status</option>
+                            <option value="1">Submitted</option>
+                            <option value="2">Pending</option>
+                            <option value="3">Complete</option>
+                        </select>
+                    }
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-1">Category</div>
+                    <select asp-for="CategoryID" class="nice-select w-100" asp-items="ViewBag.Categories">
+                        <option value="">Select Category</option>
+                    </select>
+                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label>Title</label>
+                    <input required asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Amount</label>
+                    <input required asp-for="Amount" class="form-control integeronly" 
+                    value="@Utility.Format(Model.Amount)" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mt-5">
+                    <label>
+                        <input class="form-check-input" asp-for="IsGSTIncluded" />
+                        Is GST included?
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Description</label>
+                    <input required asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Photo</label>
+                    <div>
+                        <p>Attachments must be 10MB or less and in PDF, JPEG or PNG format only</p>
+                        <input id="photos" multiple type="file" name="photos" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @if (User.IsInRole(WebSiteRoles.Role_Landlord))
+                    {
+                        <label>Receipts</label>
+                        <div>
+                            <p>Receipts must be 10MB or less and in PDF, JPEG or PNG format only</p>
+                            <input id="receipts" multiple type="file" name="receipts" class="form-control" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="mt-3 text-center">
+                <input type="submit" value="Save" class="btn btn-primary w-50" />
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/js/commonFunctions/integersOnly.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

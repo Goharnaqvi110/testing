@@ -1,0 +1,251 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model LeaseViewVM
+@{
+    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    ViewData["Title"] = "Lease Agreement";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 p-1">
+            <div class="card">
+                <div class="card-header">
+                    <h6>
+                        <span>Lease Agreement Document</span>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <embed src="@Model.LeasePdfDoc.FilePath" style="height:900px; width:100%;" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            @if (User.IsInRole(WebSiteRoles.Role_Landlord))
+            {
+            <div class="card" style="height:270px;">
+                <div class="card-header">
+                    <h6>What would you like to do?</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                            <a href="#" onclick="loadlease2renew(@Model.leaseAgreement.ID)"
+                               data-bs-toggle="modal" data-bs-target="#AccountModal" class="btn btn-primary">
+                            Adjust in progress lease <br />For current tenant
+                        </a>
+                    </div>
+                    <div class="row mb-4">
+                            <a asp-action="createlease" asp-controller="lease"
+                               asp-route-ID=@Model.leaseAgreement.Property.uid class="btn btn-primary">
+                            Create new lease <br />agreement For future tenant
+                        </a>
+                    </div>
+                </div>
+            </div>
+            }
+            @{
+                var cardHeight = "450px";
+                if (Model.leaseAgreement.SignedByTenant)
+                {
+                    cardHeight = "250px";
+                }
+            }
+            <div class="card" style="height:@cardHeight;">
+                <div class="card-header">
+                    <h6>
+                        @if (Model.leaseAgreement.SignedByTenant &&
+                        Model.leaseAgreement.SignedByLandlord)
+                        {
+                            <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                            <span>Finalised and Signed</span>
+                        }
+                        else if (Model.leaseAgreement.SignedByTenant)
+                        {
+                            <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                            <span>You have signed</span>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times" style="font-size:15px;color:#EE3232"></i>
+                            <span>You have not signed. </span>
+                        }
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @if (!Model.leaseAgreement.SignedByTenant)
+                    {
+                        <div class="mb-4">
+                            <div id="stepalert" style="display:none;" class="alert alert-success alert-dismissible fade show m-3 p-3">
+                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                Lease agreement document is being saved. Please wait....
+                            </div>
+                            <ul>
+                                <li>
+                                    <p>You can Sign the lease agreement using a digital signature</p>
+                                </li>
+                                <li>
+                                    <div class="text-center"><strong>Signature</strong></div>
+                                </li>
+                            </ul>
+                            <div class="row">
+                                <div class="form-group pl-4">
+                                    <form id="frmLease">
+                                        <input id="txtLeaseId" type="hidden" asp-for="@Model.leaseAgreement.ID" />
+                                        <input asp-for=@Model.leaseAgreement.TenantsigData type="hidden" id="sigval" />
+                                        <input id="sigDate" asp-for=@Model.leaseAgreement.TenantSignedOn type="hidden" />
+                                        <label class="form-check-label">
+                                            <input class="form-check-input"
+                                                   asp-for="@Model.leaseAgreement.tenantagree2sign" />
+                                            I agree to sign the <strong>lease agreement</strong> using digital
+                                            signature and acknowledge that i have read and understood the contents of
+                                            <a href="#" class="red-link">Tenant Information Statement.</a>
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <p><strong>Signed by tenat</strong></p>
+                                <button id="btnclick2sign" type="button"
+                                        class="btn btn-primary mb-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        data-toggle="modal" data-target="#exampleModal">
+                                    Click
+                                    to sign
+                                </button>
+                                <div class="row m-1">
+                                    <img src="" id="signaturePreview" data-bs-toggle="modal"
+                                         data-bs-target="#exampleModal"
+                                         data-toggle="modal" data-target="#exampleModal">
+                                </div>
+                                <div class="row">
+                                    <span id="lblsignon" style="display:none">Signed by Tenant on:</span>
+                                    <span id="signedon"></span>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal">
+                                    <div class="modal-dialog"
+                                         role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    Sign Lease Agreement
+                                                </h5>
+                                                <button type="button"
+                                                        class="btn-close"
+                                                        data-bs-dismiss="modal">
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="signature" style="width:400px;
+                                                        border: 1px solid black;"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button"
+                                                        class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="button" id="preview" class="btn btn-primary"
+                                                        data-bs-dismiss="modal">
+                                                    Sign
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <a id="btnSave" onclick="    signLease();" class="btn btn-primary w-100"
+                                   href="#" style="display:none;">Save Lease Agreement</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <strong>Landlord</strong>
+                            <div class="col-md-7">@Model.leaseAgreement.Property.Owner.Name</div>
+                            <div class="col-md-5">
+                                @if (Model.leaseAgreement.SignedByLandlord)
+                                {
+                                    <span>Signed</span>
+                                }
+                                else
+                                {
+                                    <span class="red-link">Sign Required</span>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <strong>Tenant</strong>
+                            <div class="col-md-7">@Model.leaseAgreement.PrimaryTenant.FirstName</div>
+                            <div class="col-md-3">Signed</div>
+                        </div>
+                        @if (Model.LeasePdfDoc != null)
+                        {
+                            <hr />
+                            <div class="row">
+                                <a class="red-link" asp-action="download" asp-controller="lease"
+                                   asp-route-uid=@Model.leaseAgreement.uid>
+                                    <i class="fa fa-download"></i> Download
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        @* <div class="col-md-4 text-center p-1">
+        <div class="row pt-3">
+        <h4>Status</h4>
+        @{
+        var lease = Model.leaseAgreement;
+        }
+        @if (lease.LeaseStatus == LeaseAgreement.status.Active ||
+        lease.LeaseStatus == LeaseAgreement.status.Renewed)
+        {
+        <div class="align-items-center">
+        <i class="fa fa-circle text-success me-1"></i>
+        @Utility.GetEnumDisplayName(lease.LeaseStatus)
+        </div>
+        }
+        else if (lease.LeaseStatus == LeaseAgreement.status.Expired ||
+        lease.LeaseStatus == LeaseAgreement.status.Terminated)
+        {
+        <div class="align-items-center">
+        <i class="fa fa-circle text-danger me-1"></i>
+        @Utility.GetEnumDisplayName(lease.LeaseStatus)
+        </div>
+        }
+        else
+        {
+        <div class="align-items-center">
+        <i class="fa fa-circle text-orange me-1"></i>
+        @Utility.GetEnumDisplayName(lease.LeaseStatus)
+        </div>
+
+        }
+        </div>
+        @if (Model.LeasePdfDoc != null)
+        {
+        <div class="row">
+        <a class="red-link" asp-action="download" asp-controller="lease"
+        asp-route-ID=@Model.leaseAgreement.ID>
+        <i class="fa fa-download"></i> Download
+        </a>
+        </div>
+        }
+        </div>         *@
+    </div>
+</div>
+@section Scripts {
+    <script src="/js/jSignature/jSignature.min.js"></script>
+    <script src="/js/jSignature/modernizr.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/commonFunctions/signDocument.js"></script>
+    <script src="~/js/tenant/signLease.js"></script>
+    <script src="~/js/lease/loadLease2Renew.js"></script>
+}
+

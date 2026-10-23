@@ -1,0 +1,143 @@
+﻿@using Gharshare.CommonHelper
+@model List<Gharshare.Models.Expense>
+
+@{
+    ViewData["Title"] = "Expense";
+    if (ViewBag.PrintPdf == "No")
+    {
+        Layout = null;
+    }
+    else
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Expenses</span>
+        </h2>
+    </div>
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <p>
+            <strong>Property Address:</strong> @ViewData["propertyaddress"]
+        </p>
+        <p>
+            Tip: Once you have marked an item as 'paid' it will automatically feed the reporting feature.
+            To mark as 'paid' please click edit and select yes.
+        </p>
+    </div>
+    <div class="col-xl-12 bd-callout">
+        <div class="offset-md-9 mb-4 mt-2">
+            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal"
+               onclick="loadAddExpenseUI(@ViewBag.PropertyId)">
+                <i class="fa fa-plus"></i>
+                Create new expense
+            </a>
+        </div>
+        <div id="expenseList">
+            <div class="table-responsive">
+                <table class="table table-responsive-md">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">
+                                <h6>No</h6>
+                            </th>
+                            <th><h6>Category</h6></th>
+                            @*<th><h6>Property</h6></th>*@
+                            <th><h6>Title</h6></th>
+                            <th><h6>Description</h6></th>
+                            <th><h6>Amount</h6></th>
+                            <th><h6>Created on</h6></th>
+                            <th><h6>Status</h6></th>
+                            <th class="text-center"><h6>Action</h6></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.Any())
+                    {
+                            int sno = 0;
+                        
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            var expense = Model[i];
+                            sno = @i + 1;
+                            <tr>
+                                <td>@sno</td>
+                                <td>@expense.Category.Title</td>
+                                @*<td>@expense.Property.Address</td>*@
+                                <td>@expense.Title</td>
+                                <td>@expense.Description</td>
+                                <td>@Utility.Format(expense.Amount)</td>
+                                <td>@Utility.ConvertToShortDateFormat(expense.CreatedOn)</td>
+                                <td>
+                                    @if (expense.AlreadyPaid)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-success me-1"></i> Paid
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-danger me-1"></i> Unpaid
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="#" data-bs-target="#largeModal" data-bs-toggle="modal"
+                                   onclick="loadExpense(@expense.ID)"
+                                   title="Edit" class="edit btn btn-danger shadow btn-xs sharp me-1">
+                                            <i class="fa fa-pen"></i>Edit
+                                        </a>
+                                        <a href="#" data-bs-target="#largeModal" data-bs-toggle="modal"
+                                   onclick="deleteExpense(@expense.ID)"
+                                   title="Delete" class="edit btn btn-danger shadow btn-xs sharp me-1">
+                                            <i class="fa fa-trash"></i>Delete
+                                        </a>
+                                        <a href="#" onclick="billTenant(@expense.ID,@ViewBag.LeaseId)"
+                                   data-bs-target="#largeModal" data-bs-toggle="modal"
+                                   title="Bill tenant" class="edit btn btn-danger shadow btn-xs sharp me-1">
+                                            <i class="fa fa-receipt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                        <td colspan="8">
+                                <div id="noplan" class="text-center p-3">
+                                    <h4>No record exists</h4>
+                                </div>
+                            </td>
+                        </tr>                        
+                    }
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+        <partial name="_AjaxPager" model="@pager" />
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record exists</h4>
+        </div>
+    </div>
+</div>
+<script src="~/js/portal/loadAddExpenseUI.js"></script>
+<script src="~/js/portal/loadExpense.js"></script>
+<script src="~/js/portal/deleteExpense.js"></script>
+<script src="~/js/portal/billTenant.js"></script>
+
+<script src="/js/commonFunctions/recreatePaging.js"></script>
+<script src="/js/commonFunctions/formatDateToDDMMYY.js"></script>
+<script src="~/js/expense/createExpenseList.js"></script>
+<script src="~/js/expense/getExpenses.js"></script>

@@ -1,0 +1,69 @@
+﻿@using Gharshare.Models
+@model PlanVM
+@{
+    ViewData["Title"] = "Create Plan";
+}
+<div class="container"  style="padding:60px;">
+<div class="col-md-12">
+    <h1>Create Plan</h1>
+    <hr />
+</div>
+<form method="Post" asp-action="Create" >
+ <div class="row">
+        <div class="col-md-6">            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating p-1">
+                    <select class="form-control" asp-for="@Model.plan.Type">
+                        <option selected value="">--Select Plan Type--</option>
+                        <option value="1">Residential Property</option>
+                        <option value="2">Commercial</option>
+                        <option value="3">Property for Sale</option>
+                    </select>
+                    <span asp-validation-for="@Model.plan.Type" class="text-danger"></span>
+                </div>
+                <div class="form-floating p-1">
+                    <input maxlength="25" type="text" asp-for="@Model.plan.Title" class="form-control" autocomplete="Name" aria-required="true"/>
+                    <label asp-for="@Model.plan.Title">Title</label>
+                    <span asp-validation-for="@Model.plan.Title" class="text-danger"></span>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="@Model.plan.UpFrontPrice" data-val-required="*" data-val="true" class="form-control" autocomplete="Name" aria-required="true"/>
+                    <label asp-for="@Model.plan.Title">Advance Payment</label>
+                    <span asp-validation-for="@Model.plan.UpFrontPrice" class="text-danger"></span>
+                </div>                
+                <div class="form-floating p-1">
+                    <input type="text" data-val-required="*" data-val="true" 
+                    asp-for="@Model.plan.MonthlyCharges" class="form-control" autocomplete="Name" />
+                    <label asp-for="@Model.plan.MonthlyCharges">Price</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" maxlength="20" asp-for="@Model.plan.BoxHeading" data-val-required="*" data-val="true" class="form-control" autocomplete="Name" aria-required="true"/>
+                    <label asp-for="@Model.plan.BoxHeading"></label>
+                    <span asp-validation-for="@Model.plan.BoxHeading" class="text-danger"></span>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" maxlength="60"  asp-for="@Model.plan.Tagline" data-val-required="*" data-val="true" class="form-control" autocomplete="Name" aria-required="true"/>
+                    <label asp-for="@Model.plan.Tagline">Tag Line</label>
+                    <span asp-validation-for="@Model.plan.Tagline" class="text-danger"></span>
+                </div>
+                <div class="form-floating p-1">
+                    <textarea maxlength="60" type="text" data-val-required="*" 
+                    data-val="true" rows="5" asp-for="@Model.plan.Description" class="form-control" 
+                    autocomplete="Name"></textarea>
+                    <label asp-for="@Model.plan.Description">Description</label>
+                </div>                
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-end">
+            <button type="submit" class="btn btn-primary" style="width:100px;">Save</button>            
+    </div>
+    <div class="col-md-6">
+        <a asp-action="Index" class="btn btn-secondary" style="width:100px;">Cancel</a>
+    </div>     
+    </div>
+    </form>
+    </div>
+    @section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

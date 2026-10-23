@@ -1,0 +1,67 @@
+﻿@model Gharshare.Models.Application
+@{
+    ViewData["Title"] = "apply";
+    Layout = null;
+    string message = "Your application is being generated from your profile.Please wait....";
+    string display = "none";
+    string alert = "alert-success";
+    if (ViewBag.AlreadyApplied)
+    {
+        message = "Already applied. You can't send tenancy request for this property.";
+        display = "block";
+        alert = "alert-danger";
+    }
+}
+<div class="container">    
+    <div class="row">
+        <form id="frmApply" asp-action="apply">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>
+                <input type="hidden" asp-for="PropertyID" />
+                <input type="hidden" asp-for="ApplicantID" />
+                <input type="hidden" asp-for="UserID" />
+            </div>
+            <div class="row">
+                <div id="stepalert" style="display:@display" class="alert @alert alert-dismissible fade show m-3 p-3">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    @message
+                </div>
+            </div>
+            <div class="row">
+                <label>Rent</label>
+                <input asp-for="Rent" class="form-control integeronly" required />
+                <span asp-validation-for="Rent" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label>Lease Period</label>
+                <input asp-for="LeasePeriod" class="form-control" required />
+                <span asp-validation-for="LeasePeriod" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-end">
+                    @if (ViewBag.AlreadyApplied)
+                    {
+                        
+                        <button id="btnApply" type="submit" class="btn btn-primary w-100 disabled">
+                            Send Application For Tenancy
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="btnApply" type="submit" class="btn btn-primary w-100">
+                            Send Application For Tenancy
+                    </button>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/js/commonFunctions/integersOnly.js"></script>
+<script src="~/js/tenant/applyForTenancy.js"></script>
+

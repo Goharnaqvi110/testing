@@ -1,0 +1,138 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model List<Gharshare.Models.LeaseAgreement>
+
+@{
+    ViewData["Title"] = "Lease Agreements";
+    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Lease Agreements</span>
+        </h2>
+    </div>
+    @if (ViewData["propertyAddress"] == string.Empty)
+    {
+        <div class="col-xl-12 bd-callout bd-callout-default">
+            <p>
+                <strong>Property Address:</strong> @ViewData["propertyAddress"]
+            </p>
+            <p>
+                Tip: Once you have marked an item as 'paid' it will automatically feed the
+                reporting feature. To mark as 'paid' please click edit and select yes.
+            </p>
+        </div>
+    }
+    <div class="col-xl-12 bd-callout">
+        <div id="leaseList">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">
+                            <h6>No</h6>
+                        </th>
+                        <th><h6>Property Address</h6></th>
+                        <th><h6>Lease</h6></th>
+                        <th><h6>Term</h6></th>
+                        <th><h6>Lease Status</h6></th>
+                        <th><h6>Type</h6></th>
+                        @*<th><h6>History</h6></th>*@
+                        <th class="text-center"><h6>Action</h6></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int sno = 0;
+
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            var lease = Model[i];
+                            sno = @i + 1;
+                            <tr>
+                                <td>@sno</td>
+                                <td style="width:400px;">@lease.Property.Address</td>
+                                <td style="width:200px;">
+                                    @lease.ID <br />@lease.PrimaryTenant.FirstName<br />
+                                    @lease.PrimaryTenant.Email<br />@lease.PrimaryTenant.Mobile
+                                </td>
+                                <td style="width:180px;">@Utility.ConvertToShortDateFormat(lease.From)-@Utility.ConvertToShortDateFormat(lease.To)</td>
+                                <td>
+                                    @if (lease.LeaseStatus == LeaseAgreement.status.Active ||
+                                   lease.LeaseStatus == LeaseAgreement.status.Renewed)
+                                    {
+                                        <span class="badge light badge-success">
+                                            @Utility.GetEnumDisplayName(lease.LeaseStatus)
+                                        </span>
+                                    }
+                                    else if (lease.LeaseStatus == LeaseAgreement.status.Expired ||
+                                    lease.LeaseStatus == LeaseAgreement.status.Terminated)
+                                    {
+                                        <span class="badge light badge-danger">
+                                            @Utility.GetEnumDisplayName(lease.LeaseStatus)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge light badge-warning">
+                                            @Utility.GetEnumDisplayName(lease.LeaseStatus)
+                                        </span>
+                                    }
+                                </td>
+                                <td style="width:80px;">
+                                    <span class="badge light badge-info">
+                                        @Utility.GetEnumDisplayName(lease.AgreementType)
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <a asp-controller="lease" asp-action="viewleasedoc"
+                                           asp-route-uid="@lease.uid"
+                                           title="View Lease" class="edit btn btn-primary shadow btn-xs sharp me-1">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a asp-controller="lease" asp-action="download"
+                                           asp-route-uid="@lease.uid" target="_blank"
+                                           title="Download" class="edit btn btn-danger shadow btn-xs sharp me-1">
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7">
+                                <div id="noplan" class="text-center p-3">
+                                    <h4>No record found</h4>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <partial name="_AjaxPager" model="@pager" />
+
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record exists</h4>
+        </div>
+    </div>
+</div>
+<script src="/js/commonFunctions/formatDateToDDMMYY.js"></script>
+<script src="/js/commonFunctions/recreatePaging.js"></script>
+<script src="~/js/lease/createLeaseList.js"></script>
+<script src="~/js/lease/getLeases.js"></script>

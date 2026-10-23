@@ -1,0 +1,682 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model LeaseViewVM
+
+@{
+    if (Model == null)
+    {
+        throw new Exception("ViewModel is null");
+    }
+    //ViewData["Title"] = "Create lease";
+    // Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    Layout = null;
+    //Layout = "_LayoutLandlord";
+        
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    @* <link rel="stylesheet" href="~/theme/css/pdfstyling.css" /> *@
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: bold;
+            margin-right: 1px;
+        }
+        .sig {
+            padding: .375rem .75rem;
+            color: #737B8B;
+            border: 1px solid #C1C1C1;
+            border-radius: .75rem;
+        }
+
+        div.page-break {
+            page-break-before: always;
+        }
+
+        .cust-flex {
+            display: flex;
+        }
+
+        .m-left {
+            margin-left: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-4 m-3">
+            <img src="~/img/logo-2.png" style="width:300px;" alt="">
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12 mb-4 text-center">
+                <h3>Residential rental agreement</h3>
+            </div>
+            @*<h3>no more than 5 years</h3>*@
+        </div>
+        <h4>Residential Tenancies Act 1997 Section 26(1)</h4>
+        <h5>Residential Tenancies Regulations 2021 Regulation 10(1)</h5>
+        <ul>
+            <li>
+                This is your residential rental agreement. It is a binding contract under the Residential Tenancies Act 1997 (the
+                Act).
+            </li>
+            @*<li>Parts A, B, C and E are the terms of your agreement. Part D is a summary of your rights and obligations.</li>*@
+            <li>Do not sign this agreement if there is anything in it that you do not understand.</li>
+            <li>Please refer to Renters Guide for details about your rights and responsibility. </li>
+            <li>
+                For further information, visit the renting section of the Consumer Affairs Victoria (CAV) website at
+                www.consumer.vic.gov.au/renting or call 1300 558 181.
+            </li>
+        </ul>
+        <hr />
+        @*<h3>Part A – Basic terms</h3>*@
+        <p>This agreement is between the residential rental provider (rental provider) and the renter(s) listed on this form. </p>
+        <hr />
+        <div class="text-center"><span class="font-weight-bold">Property Address</span></div>
+        <form>
+            <div class="row">
+                <div class="col-md-3 form-floating p-1">
+                    <label>Unit No</label>
+                    <input type="text" asp-for="@Model.Property.UnitNo" class="form-control" />
+
+                </div>
+                <div class="col-md-3 form-floating p-1">
+                    <label>Street</label>
+                    <input asp-for="@Model.Property.Street" class="form-control" aria-required="true" />
+
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Suburb</label>
+                    <input asp-for="@Model.Property.Suburb" class="form-control" aria-required="true" />
+
+                </div>
+            </div>
+            <div class="row">
+                @*<div class="col-md-4 form-floating p-1">
+                <label>Province</label>
+                <input asp-for="@Model.Property.State.Name" class="form-control" aria-required="true" />
+                </div>*@
+                <div class="col-md-6 form-floating p-1">
+                    <label>City</label>
+                    <input asp-for="@Model.Property.City.Name" class="form-control" aria-required="true" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>PostCode</label>
+                    <input asp-for="@Model.Property.PostalCode" class="form-control" aria-required="true" />
+                </div>
+            </div><hr />
+            <div class="text-center"><span class="font-weight-bold">Lease Details</span></div>
+            <div class="row">
+                <div class="col-md-6 form-group p-1">
+                    <label class="control-label">
+                        This agreement is made on the day of
+                    </label>
+                    <input type="text" value="@Utility.ConvertToShortDateFormat(Model.leaseAgreement.AgreementDate)" class="form-control" />
+                </div>
+                <div class="col-md-6 form-group p-1">
+                    <label class="control-label">Duration</label>
+                    @if (Model.leaseAgreement.AgreementType == LeaseAgreement.Agreement.Fixed)
+                    {
+                        <input type="text" value="Fixed Term" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" value="Periodic" class="form-control" />
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 form-group p-1">
+                    <label>Address of premises</label>
+                    <input asp-for="@Model.Property.Address" class="form-control" />
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label>PostCode</label>
+                    <input asp-for="@Model.Property.PostalCode" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">Commence on</label>
+                    <input type="text" value="@Utility.ConvertToShortDateFormat(Model.leaseAgreement.From)" class="form-control" />
+                </div>
+                <div id="divto" class="col-md-4 form-group p-1">
+                    <label>End Date</label>
+                    <input type="text" value="@Utility.ConvertToShortDateFormat(Model.leaseAgreement.To)" class="form-control" />
+                </div>
+            </div>
+            <hr />
+            <div class="text-left"><span class="font-weight-bold">Renter details</span></div>
+            <p>Each renter that is a party to the agreement must provide their details here.</p>
+            <div id="divprimarytenant">
+                <div class="row">
+                    <div class="col-md-8 form-group p-1">
+                        <label>Full name of renter 1</label>
+                        <input asp-for=@Model.PrimaryTenant.FirstName class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-floating p-1">
+                        <label>Email</label>
+                        <input asp-for="PrimaryTenant.Email" class="form-control" />
+                    </div>
+                    <div class="col-md-3 form-floating p-1">
+                        <label>Postcode</label>
+                        <input asp-for=@Model.PrimaryTenant.PostCode class="form-control" />
+                    </div>
+                    <div class="col-md-3 form-floating p-1">
+                        <label>Mobile No</label>
+                        <input id="txtmobile" asp-for=@Model.PrimaryTenant.Mobile class="form-control" aria-required="true" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group p-1">
+                        <label>Current Address</label>
+                        <input asp-for=@Model.PrimaryTenant.CurrentAddress class="form-control" />
+                    </div>
+                </div>
+            </div>
+            @for (int i = 0; i < @Model.AdditionalTenants.Count(); i++)
+            {
+                Int64 count = i + 2;
+                <div class="row">
+                    <div class="col-md-6 form-floating p-1">
+                        <label asp-for="@Model.AdditionalTenants[i].Tenant.FirstName">Full name of renter-@count</label>
+                        <input asp-for="@Model.AdditionalTenants[i].Tenant.FirstName" class="form-control" aria-required="true" />
+                    </div>
+                    <div class="col-md-6 form-floating p-1">
+                        <label asp-for="@Model.AdditionalTenants[i].Tenant.Mobile">Mobile No</label>
+                        <input asp-for="@Model.AdditionalTenants[i].Tenant.Mobile" class="form-control" aria-required="true" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group p-1">
+                        <label asp-for="@Model.AdditionalTenants[i].Tenant.Email">Email</label>
+                        <input asp-for="@Model.AdditionalTenants[i].Tenant.Email" class="form-control" aria-required="true" />
+                    </div>
+                    <div class="col-md-6 form-group p-1">
+                        <label>PostCode</label>
+                        <input asp-for="@Model.AdditionalTenants[i].Tenant.PostCode"
+                           class="form-control" />
+                    </div>
+                </div>
+            }
+            <hr />
+            <div class="text-center"><span class="font-weight-bold">Owner Details</span></div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Owner Name</label>
+                    <input asp-for=@Model.Property.Owner.Name class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Owner's Address</label>
+                    <input asp-for=@Model.Property.Owner.Address class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating p-1">
+                    <label>Phone number</label>
+                    <input asp-for=@Model.Property.Owner.PhoneNumber class="form-control" />
+                </div>
+                <div class="col-md-6 form-floating p-1">
+                    <label>Email</label>
+                    <input asp-for=@Model.Property.Owner.Email class="form-control" />
+                </div>
+            </div>
+            <hr />
+            <div class="text-center"><span class="font-weight-bold">Bank details</span></div>
+            <div class="row">
+                <div class="col-md-6 form-group p-1">
+                    <label>Your Bank Name</label>
+                    <input class="form-control" asp-for="Property.Owner.BankName" />
+                </div>
+                <div class="col-md-6 form-group p-1">
+                    <label class="control-label">Your Account Name</label>
+                    <input class="form-control" asp-for="@Model.Property.Owner.AccountTitle" required />
+                    <span class="text-d" asp-for="@Model.Property.Owner.BankName" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6 form-group p-1">
+                    <label class="control-label">Your Branch</label>
+                    <input class="form-control" asp-for="@Model.Property.Owner.Branch" required />
+                    <span class="text-d" asp-for="@Model.Property.Owner.Branch" />
+                </div>
+                <div class="col-md-6 form-group p-1">
+                    <label class="control-label">Your Account Number</label>
+                    <input class="form-control" asp-for="@Model.Property.Owner.AccountNo" required />
+                    <span class="text-d" asp-for="@Model.Property.Owner.AccountNo" />
+                </div>
+            </div>
+            <div class="text-center">
+                <span class="font-weight-bold">Rental Payment Method</span>
+            </div>
+            <div class="row p-1">
+                <div class="col-md-6 form-group">
+                    <span>
+                        <input type="checkbox" asp-for=@Model.leaseAgreement.Directdebit />
+                        Direct debit
+                    </span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <span>
+                        <input type="checkbox" asp-for=@Model.leaseAgreement.Bankdeposit />
+                        Bank deposit
+                    </span>
+                </div>
+            </div>
+            <div class="row p-1">
+                <div class="col-md-6 form-group">
+                    <span>
+                        <input type="checkbox" asp-for="@Model.leaseAgreement.ChequeorMoneyorder" />
+                        Cheque or money order
+                    </span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <span>
+                        <input type="checkbox" asp-for="@Model.leaseAgreement.Cash" />
+                        Cash
+                    </span>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center" style="margin-top:63px;"><span class="font-weight-bold">Rental Payment Details</span></div>
+            @*<div class="row">
+                <div class="col-md-4 form-group p-1">
+                    <label>Monthly Rent</label>
+                    <input type="text" value="@Utility.Format(Model.leaseAgreement.MonthlyRent)" class="form-control" />
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">Payment Frequency</label>
+                    @if (Model.leaseAgreement.PaymentFrequency == LeaseAgreement.Frequency.Fortnightly)
+                    {
+                        <input type="text" value="Fortnightly" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" value="Monthly" class="form-control" />
+                    }
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">Periodic rent</label>
+                    <input type="text" value="@Utility.Format(Model.leaseAgreement.PeriodicRent)" class="form-control" />
+                </div>
+            </div> *@
+            <div class="row">
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">Monthly rent</label>
+                    <input type="text" id="txtmonthlyrent" value="@Utility.Format(Model.leaseAgreement.MonthlyRent)" class="form-control" />
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">First payment due date</label>
+                    <input type="text" value="@Utility.ConvertToShortDateFormat(Model.leaseAgreement.FirstRentPaymentDueDate)" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <span>Have you received, or will you receive payment outside this application?</span>
+            </div>
+            <div class="row" style="margin-left:3px;">
+                <div class="col-md-1 form-group p-1">
+                    @if (Model.leaseAgreement.IsPaymentMadeOutside)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox">
+                    }
+                    <span>Yes</span>
+                    @* <label class="form-check-label">
+                    <input type="checkbox" value="true" asp-for="@Model.leaseAgreement.IsPaymentMadeOutside" /> Yes
+                    </label>*@
+                </div>
+                <div class="col-md-1 form-group p-1">
+                    @if (Model.leaseAgreement.IsPaymentMadeOutside)
+                    {
+                        <input type="checkbox" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" checked>
+                    }
+                    <span>No</span>
+                    @*<label class="form-check-label">
+                    <input type="checkbox" value="false" asp-for=@Model.leaseAgreement.IsPaymentMadeOutside /> No
+                    </label>*@
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">Months Payment Made Outside</label>
+                    <input type="text" asp-for="@Model.leaseAgreement.OutsidePaymentNo" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 p-1">
+                    <span> Would you like to collect this payment early?</span>
+                </div>
+            </div>
+            <div class="row" style="margin-left:3px;">
+                <div class="col-md-2 form-group p-1">
+                    @if (Model.leaseAgreement.NeedEarlyFirstPayment)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox">
+                    }
+                    <span>Yes</span>
+                    @*<label class="form-check-label">
+                    <input type="checkbox" value="true" asp-for=@Model.leaseAgreement.NeedEarlyFirstPayment /> Yes
+                    </label>*@
+                </div>
+                <div class="col-md-2 form-group p-1">
+                    @if (Model.leaseAgreement.NeedEarlyFirstPayment)
+                    {
+                        <input type="checkbox" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" checked>
+                    }
+                    <span>No</span>
+                    @*<label class="form-check-label">
+                    <input id="rdonoearlypayment" type="checkbox" value="false" asp-for=@Model.leaseAgreement.NeedEarlyFirstPayment /> No
+                    </label>*@
+                </div>
+                <div id="dtpearlypayment" class="col-md-4 form-group p-1">
+                </div>
+            </div>
+            <hr />
+            <div class="text-center"><span class="font-weight-bold">Bond Details</span></div>
+            <div class="row">
+                <div class="col-md-4 form-group p-1">
+                    <label>Bond Amount</label>
+                    <input type="text" value="@Utility.Format(Model.leaseAgreement.BondAmount)" class="form-control" />
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label class="control-label">Bond Payment Date</label>
+                    <input type="text" value="@Utility.ConvertToShortDateFormat(Model.leaseAgreement.BondPaymentDate)" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <span> Would you like to collect Bond through our application?</span>
+            </div>
+            <div class="row" style="margin-left:3px;">
+                <div class="col-md-1 form-group p-1">
+                    @if (Model.leaseAgreement.PaybondviaGharshare)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox">
+                    }
+                    <span>Yes</span>
+                </div>
+                <div class="col-md-1 form-group p-1">
+                    @if (Model.leaseAgreement.PaybondviaGharshare)
+                    {
+                        <input type="checkbox" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" checked>
+                    }
+                    <span>No</span>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center">
+                <span class="font-weight-bold">Electronic Consent Details</span>
+            </div>
+            <div class="row mb-2">
+                <span>Landlord</span>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-1">Email</div>
+                <div class="col-md-1 form-group">
+                    @if (Model.leaseAgreement.IsLandlordAgreedtoServeENotices)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox">
+                    }
+                    <span>Yes</span>                    
+                </div>
+                <div class="col-md-1">
+                    @if (Model.leaseAgreement.IsLandlordAgreedtoServeENotices)
+                    {
+                        <input type="checkbox" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" checked>
+                    }
+                    <span>No</span>                    
+                </div>
+                <div class="col-md-9">
+                    <input type="text" style="width:90%;" value="@Model.leaseAgreement.LandlordEmailForENotices" 
+                    class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <span>Tenant</span>
+            </div>
+            <div class="row">
+                <div class="col-md-1">Email</div>
+                <div class="col-md-1 form-group">
+                    @if (Model.leaseAgreement.IsRenterAgreedtoGetENotices)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox">
+                    }
+                    <span>Yes</span>
+                    @*<label class="form-check-label">
+                    <input type="checkbox" checked="@Model.leaseAgreement.IsRenterAgreedtoGetENotices" /> Yes
+                    </label>*@
+                </div>
+                <div class="col-md-1 form-group">
+                    @if (Model.leaseAgreement.IsRenterAgreedtoGetENotices)
+                    {
+                        <input type="checkbox" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" checked>
+                    }
+                    <span>No</span>
+                    @*<label class="form-check-label">
+                    <input type="checkbox" checked="@Model.leaseAgreement.IsRenterAgreedtoGetENotices?false:true" /> No
+                    </label>*@
+                </div>
+                <div class="col-md-9">
+                    <input type="text" style="width:90%;" value="@Model.leaseAgreement.RenterEmailForENotices" class="form-control" />
+                </div>
+            </div>
+            <hr />
+            <div class="text-center"><span class="font-weight-bold">Other Details</span></div>
+            <div><span>Details of person the renter should contact for an urgent repair</span></div>
+            <div class="row">
+                <div class="col-md-4 form-group p-1">
+                    <label>Emergency contact name</label>
+                    <input asp-for="@Model.leaseAgreement.EmergencyContactName" class="form-control" />
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label>Emergency phone no</label>
+                    <input asp-for="@Model.leaseAgreement.EmergencyPhoneNo" class="form-control" />
+                </div>
+                <div class="col-md-4 form-group p-1">
+                    <label>Emergency email</label>
+                    <input asp-for="@Model.leaseAgreement.EmergencyEmail" class="form-control" />
+                </div>
+            </div>
+            <hr>
+            <div class="text-center"><span class="font-weight-bold">Owners corporation</span></div>
+            <div class="row">
+                <span> Do owners corporation rules apply to premises?</span>
+            </div>
+            <div class="row" style="margin-left:3px;">
+                <div class="col-md-1 form-group p-1">
+                    @if (Model.leaseAgreement.OwnerCorpRulesApply)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox">
+                    }
+                    <span>Yes</span>
+                    @*<label class="form-check-label">
+                    <input type="checkbox" checked="@Model.leaseAgreement.OwnerCorpRulesApply" /> Yes
+                    </label>*@
+                </div>
+                <div class="col-md-1 form-group p-1">
+                    @if (Model.leaseAgreement.OwnerCorpRulesApply)
+                    {
+                        <input type="checkbox" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" checked>
+                    }
+                    <span>No</span>
+                    @*<label class="form-check-label">
+                    <input type="checkbox" checked="@Model.leaseAgreement.OwnerCorpRulesApply?false:true" /> No
+                    </label>*@
+                </div>
+            </div>
+            <div class="row text-center">
+                <span class="font-weight-bold">Condition Report</span>
+            </div>
+            <div class="row" style="margin-left:3px;">
+                <div class="col-md-12 form-group p-1">
+                    @if (@Model.leaseAgreement.IsConditionReportProvided == true)
+                    {
+                        <label class="form-check-label">
+                            <input type="checkbox" value="true" asp-for=@Model.leaseAgreement.IsConditionReportProvided />
+                            The Condition Report has been provided
+                        </label>
+                    }
+                    else
+                    {
+                        <label class="form-check-label">
+
+                            <input type="checkbox" value="true" asp-for=@Model.leaseAgreement.IsConditionReportProvided />
+                            The Condition Report has been provided
+                        </label>
+                    }
+
+                </div>
+            </div>
+            <div class="row" style="margin-left:3px;">
+                <div class="col-md-12 form-group p-1">
+
+                    @if (@Model.leaseAgreement.IsConditionReportProvided == true)
+                    {
+                        <label class="form-check-label">
+                            <input type="checkbox" asp-for="@Model.leaseAgreement.IsConditionReportProvided"
+                               checked="@Model.leaseAgreement.IsConditionReportProvided" />
+                            The Condition Report will be provided to the renter on or before the agreement starts
+                        </label>
+                    }
+                    else
+                    {
+                        <label class="form-check-label">
+                            <input type="checkbox" asp-for="@Model.leaseAgreement.IsConditionReportProvided"
+                               checked="@Model.leaseAgreement.IsConditionReportProvided?false:true" />
+                            The Condition Report will be provided to the renter on or before the agreement starts
+                        </label>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group p-1">
+                    <label class="control-label">Additional Terms</label>
+                    <textarea asp-for=@Model.leaseAgreement.AddtionalTerms class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group pl-4">
+                    <label class="form-check-label">
+                        <input type="checkbox" checked />Agree to Terms And Conditions
+                    </label>
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <h6>Landlord Signature</h6>
+                    @if (Model.leaseAgreement.LandlordSign != null)
+                    {
+                        <div class="row">
+                            @{
+                                byte[] imageBytes = @Model.leaseAgreement.LandlordSign;
+                                string base64Image = Convert.ToBase64String(imageBytes);
+                                string dataUri = "data:image/png;base64," + base64Image;
+                                <span class="sig">
+                                    <img src=@dataUri style="width:200px;height:200px" />
+                                </span>
+                            }
+                        </div>
+                        <div class="row">
+                            @if (Model.leaseAgreement.LandlordSignedOn != null
+                           && Model.leaseAgreement.LandlordSign != null)
+                            {
+                                <span style="margin-top:10px;">
+                                    Date:
+                                    @Utility.ConvertToShortDateFormat(@Model.leaseAgreement.LandlordSignedOn)
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <h6>Tenant Signature</h6>
+                    @if (Model.leaseAgreement.TenantlordSign != null)
+                    {
+                        <div class="row">
+                            @{
+                                byte[] tenantSigimageBytes = @Model.leaseAgreement.TenantlordSign;
+                                string base64TenantImage = Convert.ToBase64String(tenantSigimageBytes);
+                                string tenantDataUri = "data:image/png;base64," + base64TenantImage;
+                                <span class="sig">
+                                    <img src=@tenantDataUri width="200px" height="200px" />
+                                </span>
+                            }
+                        </div>
+                        <div class="row">
+                            @if (@Model.leaseAgreement.TenantSignedOn != null
+                           && @Model.leaseAgreement.TenantlordSign != null)
+                            {
+                                <span style="margin-top:10px;">
+                                    Date:
+                                    @Utility.ConvertToShortDateFormat(Model.leaseAgreement.TenantSignedOn)
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            @*<div class="row mb-5">
+            <div class="col-md-6">
+            <span class="form-check-label">Landlord Signature</span>
+            </div>
+            <div class="col-md-6">
+            <span class="form-check-label">Tenant Signature</span>
+            </div>
+            </div>*@
+        </form>
+    </div>
+</body>
+</html>
+

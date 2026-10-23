@@ -1,0 +1,62 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantPet
+
+@{
+    ViewData["Title"] = "Delete Pet";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-controller="tenant" asp-action="deletepet">
+        <div class="row">
+            <input type="hidden" asp-for="ID">
+            <input type="hidden" asp-for="PicturePath" />
+            <div class="rounded-image offset-md-4">
+                <img src="@Model.PicturePath" style="height:200px;width:200px;" />
+            </div>
+            <strong class="mt-2 text-center">@Model.Name</strong>
+            @*<input type="text" disabled asp-for=Name placeholder="Name" class="form-control" />*@
+        </div>
+        <div class="row">
+            <label>Type</label>
+            <div class="col-md-6  p-1">
+                <select disabled asp-for=Type class="nice-select w-100">
+                    <option value="Bird">Bird</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6  p-1">
+                <label>Breed</label>
+                <input type="text" disabled asp-for=Breed placeholder="Breed" class="form-control" />
+            </div>
+            <div class="col-md-6  p-1">
+                <label>Age</label>
+                <input type="text" disabled asp-for=age placeholder="Age" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6  p-1">
+                <label>Size</label>
+                <input type="text" disabled asp-for=Size placeholder="Size" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12  p-1">
+                <label>Additional information</label>
+                <textarea disabled type="text" asp-for=AdditionalInformation
+                          placeholder="Tell us about your pet" style="height:70px;"
+                          class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </form>
+</div>
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

@@ -1,0 +1,78 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.Maintenance
+
+@{
+    ViewData["Title"] = "Delete Maintenance Record";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-action="deletemaitenance" asp-action="GET" enctype="multipart/form-data">
+        <div>
+            <input type="hidden" asp-for="ID" />
+            @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+            {
+                <input type="hidden" asp-for="Status" />
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <span class="mb-1"></span>
+                @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+                {
+                    <select name="status" disabled asp-for="Status" class="nice-select w-100">
+                        <option value="1">Submitted</option>
+                        <option value="2">Pending</option>
+                        <option value="3">Complete</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="Status" class="nice-select w-100" name="status">
+                        <option value="" selected>Select Status</option>
+                        <option value="1">Submitted</option>
+                        <option value="2">Pending</option>
+                        <option value="3">Complete</option>
+                    </select>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-1">Category</div>
+                <select disabled asp-for="CategoryID" class="nice-select w-100" asp-items="ViewBag.Categories">
+                    <option value="">Select Category</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label>Title</label>
+                <input type="text" disabled asp-for="Title" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="Amount" class="control-label"></label>
+                <input disabled asp-for="Amount" class="form-control" value="@Utility.Format(Model.Amount)" />
+            </div>
+            <div class="col-md-6 mt-5">
+                <label>
+                    <input disabled class="form-check-input" asp-for="IsGSTIncluded" />
+                    <span>Is GST included?</span>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label asp-for="Description" class="control-label"></label>
+                <input disabled asp-for="Description" class="form-control" />
+            </div>
+        </div>
+        <div class="text-center">
+            <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger w-50" />
+        </div>
+    </form>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+    <script type="text/javascript" src="~/js/ConfirmDelete.js" />

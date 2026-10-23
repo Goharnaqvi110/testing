@@ -1,0 +1,448 @@
+﻿@using Gharshare.CommonHelper
+@using System.ComponentModel.DataAnnotations
+@using Gharshare.Models
+@model Gharshare.Models.ConditionReportVm
+
+@{
+    ViewData["Title"] = "Create Condition Report";
+    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h3 class="page-heading heading-secondary">
+            <span id="property-address">Condition Report</span>
+        </h3>
+    </div>
+    <div class="bd-callout bd-callout-default" style="width:100%;">
+        <div class="row">
+            @{
+                var address = "";
+                if (Model.Property.Address != null)
+                { address = Model.Property.Address; }
+                else { address = Model.Property.Suburb; }
+            }
+            <div class="col-md-2"><strong>Property Address:</strong></div>@address
+        </div>
+        <div class="row">
+            <div class="col-md-2"><strong>Created on:</strong></div>
+            <div class="col-md-9">@Utility.ConvertToShortDateFormat(@Model.CondtionReport.CreatedOn)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><strong>Landlord name:</strong></div>
+            <div class="col-md-9">@Model.Property.OwnerName</div>
+        </div><div class="row">
+            <div class="col-md-2"><strong>Date of Inspection:</strong></div>
+            <div class="col-md-9">@Utility.ConvertToShortDateFormat(@Model.CondtionReport.InspectionDate)</div>
+        </div><div class="row">
+            <div class="col-md-2"><strong>Status:</strong></div>
+            <div class="col-md-9">@Utility.GetEnumDisplayName(@Model.CondtionReport.status)</div>
+        </div>
+    </div>
+    <div class="bd-callout">
+        <form id="frmreport" asp-action="savereport" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for=@Model.Property.ID>
+            <input type="hidden" asp-for=@Model.Property.OwnerId>
+            <input type="hidden" asp-for=@Model.CondtionReport.ID>
+            @if (Model.Property.Lease != null)
+            {
+                <input type="hidden" asp-for=@Model.Property.Lease.ID />
+                <input type="hidden" asp-for=@Model.Property.Lease.PrimaryTenantID />
+            }
+            @{
+                string areaName = string.Empty;
+                for (int i = 0; i < Model.ReportItemDetail.Count(); i++)
+                {
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.ConditionReportID>
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.ID>
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].AreaItemId>
+
+                    bool photoField = @Model.ReportItemDetail[i].PhotoField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].PhotoField>
+
+                    bool additionalComments = @Model.ReportItemDetail[i].AddComments;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].AddComments>
+
+                    bool yesNoField = @Model.ReportItemDetail[i].YesNoField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].YesNoField>
+
+                    bool meterReadingField = @Model.ReportItemDetail[i].MeterReadingField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].MeterReadingField>
+
+                    bool lastWorkedOnField = @Model.ReportItemDetail[i].LastWorkedOnField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].LastWorkedOnField>
+
+                    bool normalField = @Model.ReportItemDetail[i].NormalField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].NormalField>
+
+                    bool tobedoneByField = @Model.ReportItemDetail[i].TobedoneByField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].TobedoneByField>
+
+                    bool DeadlineDateField = @Model.ReportItemDetail[i].DeadlineDateField;
+                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].DeadlineDateField>
+                    <div class="row">
+                        @if (@Model.ReportItemDetail[i].CRItem.Name != areaName)
+                        {
+                            <h4>@Model.ReportItemDetail[i].CRItem.Name</h4>
+                            areaName = @Model.ReportItemDetail[i].CRItem.Name;
+                        }
+                        <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.Name>
+                        <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.PropertyAreaID>
+                        <input type="hidden" asp-for=@Model.ReportItemDetail[i].ID>
+                        <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItemID>
+                        <input type="hidden" asp-for=@Model.ReportItemDetail[i].AreaItem.Name>
+                    </div>
+                    <hr />
+                    if (normalField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="row mt-5">
+                                    <label asp-for=@Model.ReportItemDetail[i].AreaItem.Name>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].AreaItem.Name>
+
+                                </div>
+                                <div class="row mt-3">
+                                    <span>Comments</span><br />
+                                </div>
+                                <div class="row">
+                                    <span>(Max. 500 characters)</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="col-md-12 text-center">
+                                    @if (i == 0)
+                                    {
+                                        <label>Landlord</label>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">Clean</div>
+                                    <div class="col-md-4 text-center">Undamaged</div>
+                                    <div class="col-md-4 text-center">Working</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <div class="btn-group">
+                                            <input type="radio" class="form-check-input correct" asp-for=@Model.ReportItemDetail[i].Clean value="true">
+                                        </div>
+                                        <div class="btn-group">
+                                            <input type="radio" class="form-check-input wrong" asp-for=@Model.ReportItemDetail[i].Clean value="false">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="btn-group">
+                                            <input type="radio" class="form-check-input correct" asp-for=@Model.ReportItemDetail[i].Undamaged value="true">
+                                        </div>
+                                        <div class="btn-group">
+                                            <input type="radio" class="form-check-input wrong" asp-for=@Model.ReportItemDetail[i].Undamaged value="false">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="btn-group">
+                                            <input type="radio" class="form-check-input correct" asp-for=@Model.ReportItemDetail[i].Working value="true">
+                                        </div>
+                                        <div class="btn-group">
+                                            <input type="radio" class="form-check-input wrong" asp-for=@Model.ReportItemDetail[i].Working value="false">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <textarea class="form-control" row=4 style="width:370px;" asp-for="@Model.ReportItemDetail[i].LandlordComments"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                @if (i == 0)
+                                {
+                                    <div class="row">
+                                        <span>Tenant</span>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <span>Agrees?</span>
+                                </div>
+                                <div class="row mt-6">
+                                    <div class="col-md-6 text-right">
+                                        <input type="radio" onclick="return false;" class="form-check-input correct" asp-for=@Model.ReportItemDetail[i].TenantAgreed value="true">
+                                    </div>
+                                    <div class="col-md-1 text-center">
+                                        <input type="radio" onclick="return false;" class="form-check-input wrong" asp-for=@Model.ReportItemDetail[i].TenantAgreed value="false">
+                                    </div>
+                                </div>
+                                <div class="offset-md-2 text-center">
+                                    <textarea readonly class="form-control" row=4 style="width:250px;" asp-for=@Model.ReportItemDetail[i].TenantComments></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (photoField == true)
+                    {
+                        if (@Model.ReportItemDetail[i].CRItem.CRItemImages.Count() > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-8 btn-group">
+                                    <div class="col-md-3 mt-5">
+                                        <label>Attached Photos</label>
+                                    </div>
+                                    @for (int j = 0; j < @Model.ReportItemDetail[i].CRItem.CRItemImages.Count(); j++)
+                                    {
+                                        var item = @Model.ReportItemDetail[i].CRItem.CRItemImages[j];
+
+                                        if (item.AddedByLandlord == true)
+                                        {
+                                            <div>
+                                                <div class="p-1">
+                                                    <img src=@item.ImagePath style="height:150px; width:180px" alt="" class="img-a img-fluid">
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <span>
+                                        (If disagree with the landlord, please upload photos
+                                        to prove your point.)
+                                    </span>
+                                    <div class="mb-3 mt-2">
+                                        <input id="tenatPhotos" readonly disabled multiple="" type="file" class="form-file-input form-control"
+                               asp-for=@Model.ReportItemDetail[i].PhotosbyTenant>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <textarea readonly placeholder="Enter Additional Comments" class="form-control" row=4 style="width:325px;margin-left:15px;" asp-for=@Model.ReportItemDetail[i].TenantComments></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                    }
+                    else if (additionalComments == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row mt-2">
+                                    <label>Additional Comments</label>
+                                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].AddComments>
+                                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.Name>
+                                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.ID>
+                                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].CRItem.Name>
+                                    <input type="hidden" asp-for=@Model.ReportItemDetail[i].AreaItem.ID>
+                                </div>
+                                <div class="row mt-3">
+                                    <span>(Max. 500 characters)</span><br />
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <textarea class="form-control"
+                              row=4 style="width:320px;height: 70px;"
+                              asp-for="@Model.ReportItemDetail[i].AdditionalComments"></textarea>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    else if (yesNoField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label asp-for=@Model.ReportItemDetail[i].AreaItem.Name>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="btn-group">
+                                    <div>
+                                        <div class="mt-1">
+                                            <label>Yes</label>
+                                        </div>
+                                        <input class="form-check-input correct"
+                                   type="radio" asp-for=@Model.ReportItemDetail[i].True value="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="btn-group">
+                                    <div>
+                                        <div class="mt-1">
+                                            <label>No</label>
+                                        </div>
+                                        <input class="form-check-input wrong"
+                                   type="radio" asp-for=@Model.ReportItemDetail[i].True value="false" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center ml-5">
+                                @if (i == 0)
+                                {
+                                    <div class="col-md-12 text-center">
+                                        <span>Tenant</span>
+                                    </div>
+                                }
+                                <div class="text-center">
+                                    <span>Agrees?</span>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6 text-right">
+                                        <input type="radio" onclick="return false;" class="form-check-input correct" asp-for=@Model.ReportItemDetail[i].TenantAgreed value="true">
+                                    </div>
+                                    <div class="col-md-2 text-left">
+                                        <input type="radio" onclick="return false;" class="form-check-input wrong" asp-for=@Model.ReportItemDetail[i].TenantAgreed value="false">
+                                    </div>
+                                </div>
+                                <div class="offset-md-2 text-center">
+                                    <textarea class="form-control" readonly row=4 style="width:250px;" asp-for=@Model.ReportItemDetail[i].TenantComments></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (meterReadingField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label asp-for=@Model.ReportItemDetail[i].AreaItem.Name>@Model.ReportItemDetail[i].AreaItem.Name </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Enter meter reading" asp-for=@Model.ReportItemDetail[i].Reading />
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    }
+                    else if (lastWorkedOnField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label asp-for=@Model.ReportItemDetail[i].AreaItem.Name>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker" asp-for=@Model.ReportItemDetail[i].LastWorkedDate />
+                                    <div class="input-group-text fa fa-calendar"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    }
+                    else if (tobedoneByField == true && DeadlineDateField == false)
+                    {
+                        <div class="row col-md-12">
+                            <p>(Skip if not required)</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label asp-for=@Model.ReportItemDetail[i].AreaItem.Name>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <textarea rows=5 class="form-control" asp-for=@Model.ReportItemDetail[i].LandlordPromise></textarea>
+                        </div>
+                    }
+                    else if (tobedoneByField == true && DeadlineDateField == true)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>@Model.ReportItemDetail[i].AreaItem.Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker" asp-for=@Model.ReportItemDetail[i].DeadlineDate />
+                                    <div class="input-group-text fa fa-calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            <div class="row">
+                <strong>Signature</strong>
+            </div><hr />
+            <div class="row">
+                <div class="col-md-5 offset-md-1">
+                    <strong>Landlord Signature</strong>
+                </div>
+                <div class="col-md-6">
+                    <strong>Tenant Signature</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 offset-md-1">
+                    @if (@Model.CondtionReport.LandlordSign != null &&
+                    @Model.CondtionReport.LandlordSignedOn != null)
+                    {
+                        byte[] imageBytes = @Model.CondtionReport.LandlordSign;
+                        string base64Image = Convert.ToBase64String(imageBytes);
+                        string dataUri = "data:image/png;base64," + base64Image;
+                        <img src=@dataUri style="height:150px"
+                         id="signaturePreview" data-bs-toggle="modal"
+                         data-bs-target="#exampleModal"
+                         data-toggle="modal" data-target="#exampleModal" />
+                    }
+                    else
+                    {
+                        <img src="" id="signaturePreview" data-bs-toggle="modal"
+                         data-bs-target="#exampleModal"
+                         data-toggle="modal" data-target="#exampleModal">
+                    }
+                </div>
+            </div>
+            <div class="row offset-md-1">
+                <span id="lblsignon" style="display:block">Signed by Landlord on:</span>
+                <span id="signedon">
+                    @Model.CondtionReport.LandlordSignedOn
+                </span>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-4 offset-md-1">
+                    <button id="btnclick2sign" type="button"
+                            class="offset-md-1 btn btn-primary mb-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                            data-toggle="modal" data-target="#exampleModal">
+                        Click to Sign
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button id="btnSave" class="btn btn-primary" style="display:block">Update Report</button>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal">
+                <div class="modal-dialog"
+                     role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Sign Condition Report
+                            </h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="signature" style="width:400px;border: 1px solid black;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-danger light"
+                                    data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" id="preview" class="btn btn-primary"
+                                    data-bs-dismiss="modal">
+                                Sign
+                            </button>
+                            <input asp-for=@Model.CondtionReport.LandlordSign type="hidden" id="sigval" />
+                            <input id="sigDate" asp-for=@Model.CondtionReport.LandlordSignedOn type="hidden" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+        </form>
+    </div>
+
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@section Scripts {
+    <script src="/js/jSignature/jSignature.min.js"></script>
+    <script src="/js/jSignature/modernizr.js"></script>
+    <script src="~/js/showHidetextbox.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="/js/condtionReport/signReport.js"></script>
+    }

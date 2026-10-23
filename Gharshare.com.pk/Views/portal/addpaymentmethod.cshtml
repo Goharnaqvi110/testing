@@ -1,0 +1,128 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model UserBankAccount
+
+@{
+    Layout = null;
+}
+@if (ViewBag.Paymentmethod == "bank")
+{
+    <div class="container">
+        <form id="frmBank">
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+            </div>
+            <div class="row">
+                <label>Account Name</label>
+                <input asp-for="BankName" class="form-control" required />
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label>Branch</label>
+                <input asp-for="BranchCode" class="form-control" required />
+                <span asp-validation-for="BranchCode" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label>Account Number</label>
+                <input asp-for="AccountNo" class="form-control integeronly" required />
+                <span asp-validation-for="AccountNo" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label>Fees and Charges</label>
+                <p>
+                    The one time set-up fee is $0.00. The bank account fee is $0.00.
+                    You may be charged a failed payment fee of $14.80 if your payment
+                    is dishonoured.
+                </p>
+            </div>
+            <div class="form-check custom-checkbox mb-3 mt-3 checkbox-success">
+                <input type="checkbox" asp-for="IsSelectedForPayment" class="form-check-input" />
+                <label class="form-check-label" for="customCheckBox3">
+                    Use this account for making payments?
+                </label>
+            </div>
+            <div class="form-check custom-checkbox mb-3 mt-3 checkbox-success">
+                <input id="chkTerms" onchange="enableAddbutton(this.checked)" type="checkbox" class="form-check-input" />
+                <label class="form-check-label" for="customCheckBox3">
+                    I agree to the Terms and Conditions
+                </label>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <a href="javascript:void(0)"
+                       onclick="loadPaymentmethodsUI()"
+                       class="btn btn-secondary w-75">
+                        Back to Select Method
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <button id="btnAdd" type="submit"
+                            class="btn btn-primary w-75 disabled">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div class="container">
+        <form id="frmCard">
+            <div class="row">
+                <p>
+                    <strong>Please Note:</strong> A 1.5% will be charged for credit or debit
+                    card payments
+                </p>
+            </div>
+            <div class="row">
+                <label>Cardholder Name</label>
+                <input asp-for="CardHolderName" class="form-control" required />
+                <span asp-validation-for="CardHolderName" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label>Card number</label>
+                <input asp-for="CardNo" class="form-control integeronly" required />
+                <span asp-validation-for="CardNo" class="text-danger"></span>
+            </div>
+            <div class="form-check custom-checkbox mb-3 mt-3 checkbox-success">
+                <input type="checkbox" asp-for="IsSelectedForPayment" class="form-check-input" />
+                <label class="form-check-label" for="customCheckBox3">
+                    Use this card for making payments?
+                </label>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <a href="javascript:void(0)"
+                       onclick="loadPaymentmethodsUI()"
+                       class="btn btn-secondary w-75">
+                        Back to Select Method
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" id="btnSaveCard"
+                            class="btn btn-primary w-75">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+<partial name="_dtpPartial"></partial>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/portal/loadPaymentmethodsUI.js"></script>
+    
+}
+<script src="~/js/portal/addUserCard.js"></script>
+<script src="~/js/portal/saveUserBank.js"></script>
+<script src="~/js/commonfunctions/integersOnly.js"></script>
+<script type="text/javascript">
+    function enableAddbutton(checked) {
+        if (checked)
+            $('#btnAdd').removeClass('disabled')
+        else
+            $('#btnAdd').addClass('disabled')
+    }
+</script>

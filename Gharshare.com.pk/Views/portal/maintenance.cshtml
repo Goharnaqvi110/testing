@@ -1,0 +1,153 @@
+﻿@using Gharshare.CommonHelper
+@model List<Gharshare.Models.Maintenance>
+
+@{
+    ViewData["Title"] = "maintenance";
+    if (User.IsInRole(WebSiteRoles.Role_Tenant))
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    else
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Maintenance</span>
+        </h2>
+    </div>
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <p>
+            <strong>Property Address:</strong> @ViewBag.PropertyAddress
+        </p>
+        <p>
+            Tip: Once you have marked an item as 'paid' it will automatically feed the reporting feature.
+            To mark as 'paid' please click edit and select yes.
+        </p>
+    </div>
+    <div class="col-xl-12 bd-callout">
+        <div class="offset-md-9 mb-4">
+            <a class="btn btn-primary"
+               data-bs-toggle="modal" data-bs-target="#largeModal"
+               onclick="loadAddMaintenance()">
+                <i class="fa fa-plus"></i>
+                Create new maintenance
+            </a>
+        </div>
+        <div id="maintenanceList">
+            <div class="table-responsive">
+                <table class="table table-responsive-md">
+                    <thead>
+                        <tr>
+                            <th style="width:30px;">
+                                <h6>No</h6>
+                            </th>
+                            <th><h6>Added By</h6></th>
+                            <th><h6>Category</h6></th>
+                            <th><h6>Property</h6></th>
+                            <th><h6>Title</h6></th>
+                            <th><h6>Description</h6></th>
+                            <th><h6>Amount</h6></th>
+                            <th><h6>Status</h6></th>
+                            <th><h6>Created on</h6></th>
+                            <th class="text-center"><h6>Action</h6></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            int sno = 0;
+
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var maintenance = Model[i];
+                                sno = @i + 1;
+                                <tr>
+                                    <td>@sno</td>
+                                    <td>
+                                        @if (maintenance.Addedby == 1)
+                                        {
+                                            <span>You</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Tenant</span>
+                                        }
+                                    </td>
+                                    <td>@maintenance.Category.Title</td>
+                                    <td>@maintenance.Property.Address</td>
+                                    <td>@maintenance.Title</td>
+                                    <td>@maintenance.Description</td>
+                                    <td>@Utility.Format(maintenance.Amount)</td>
+                                    <td>
+                                        @if (maintenance.Status == 1)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa fa-circle text-warning me-1"></i> Submitted
+                                            </div>
+                                        }
+                                        else if (maintenance.Status == 2)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa fa-circle text-danger me-1"></i> Pending
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa fa-circle text-success me-1"></i> Completed
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>@Utility.ConvertToShortDateFormat(maintenance.CreatedOn)</td>
+                                    <td>
+                                        <div class="text-center" style="width:60px;">
+                                            <a data-bs-toggle="modal" data-bs-target="#largeModal"
+                                               onclick="loadMaintenance(@maintenance.ID)"
+                                               title="Edit" class="edit btn btn-danger shadow btn-xs sharp me-1">
+                                                <i class="fa fa-pen"></i>
+                                            </a>
+                                            <a data-bs-toggle="modal" data-bs-target="#largeModal"
+                                               onclick="deleteMaintenance(@maintenance.ID)"
+                                               title="Delete" class="edit btn btn-danger shadow btn-xs sharp me-1">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="10">
+                                    <div id="noplan" class="text-center p-3">
+                                        <h4>No record found</h4>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <partial name="_AjaxPager" model="@pager" />
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record exists</h4>
+        </div>
+    </div>
+</div>
+<script src="~/js/portal/loadAddMaintenance.js"></script>
+<script src="~/js/portal/loadMaintenance.js"></script>
+<script src="~/js/portal/deleteMaintenance.js"></script>
+
+<script src="/js/commonFunctions/recreatePaging.js"></script>
+<script src="/js/commonFunctions/formatDateToDDMMYY.js"></script>
+<script src="~/js/maintenance/createMaintenanceList.js"></script>
+<script src="~/js/maintenance/getMaintenance.js"></script>

@@ -1,0 +1,63 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model ConditionReport
+@{
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    else if (User.IsInRole(WebSiteRoles.Role_Tenant))
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    ViewData["Title"] = "Condition Report";
+}
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Condition Report</span>
+        </h2>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="bd-callout bd-callout-default">
+                <p>
+                    <strong>Property Address:</strong> @Model.Property.Address
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="bd-callout">
+                <embed src="@Model.FilePath" height="800" width="100%" />
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="bd-callout">
+                <div class="row mb-0">
+                    <span class="mb-3">
+                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)">
+                        </i>
+                        @if (Model.SignedByLandlord & Model.SignedByTenant)
+                        {
+                            <span>Signed by both landlord and tenant</span>
+                        }
+                        else if (Model.SignedByLandlord)
+                        {
+                            <span>Signed landlord</span>
+                        }
+
+                    </span>
+                    @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+                    {
+                        <p>
+                            Your landlord will be notified that the condition report has been
+                            completed and signed by you.
+                        </p>
+                    }
+                    <hr />
+                    <a asp-action="downloadcreport" asp-controller="portal"
+                       class="pdf-download-link" asp-route-ID=@Model.ID class="pl-5">Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

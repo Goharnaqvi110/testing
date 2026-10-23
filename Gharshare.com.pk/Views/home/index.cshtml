@@ -1,0 +1,933 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+
+@model HomeVM
+@{
+    ViewData["Title"] = "Find a tenant & manage your property";
+    Layout = "_Layoutmain";
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<!-- SLIDER AREA START (slider-3) -->
+<div class="ltn__slider-area ltn__slider-3">
+    <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
+        <!-- ltn__slide-item -->
+        <div class="ltn__slide-item ltn__slide-item-2 ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image"
+             data-bs-bg="img/slider/slider-1.webp">
+            <div class="ltn__slide-item-inner text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <div class="slide-video mb-50 d-none">
+                                        <a class="ltn__video-icon-2 ltn__video-icon-2-border"
+                                           href="https://www.youtube.com/embed/vAXNALQtFFc?si=XeUkQJinpTTx_rCd?autoplay=1&amp;showinfo=0%22"
+                                           data-rel="lightcase:myCollection">
+                                            <i class="fa fa-play"></i>
+                                        </a>
+                                    </div>
+                                    <h6 class="slide-sub-title white-color--- animated ltn__secondary-color">
+                                        <span>
+                                            <i class="fas fa-home ltn__primary-color"></i>
+                                        </span> Property Management
+                                    </h6>
+                                    <h1 class="slide-title animated ltn__primary-color">
+                                        Smooth <span class="ltn__secondary-color"> and Easy</span> Rentals <br />
+                                        @* <span class="ltn__secondary-color">Rent</span>
+                                        <br> Your <span class="ltn__secondary-color">Property</span> *@
+                                    </h1>
+                                    <div class="slide-brief animated">
+                                        <p class="ltn__primary-color">
+                                            Simplify renting with our convenient tools <br />
+                                            and stress-free solutions.
+                                        </p>
+                                    </div>
+                                    <div class="btn-wrapper animated">
+                                        <a id="register" asp-area="identity" asp-page="/account/register"
+                                           class="theme-btn-1 btn btn-effect-1" style="width:160px;">
+                                            Get
+                                            Started
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ltn__slide-item -->
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image"
+             data-bs-bg="img/slider/slider-2.webp">
+            <div class="ltn__slide-item-inner  text-right text-end">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <h6 class="slide-sub-title white-color--- animated ltn__secondary-color">
+                                        <span>
+                                            <i class="fas fa-home ltn__primary-color"></i>
+                                        </span> Sharehouse Manager
+                                    </h6>
+                                    <h1 class="slide-title animated ltn__primary-color">
+                                        Manage <span class="ltn__secondary-color">Shared</span>
+                                        Homes<span class="ltn__secondary-color"> Easily</span>
+                                    </h1>
+                                    <div class="slide-brief animated">
+                                        <p class="ltn__primary-color">
+                                            Keep your shared home organized effortlessly <br />
+                                            with our user-friendly platform.
+                                        </p>
+                                    </div>
+                                    <div class="btn-wrapper animated">
+                                        <a id="register" asp-area="identity" asp-page="/account/register"
+                                           class="theme-btn-1 btn btn-effect-1">
+                                            Get
+                                            Started
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ltn__slide-item -->
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image"
+             data-bs-bg="img/slider/slider-3.webp">
+            <div class="ltn__slide-item-inner  text-left">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation ltn__secondary-color">
+                                    <h6 class="slide-sub-title white-color--- animated ltn__primary-color">
+                                        <span>
+                                            <i class="fas fa-home ltn__secondary-color"></i>
+                                        </span> Property Advisers
+                                    </h6>
+                                    <h1 class="slide-title animated ltn__primary-color">
+                                        Find,<span class="ltn__secondary-color">Maximize </span> Your Property's
+                                        <span class="ltn__secondary-color">Visibility</span>
+                                    </h1>
+                                    <div class="slide-brief animated">
+                                        <p class="ltn__primary-color">
+                                            Streamline your property rental business with our user-friendly website.
+                                            From tenant screening to rent collection, we've got you covered.
+                                        </p>
+                                    </div>
+                                    <div class="btn-wrapper animated">
+                                        <a id="register" asp-area="identity" asp-page="/account/register"
+                                           class="theme-btn-1 btn btn-effect-1">
+                                            Get
+                                            Started
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+    </div>
+</div>
+<!-- SLIDER AREA END -->
+<!-- CAR DEALER FORM AREA START -->
+<div class="ltn__car-dealer-form-area  pb-115---">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__car-dealer-form-tab">
+                    <div class="tab-content bg-white box-shadow-1 ltn__border position-relative pb-10">
+                        <div class="tab-pane fade active show" id="ltn__form_tab_1_1">
+                            <div class="car-dealer-form-inner">
+                                <form class="ltn__car-dealer-form-box row">
+                                    <div class="ltn__car-dealer-form-item ltn__custom-icon---- ltn__icon-car---- col-lg-5 col-md-6">
+                                        <select id="cityDropdown" asp-items="@Model.Cities">
+                                            <option value="" selected>--Select City--</option>
+                                        </select>
+                                    </div>
+                                    <div class="ltn__car-dealer-form-item ltn__custom-icon---- ltn__icon-calendar---- col-lg-5 col-md-6">
+                                        <select id="propertyTypeDropdown" class="nice-select">
+                                            <option value="" selected>Property Type</option>
+                                            <option value="1">House</option>
+                                            <option value="2">Room</option>
+                                            <option value="3">Apartment</option>
+                                            <option value="4">Hostel</option>
+                                            <option value="5">Hostel Room</option>
+                                            <option value="6">Shop</option>
+                                            <option value="7">Office</option>
+                                            <option value="8">Luxury Villa</option>
+                                        </select>
+                                    </div>
+                                    <div class="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-2 col-md-6">
+                                        <div class="btn-wrapper text-center mt-0">
+                                            <a id="findNowBtn" class="btn theme-btn-1 btn-effect-1 text-uppercase" style="width:180px;">
+                                                Find Property
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        @*<div class="tab-pane fade" id="ltn__form_tab_1_2">
+                        <div class="car-dealer-form-inner">
+                        <form action="#" class="ltn__car-dealer-form-box row">
+                        <div class="ltn__car-dealer-form-item ltn__custom-icon---- ltn__icon-car---- col-lg-3 col-md-6">
+                        <select class="nice-select" style="display: none;">
+                        <option>Choose Area</option>
+                        <option>chicago</option>
+                        <option>London</option>
+                        <option>Los Angeles</option>
+                        <option>New York</option>
+                        <option>New Jersey</option>
+                        </select>
+                        <div class="nice-select" tabindex="0">
+                        <span class="current">
+                        Choose
+                        Area
+                        </span>
+                        <ul class="list">
+                        <li data-value="Choose Area" class="option selected">
+                        Choose Area
+                        </li>
+                        <li data-value="chicago" class="option">chicago</li>
+                        <li data-value="London" class="option">London</li>
+                        <li data-value="Los Angeles" class="option">Los Angeles</li>
+                        <li data-value="New York" class="option">New York</li>
+                        <li data-value="New Jersey" class="option">New Jersey</li>
+                        </ul>
+                        </div>
+                        </div>
+                        <div class="ltn__car-dealer-form-item ltn__custom-icon---- ltn__icon-meter---- col-lg-3 col-md-6">
+                        <select class="nice-select" style="display: none;">
+                        <option>Property Status</option>
+                        <option>Open house</option>
+                        <option>Rent</option>
+                        <option>Sale</option>
+                        <option>Sold</option>
+                        </select>
+                        <div class="nice-select" tabindex="0">
+                        <span class="current">
+                        Property
+                        Status
+                        </span>
+                        <ul class="list">
+                        <li data-value="Property Status" class="option selected">
+                        Property Status
+                        </li>
+                        <li data-value="Open house" class="option">Open house</li>
+                        <li data-value="Rent" class="option">Rent</li>
+                        <li data-value="Sale" class="option">Sale</li>
+                        <li data-value="Sold" class="option">Sold</li>
+                        </ul>
+                        </div>
+                        </div>
+                        <div class="ltn__car-dealer-form-item ltn__custom-icon---- ltn__icon-calendar---- col-lg-3 col-md-6">
+                        <select class="nice-select" style="display: none;">
+                        <option>Property Type</option>
+                        <option>Apartment</option>
+                        <option>Co-op</option>
+                        <option>Condo</option>
+                        <option>Single Family Home</option>
+                        </select>
+                        <div class="nice-select" tabindex="0">
+                        <span class="current">
+                        Property
+                        Type
+                        </span>
+                        <ul class="list">
+                        <li data-value="Property Type" class="option selected">
+                        Property
+                        Type
+                        </li>
+                        <li data-value="Apartment" class="option">Apartment</li>
+                        <li data-value="Co-op" class="option">Co-op</li>
+                        <li data-value="Condo" class="option">Condo</li>
+                        <li data-value="Single Family Home" class="option">
+                        Single Family
+                        Home
+                        </li>
+                        </ul>
+                        </div>
+                        </div>
+                        <div class="ltn__car-dealer-form-item ltn__custom-icon ltn__icon-calendar col-lg-3 col-md-6">
+                        <div class="btn-wrapper text-center mt-0">
+                        <!-- <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase">Search Inventory</button> -->
+                        <a href="shop-right-sidebar.html"
+                        class="btn theme-btn-1 btn-effect-1 text-uppercase">
+                        Search
+                        Properties
+                        </a>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CAR DEALER FORM AREA END -->
+<!-- FEATURE AREA START ( Feature - 6) -->
+<div class="ltn__feature-area  pt-120 pb-90 mb-120---">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2--- text-center">
+                    <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">Features</h6>
+                    <h1 class="section-title animated fadeIn ms-4 mb-0">
+                        <a href="#">
+                            3 steps
+                            to success with <span class="ltn__secondary-color-3">Smart Property Manager</span>
+                        </a>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row ltn__custom-gutter--- justify-content-center">
+            <div class="col-lg-4 col-sm-6 col-12">
+                <a href="#feature1">
+                    <div class="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1 custom-padding">
+                        <div class="ltn__feature-icon">
+                            <img src="/img/homepage/match-icon.webp"
+                                 width="120" alt="#">
+                        </div>
+                        <div class="ltn__feature-info pb-4">
+                            <h3>
+                                @* <a href="#feature1"> *@ 01 <br> <span class="ltn__secondary-color-3">Match</span>@* </a> *@
+                            </h3>
+                            <p>advertise, find a tenant & secure your lease</p>
+                            <!-- <a class="ltn__service-btn" href="#feature1">Find A Home <i class="fa fa-arrow-right"></i></a> -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+                <a href="#feature2">
+                    <div class="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1 ">
+                        <div class="ltn__feature-icon">
+                            <!-- <span><i class="flaticon-house-3"></i></span> -->
+                            <img src="/img/homepage/manage-icon.webp"
+                                 width="120" alt="#">
+                        </div>
+                        <div class="ltn__feature-info">
+                            <h3>
+                                02 <br> <span class="ltn__secondary-color-3">Manage</span>
+                            </h3>
+                            <p>your tenancy, rental payments, documents & expenses</p>
+                            <!-- <a class="ltn__service-btn" href="#feature2">Find A Home <i class="fa fa-arrow-right"></i></a> -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+                <a href="#feature3">
+                    <div class="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1">
+                        <div class="ltn__feature-icon">
+                            <img src="/img/homepage/maintain-icon.webp"
+                                 width="120" alt="#">
+                        </div>
+                        <div class="ltn__feature-info">
+                            <h3>
+                                03 <br> <span class="ltn__secondary-color-3">Maintain</span>
+                            </h3>
+                            <p>Keep your property in top condition with our reliable maintenance support.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FEATURE AREA END -->
+<!-- ABOUT feature AREA START -->
+<div class="ltn__about-feature-area pt-120 pb-90">
+    <div class="container">
+        <div class="row mb-5" id="feature1">
+            <div class="col-lg-5 align-self-center">
+                <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                    <img src="~/img/homepage/match.webp" alt="Image">
+                </div>
+            </div>
+            <div class="col-lg-7 sticky_effect">
+                <div class="about-us-info-wrap">
+                    <div class="section-title-area ltn__section-title-2--- mb-20">
+                        <h1 class="section-title">
+                            <span class="ltn__secondary-color-3">01 </span> <br> Match
+                        </h1>
+                        <p>
+                            Advertise your property and find a tenant, review enquiries and applications,
+                            then make it ‘official’.
+                        </p>
+                        <div class="bullets">
+                            <img src="/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                <strong>Advertise </strong>on <em>smartpropertymanager.pk</em>- Pakistan’s leading property
+                                website
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">Handle <strong>enquiries &amp; applications</strong></div>
+                        </div>
+                        @* <div class="bullets">
+                        <img src="/img/publicsite/common/tick.svg"
+                        alt="" class="image tick" width="15" height="15">
+                        <div class="_3m-bullets">
+                        Do <strong>digital tenant checks</strong> via the
+                        National Tenancy Database
+                        </div>
+                        </div> *@
+                        <div class="bullets">
+                            <img src="/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Select &amp; <strong>
+                                    set-up a
+                                    tenant
+                                </strong><strong>‍</strong>
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Create &amp;&nbsp;sign your <strong>
+                                    lease
+                                    agreement
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-wrapper animated">
+                        <a id="advertise" href="/features/features#advertise" data-section-id="advertise" class="theme-btn-1 btn btn-effect-1 text-uppercase">
+                            Explore
+                            Features
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5" id="feature2">
+            <div class="col-lg-7 sticky_effect order-2 order-lg-1">
+                <div class="about-us-info-wrap">
+                    <div class="section-title-area ltn__section-title-2--- mb-20">
+                        <h1 class="section-title">
+                            <span class="ltn__secondary-color-3">02 </span> <br> Manage
+                        </h1>
+                        <p>
+                            MANAGE your property and tenant relationship from your computer or mobile with our
+                            all-in-one solution.
+                        </p>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Track and collect <strong>rental payments</strong>
+                                &amp;&nbsp;your <strong>bond</strong>
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Conduct digital <strong>
+                                    inspections &amp; condition reports
+                                </strong>(or hire a pro!)
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Track expenses &amp; generate <strong>
+                                    reports
+                                </strong>(incl. EOFY)
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                <strong>Instant message </strong>your tenant on platform
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">Manage <strong>tenant bills </strong>&amp; receipts</div>
+                        </div>
+                    </div>
+
+                    <div class="btn-wrapper animated">
+                        <a id="setup" href="/features/features#ltn_tab_1_6" data-section-id="ltn_tab_1_6" class="theme-btn-1 btn btn-effect-1 text-uppercase">
+                            Explore
+                            Features
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 align-self-center order-1 order-lg-2">
+                <div class="about-us-img-wrap ltn__img-shape-right   about-img-left">
+                    <img src="~/img/homepage/manage.webp" alt="Image">
+                </div>
+            </div>
+        </div>
+        <div class="row " id="feature3">
+            <div class="col-lg-5 align-self-center">
+                <div class="about-us-img-wrap ltn__img-shape-left  about-img-left">
+                    <img src="~/img/homepage/maintain.webp" alt="Image">
+                </div>
+            </div>
+            <div class="col-lg-7 sticky_effect">
+                <div class="about-us-info-wrap">
+                    <div class="section-title-area ltn__section-title-2--- mb-20">
+                        <h1 class="section-title">
+                            <span class="ltn__secondary-color-3">03 </span> <br> Maintain
+                        </h1>
+                        <p>
+                            MAINTAIN your property and tenant relationship. No calls and no waiting. It’s all
+                            done via RentBetter.
+                        </p>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Store all your <span class="_3m-bullets bold">
+                                    <strong class="bold-text-24">documents</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">Schedule <strong>repairs &amp; maintenance</strong></div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">Receive<strong> auto reminders &amp; prompts</strong></div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">Receive<strong> auto reminders &amp; prompts</strong></div>
+                        </div>
+                        <div class="bullets">
+                            <img src="~/img/publicsite/common/tick.svg"
+                                 alt="" class="image tick" width="15" height="15">
+                            <div class="_3m-bullets">
+                                Conduct <strong>routine inspections </strong>(or hire a
+                                pro)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-wrapper animated">
+                        <a id="greport" href="/features/features#ltn_tab_2_3" data-section-id="ltn_tab_2_3" class="theme-btn-1 btn btn-effect-1 text-uppercase">
+                            Explore
+                            Features
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ABOUT feature AREA END -->
+<!--  Serivce AREA START  -->
+<div class="ltn__serivce-area ltn__product-gutter --- pt-115 pb-90 ">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2--- text-center">
+                    <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">Service</h6>
+                    <h1 class="section-title">
+                        What's in it for <span class="ltn__secondary-color-3">you?</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row ltn__category-slider-active--- slick-arrow-1 justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="ltn__category-item ltn__category-item-5 text-center">
+                    <a asp-controller="toolkit" asp-action="savingscalculator">
+                        <span class="category-icon">
+                            <!-- <i class="flaticon-car"></i> -->
+                            <img src="/img/homepage/savingmoney.webp"
+                                 width="120" alt="">
+                        </span>
+                        <span class="category-title">Save Money</span>
+                        <span class="category-btn"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="ltn__category-item ltn__category-item-5 text-center">
+                    <a href="#">
+                        <span class="category-icon">
+                            <!-- <i class="flaticon-swimming"></i> -->
+                            <img src="/img/homepage/gain_control.webp"
+                                 width="120" alt="">
+                        </span>
+                        <span class="category-title">Gain Control</span>
+                        <span class="category-btn"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="ltn__category-item ltn__category-item-5 text-center">
+                    <a href="#">
+                        <span class="category-icon">
+                            <!-- <i class="flaticon-stethoscope"></i> -->
+                            <img src="/img/homepage/keep_it_simple.webp"
+                                 width="120" alt="">
+                        </span>
+                        <span class="category-title">Keep It Simple</span>
+                        <span class="category-btn"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                <div class="ltn__category-item ltn__category-item-5 text-center">
+                    <a href="#">
+                        <span class="category-icon">
+                            <!-- <i class="flaticon-secure-shield"></i> -->
+                            <img src="/img/homepage/Security_and_Support.webp"
+                                 width="120" alt="">
+                        </span>
+                        <span class="category-title">Security & Support</span>
+                        <span class="category-btn"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Serivce AREA END  -->
+<!-- feature SLIDER AREA START -->
+@if (Model.Properties.Count() > 0)
+{
+    @*<div class="ltn__feature-slider-area ltn__product-gutter pt-115  pb-90 plr--7">*@
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2--- text-center">
+                    <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">Properties</h6>
+                    <h1 class="section-title">Property Listings</h1>
+                </div>
+            </div>
+        </div>
+        @if (Model.Properties != null)
+        {
+            <div class="container">
+                <div class="row" id="propertyList">
+                    @foreach (var property in Model.Properties)
+                    {
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="ltn__blog-item ltn__blog-item-3">
+                                <div class="ltn__blog-img">
+                                    <a asp-area="" asp-controller="property" asp-action="detail" asp-route-uid=@property.uid>
+                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"
+                                             data-interval="false">
+                                            <ol class="carousel-indicators">
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                            </ol>
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active">
+                                                    <img src="@property.CoverImage" class="d-block w-100" alt="..." style="min-height:300px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="ltn__blog-brief">
+                                    <div class="ltn__blog-meta">
+                                        <ul>
+                                            <li class="ltn__blog-author">
+                                                <h6><span>Rs.</span> @Utility.Format(property.Rent)/month</h6>
+                                            </li>
+                                        </ul>
+                                        <div class="ltn__blog-meta">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-bath" style="color: #5c727d;"> <span>@property.Bathroom</span></i>
+                                                    <i class="fa fa-bed" style="color: #5c727d;"> <span>@property.Bed</span></i>
+                                                    <i class="fa fa-user" style="color: #5c727d;"> <span>@property.Totalflatmates</span></i>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <ul>
+                                                        <li>
+                                                            <p>@Utility.GetEnumDisplayName(property.CatogryID)</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(property.AdTitle) && property.AdTitle.Length >= 30)
+                                        {
+                                            <p>
+                                                @property.AdTitle.Substring(0, 30)....
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                @property.AdTitle
+                                            </p>
+                                        }
+                                        <a asp-area="" asp-controller="property" asp-action="detail" asp-route-uid=@property.uid>
+                                            @if (!string.IsNullOrEmpty(property.Description) && property.Description.Length >= 30)
+                                            {
+                                                <p>@property.Description.Substring(0, 30)....</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@property.Description</p>
+                                            }
+                                        </a>
+
+                                        @if (property.AvailableFrom <= DateTime.UtcNow)
+                                        {
+                                            <div class="ltn__blog-btn">
+                                                Available Now
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="ltn__blog-btn">
+                                                Available from
+                                                @Utility.ConvertToShortDateFormat(property.AvailableFrom)
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    @*</div>*@
+    <partial name="_AjaxPager" model="@pager" />
+}
+<!-- feature SLIDER AREA END -->
+<!-- VIDEO AREA START -->
+<div class="ltn__video-popup-area ltn__video-popup-margin---">
+    <div class="ltn__video-bg-img ltn__video-popup-height-600--- bg-overlay-black-30 bg-image bg-fixed ltn__animation-pulse1"
+         data-bs-bg="/img/19.jpeg">
+        <h1 class="section-title">How <span>Smart Property Manager</span> works?</h1>
+
+        <a class="ltn__video-icon-2 ltn__video-icon-2-border---"
+           href="https://www.youtube.com/embed/vAXNALQtFFc?si=XeUkQJinpTTx_rCd?autoplay=1&showinfo=0"
+           data-rel="lightcase:myCollection">
+            <i class="fa fa-play"></i>
+        </a>
+    </div>
+</div>
+<!-- VIDEO AREA END -->
+<!-- MORE AREA START -->
+<div class="ltn__blog-area pt-115 pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2--- text-center">
+                    <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">More</h6>
+                    <h1 class="section-title">A Few Little <span>Extras</span></h1>
+                </div>
+            </div>
+        </div>
+        <div class="row  ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal">
+            <!-- Blog Item -->
+            <div class="col-lg-12">
+                <div class="ltn__blog-item ltn__blog-item-3">
+                    <div class="ltn__blog-img">
+                        <a asp-controller="toolkit" asp-action="rentalestimate">
+                            <img src="/img/homepage/rentalestimate.webp"
+                                 alt="#">
+                        </a>
+                    </div>
+                    <div class="ltn__blog-brief">
+                        <h3 class="ltn__blog-title position-relative">
+                            <a asp-controller="toolkit" asp-action="rentalestimate">
+                                Rental Estimate <span class="menu-item-badge">FREE</span>
+                            </a>
+                        </h3>
+                        <p>Discover the value of your property with our free rental estimate report.</p>
+                        <div class="ltn__blog-meta-btn">
+                            <a class="ltn__service-btn" asp-controller="toolkit" asp-action="rentalestimate">
+                                Get Rental Estimate <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Blog Item -->
+            <div class="col-lg-12">
+                <div class="ltn__blog-item ltn__blog-item-3">
+                    <div class="ltn__blog-img">
+                        <a asp-controller="toolkit" asp-action="ebook">
+                            <img src="/img/homepage/ebook.webp"
+                                 alt="#">
+                        </a>
+                    </div>
+                    <div class="ltn__blog-brief">
+                        <h3 class="ltn__blog-title position-relative">
+                            <a asp-controller="toolkit" asp-action="ebook">
+                                E-Book <span class="menu-item-badge">FREE</span>
+                            </a>
+                        </h3>
+                        <p>Get all the essential info on renting and managing your property!</p>
+                        <div class="ltn__blog-meta-btn">
+                            <a class="ltn__service-btn" asp-controller="toolkit"
+                               asp-action="ebook">
+                                Get E-Book <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Blog Item -->
+            <div class="col-lg-12">
+                <div class="ltn__blog-item ltn__blog-item-3">
+                    <div class="ltn__blog-img">
+                        <a asp-controller="toolkit" asp-action="agentswitchkit">
+                            <img src="/img/homepage/switchkitwomen.webp"
+                                 alt="#">
+                        </a>
+                    </div>
+                    <div class="ltn__blog-brief">
+                        <h3 class="ltn__blog-title position-relative">
+                            <a asp-controller="toolkit" asp-action="agentswitchkit">
+                                Switch Kit <span class="menu-item-badge">FREE</span>
+                            </a>
+                        </h3>
+                        <p>
+                            Ready to part ways with agents? Get helpful guide switching to self-managing.
+                        </p>
+                        <div class="ltn__blog-meta-btn">
+                            <a class="ltn__service-btn" asp-controller="toolkit"
+                               asp-action="agentswitchkit">
+                                Get Kit<i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MORE AREA END -->
+<!-- TESTIMONIAL AREA START (testimonial-7) -->
+@if (Model.Testimonials.Any())
+{
+    <div class="ltn__testimonial-area --- bg-image-top pt-120 pb-70" data-bs-bg="img/bg/20.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2--- text-center">
+                        <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">Our Testimonial</h6>
+                        <h1 class="section-title">Clients Feedback</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row ltn__testimonial-slider-5-active slick-arrow-1">
+                @foreach (var testimonial in Model.Testimonials)
+                {
+                    <div class="col-lg-4">
+                        <div class="ltn__testimonial-item ltn__testimonial-item-7">
+                            <div class="ltn__testimoni-info">
+                                <p style="min-height:450px;">
+                                    <i class="flaticon-left-quote-1"></i>
+                                    @testimonial.Description
+                                </p>
+                                <div class="ltn__testimoni-info-inner">
+                                    <div class="ltn__testimoni-img">
+                                        <img src=@testimonial.ImagePath alt="#">
+                                    </div>
+                                    <div class="ltn__testimoni-name-designation">
+                                        <h5>@testimonial.Name</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                }
+            </div>
+        </div>
+    </div>
+}
+<!-- TESTIMONIAL AREA END -->
+<!-- BRAND LOGO AREA START -->
+<div class="ltn__brand-logo-area ltn__brand-logo-1  pt-290 pb-110 plr--9 d-none">
+    <div class="container-fluid">
+        <div class="row ltn__brand-logo-active">
+            <div class="col-lg-12">
+                <div class="ltn__brand-logo-item">
+                    <img src="~/img/brand-logo/1.png" alt="Brand Logo">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ltn__brand-logo-item">
+                    <img src="~/img/brand-logo/2.png" alt="Brand Logo">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ltn__brand-logo-item">
+                    <img src="~/img/brand-logo/3.png" alt="Brand Logo">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ltn__brand-logo-item">
+                    <img src="~/img/brand-logo/4.png" alt="Brand Logo">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ltn__brand-logo-item">
+                    <img src="~/img/brand-logo/5.png" alt="Brand Logo">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ltn__brand-logo-item">
+                    <img src="~/img/brand-logo/3.png" alt="Brand Logo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BRAND LOGO AREA END -->
+@section Scripts {
+    <script src="/js/commonFunctions/recreatePaging.js"></script>    
+    <script src="/js/commonFunctions/formatValue.js"></script>
+    <script src="/js/property/availableFrom.js"></script>
+    <script src="/js/property/getPropertyType.js"></script>
+    <script src="/js/commonFunctions/getShortDescription.js"></script>
+    <script src="/js/property/createPropertyList.js"></script>
+    <script src="/js/property/getProperties.js"></script>
+    <script src="/js/commonFunctions/formatDateToDDMMYY.js"></script>
+    <script src="/js/search/searchProperty.js"></script>
+
+}
+
+

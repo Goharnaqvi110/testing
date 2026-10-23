@@ -1,0 +1,60 @@
+﻿@using Gharshare.Models
+@model Service
+@{
+    ViewData["Title"] = "Edit service";
+    Layout = null;
+}
+<div class="row justify-content-center h-100 align-items-center">
+    <div class="col-md-12">
+        <div class="authincation-content">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="auth-form">
+                        <form id="frmservice">
+                            <input type="hidden" asp-for="ID" />
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Service type</label>
+                                    <div class="d-flex">
+                                        <select id="ddltype" required asp-for="Type" class="nice-select w-100">
+                                            <option selected value="">--Select Service Type--</option>
+                                            <option value="1">Match</option>
+                                            <option value="2">Manage</option>
+                                            <option value="3">Maintain</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-label form-label">Service name</label>
+                                    <div class="flex">
+                                        <input asp-for="Name" type="text" class="form-control"
+                                               required placeholder="Enter service name...">
+                                        <span asp-validation-for="Name" id="spanname" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mb-3">
+                                <label class="text-label form-label">Service description</label>
+                                <div class="flex">
+                                    <textarea required rows="10" style="height:100px;"
+                                              class="form-control" placeholder="Enter service description..."
+                                              asp-for="Description"></textarea>
+                                    <span id="spandescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <button type="submit" class="btn btn-primary w-50">
+                                    Update
+                                </button>
+                            </div>
+                        </form>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_ValidationScriptsPartial" />
+<partial name="_dtpPartial" />
+<script src="~/js/service/createServicelist.js"></script>
+<script src="~/js/service/updateService.js"></script>

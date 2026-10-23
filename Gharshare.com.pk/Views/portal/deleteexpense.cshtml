@@ -1,0 +1,44 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.Expense
+
+@{
+    ViewData["Title"] = "Delete Expense Record";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-action="deleteexpense">
+        <label>Category</label>
+        <div class="row">
+            <select disabled asp-for="CategoryID" class="nice-select"
+                    asp-items="ViewBag.Categories">
+            </select>
+        </div>
+        <div class="row">
+            <label>Title</label>
+            <input disabled asp-for="Title" class="form-control" />
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="Title" />@*to keep modelstate valid*@
+        </div>
+        <div class="row">
+            <label>Description</label>
+            <input disabled asp-for="Description" class="form-control" />
+        </div>
+        <div class="row">
+            <label>Amount</label>
+            <input disabled asp-for="Amount" class="form-control" />
+        </div>
+        <div class="row">
+            <label class="form-check-label">
+                <input disabled class="form-check-input" asp-for="GSTIncluded" /> @Html.DisplayNameFor(model => model.GSTIncluded)
+            </label>
+        </div>
+        <div class="text-center">
+            <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger w-50" />             
+        </div>
+    </form>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+    <script type="text/javascript" src="~/js/ConfirmDelete.js" />

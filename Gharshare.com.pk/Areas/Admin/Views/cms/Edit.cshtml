@@ -1,0 +1,139 @@
+﻿@using Gharshare.Models
+@model StaticContent
+@{
+    ViewData["Title"] = "Edit Content";
+    Layout = "_LayoutAdmin";
+}
+<div class="col-lg-12">
+    <div class="card m-5">
+        <div class="card-header">
+            <h4 class="card-title">Edit content</h4>
+        </div>
+        <div class="card-body">
+            <form asp-area="admin" asp-action="edit" method="Post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.Id" />
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-6">
+                        <label class="text-label form-label">Content Type</label>
+                        <div class="flex">
+                            <select asp-for="ContentTypeID" required asp-items="@ViewBag.contentTypes"
+                                    class="nice-select wide w-100">
+                                <option value="" selected>select content type</option>
+                            </select>
+                            <span asp-validation-for="ContentTypeID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-label form-label">Status</label>
+                        <div class="flex">
+                            <select asp-for="Status" class="nice-select w-100">
+                                <option value="1">Active</option>
+                                <option value="2">Draft</option>
+                                <option value="3">Canceled</option>
+                            </select>
+                            <span asp-validation-for="Status" id="spanstatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6 text-start">
+                        <label class="text-label form-label">Is this a featured article?</label>
+                        <div class="form-check custom-checkbox ms-1 ">
+                            <input type="checkbox" asp-for="isFeatured" class="form-check-input" />
+                            <label class="form-check-label">
+                                Yes! This is featured article
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-12">
+                        <label class="text-label form-label">Heading</label>
+                        <div class="flex">
+                            <input id="txtname" asp-for="Heading" type="text" class="form-control"
+                                   required placeholder="Enter heading...">
+                            <span asp-validation-for="Heading" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-12">
+                        <label class="text-label form-label">Sub-Heading (if required)</label>
+                        <div class="flex">
+                            <input asp-for="LowersectionHeading" type="text" class="form-control"
+                                   placeholder="Enter sub-heading...">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <label class="text-label form-label">Top section content</label>
+                    <div class="flex">
+                        <textarea required rows="10" style="height:50px;"
+                                  class="form-control" placeholder="Enter section content..."
+                                  asp-for="Topsection"></textarea>
+                        <span asp-validation-for="Topsection" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-3 mt-2">
+                    <div class="col-sm-12">
+                        <label class="text-label form-label">Current image</label>
+                        <div class="mb-3">
+                            <img style="border:solid 1px;border-radius:5%;" src="@Model.Imagepath" height="300px" width="300px" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="text-label form-label">Change Image</label>
+                    <div class="col-md-6 input-group mb-3">
+                        <div class="form-file">
+                            <input id="file" type="file" name="file"
+                                   class="form-file-input form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-3 mt-2">
+                    <div class="col-sm-12">
+                        <label class="text-label form-label">Detailed content</label>
+                        <div id="editor"></div>
+                        <input type="hidden" asp-for="LowerSection" id="lowerSection" name="LowerSection" />
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-2">
+                    <input type="hidden" asp-for="Imagepath" />
+                    <input type="hidden" asp-for="CreatedbyUserId" />
+                    <input type="hidden" asp-for="CreatedOn" />
+                    <input type="hidden" asp-for="UId" />
+                    <button type="submit" class="btn btn-primary w-50">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+<script>
+    function initializeCKEditor() {
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // CKEditor configuration options
+            })
+            .then(editor => {
+                const content = document.querySelector('#lowerSection').value;
+                editor.setData(content);  /// get value from DB & populate RTE
+
+                //Get value from RTE & save in hidden field to post back to server
+                editor.model.document.on('change:data', () => {
+                    document.querySelector('#lowerSection').value = editor.getData();
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    // Call the function to initialize CKEditor
+    initializeCKEditor();
+</script>

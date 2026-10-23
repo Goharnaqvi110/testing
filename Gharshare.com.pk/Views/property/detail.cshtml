@@ -1,0 +1,906 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model PropertyVM
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@section metatags
+{
+    <meta name="description" content="Pakistan's No.1 shared accommodation & management site.MRB Share house Managers offers the best
+shared accomodation & management services.">
+    <meta name="keywords" content="Share houses, Share accomodation, sharehouse management, flatemate, shared room,
+Pakistan's No.1 property site,property management,sharehouse manager, share house,
+shared home management melbourne,shared property management melbourne,Tenants,,shared property,sharehouse melbourne,
+sharehouse management,share house property management, share accommodation, share flat, shared home management, 
+melbourne property agents, best property managers melbourne,
+cheap property management, property management fees melbourne">
+
+}
+@{
+    ViewData["Title"] = "Property Detail";
+}
+<!-- IMAGE SLIDER AREA START (img-slider-3) -->
+@if (Model.PropertyImages != null)
+{
+    <div class="ltn__img-slider-area mb-90 mt-40">
+        <div class="container-fluid">
+            <div class="row ltn__image-slider-5-active slick-arrow-1 slick-arrow-1-inner ltn__no-gutter-all">
+                @foreach (var imgPath in Model.PropertyImages)
+                {
+                    <div class="col-lg-12">
+                        <div class="ltn__img-slide-item-4">
+                            <a href="@imgPath.ImagePath" data-rel="lightcase:myCollection">
+                                <img style="height:400px;width:100%" src="@imgPath.ImagePath" alt="Image">
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+        {
+            <div class="offset-md-9">
+                <a href="#" onclick="addRemoveFavouriteProperty(this,@Model.Property.ID)"
+                   class="theme-btn-1 btn btn-effect-1">
+                    @if (Model.IsPropertyUserFavourite)
+                    {
+                        <span>Remove Property from Favourite List</span>
+                    }
+                    else
+                    {
+                        <span>Add Property to Favourite List</span>
+                    }
+                </a>
+            </div>
+        }
+    </div>
+}
+<div class="row">
+</div>
+<!-- IMAGE SLIDER AREA END -->
+<!-- DETAILS AREA START -->
+<div class="ltn__shop-details-area pb-10">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="ltn__shop-details-inner ltn__page-details-inner mb-60">
+                    <div class="ltn__blog-meta">
+                        <ul>
+                            @*<li class="ltn__blog-category">
+                            <a href="#">Featured</a>
+                            </li>*@
+                            <li class="ltn__blog-category">
+                                <a class="bg-orange" href="#">Available For Rent</a>
+                            </li>
+                            <li class="ltn__blog-date">
+                                <i class="far fa-calendar-alt"></i>
+                                @Utility.ConvertToShortDateFormat(Model.Property.AvailableFrom)
+                            </li>
+                            @*<li>
+                            <a href="#"><i class="far fa-comments"></i>35 Comments</a>
+                            </li>*@
+                        </ul>
+                    </div>
+                    <h3>@Model.Property.AdTitle</h3>
+                    <label><span class="ltn__secondary-color"><i class="flaticon-pin"></i></span>@Model.Property.Address</label>
+                    <h4 class="title-2">Description</h4>
+                    <p>@Model.Property.Description</p>
+                    <h4 class="title-2">Property Detail</h4>
+                    <div class="property-detail-info-list clearfix mb-60">
+                        <ul>
+                            <li>
+                                <i class="fa fa-hashtag"></i><label>&nbsp;Property Code</label>
+                                <label>@Model.Property.PropertyCode</label>
+                            </li>
+                            <li>
+                                <i class="fa fa-home"></i><label>&nbsp;Type</label>
+                                <label>@(Model.Property.CatogryID != null ? Model.Property.CatogryID : "NA")</label>
+                            </li>
+                            <li>
+                                <i class="fa fa-square"></i><label>&nbsp;Area</label>
+                                <lable>
+                                    @(Model.Property.TotalArea != null ? Model.Property.TotalArea + "sqft" : "NA")
+                                </lable>
+                            </li>
+                            <li>
+                                <i class="fa fa-bed"></i><label>&nbsp;Rooms</label>
+                                <label>
+                                    @(Model.Property.Bed != null ? Model.Property.Bed : "NA")
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-bath"></i><label>&nbsp;Baths</label>
+                                <label>@(Model.Property.Bathroom != null ? Model.Property.Bathroom : "NA")</label>
+                            </li>
+                            <li>
+                                <i class="fa fa-wifi"></i>
+                                <label>Internet</label>
+                                <label style="width:40px;">
+                                    @(Model.Property.InternetStatus != null ? Utility.GetEnumDisplayName(Model.Property.InternetStatus) : "NA")
+                                </label>
+                            </li>
+                            @if (@Model.Property.WomenOnlyProperty == true)
+                            {
+                                <li>
+                                    <i class="fa fa-female"></i>
+                                    <label>Only For Women?</label>
+                                    <label>&nbsp; Yes</label>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <i class="fa fa-female"></i>
+                                    <label>Only For Women?</label>
+                                    <label>&nbsp; No</label>
+                                </li>
+                            }
+
+                            <li>
+                                <i class="fa fa-calendar"></i><label>&nbsp;Year built:</label>
+                                <label>@(Model.Property.Yearbuilt != null ? Model.Property.Yearbuilt : "NA")</label>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <i class="fa fa-parking"></i><label>&nbsp;Parking:</label>
+                                <label>
+                                    @(Model.Property.TotalParkings != null ? Model.Property.TotalParkings : "NA")
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-car-side"></i>
+                                <label>Parking Type</label>
+                                <label>
+                                    @(Model.Property.Parkingtype != null ? Utility.GetEnumDisplayName(Model.Property.Parkingtype) : "NA")
+                                </label>
+                            </li>
+                            <li><i class="fa fa-money-bill-alt"></i><label>&nbsp;Rent:</label> <label>Rs @Model.Property.Rent?.ToString("#,##0")</label></li>
+                            <li>
+                                <img src="~/img/icons/detail/Bill.png" style="width:25px;height:25px;"></img>
+                                <label>Bond:</label> <label>Rs @Model.Property.BondValue?.ToString("#,##0")</label>
+                            </li>
+                            @if (Model.Property.RoomAvailable == true)
+                            {
+                                <li>
+                                    <img src="~/img/icons/propertytype/homestay.png" style="width:30px;height:30px;" />
+                                    <label>Property Status</label>
+                                    <label>For Rent</label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-long-arrow-alt-down"></i>
+                                    <label>&nbsp;Minimum Stay</label>
+                                    <label>@(Model.Property.MinStay != null ? Utility.GetEnumDisplayName(Model.Property.MinStay) : "NA")</label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-long-arrow-alt-up"></i>
+                                    <label>&nbsp;Maximum Stay</label>
+                                    <label>
+                                        @(Model.Property.MaxStay != null ? Utility.GetEnumDisplayName(@Model.Property.MaxStay) : "NA")
+                                    </label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-calendar-alt"></i>
+                                    <label>&nbsp;Advertised on</label>
+                                    <label>@Utility.ConvertToShortDateFormat(Model.Property.CreatedOn)</label>
+                                </li>
+                            }
+                            else if (Model.Property.IsRented == true
+                            && Model.Property.RoomAvailable == true)
+                            {
+                                <li>
+                                    <label>Property Status</label>
+                                    <span>Rooms Available</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <h4 class="title-2">Features</h4>
+                    <div class="property-detail-feature-list clearfix mb-45">
+                        <ul>
+                            @if (Model.Property.LoungeSize != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-couch"></i>
+                                        <div>
+                                            <h6>Lounge</h6>
+                                            <small>@Model.Property.LoungeSize sq feet</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.TotalParkings != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-parking"></i>
+                                        <div>
+                                            <h6>Parking</h6>
+                                            @*<small>@Model.Property.ParkingSize sq feet</small>*@
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.DiningSize != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-cutlery"></i>
+                                        <div>
+                                            <h6>Dining Area</h6>
+                                            <small>@Model.Property.DiningSize sq feet</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.BedSize != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-bed"></i>
+                                        <div>
+                                            <h6>Bedroom</h6>
+                                            <small>@Model.Property.BedSize sq feet</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.Bathroom != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-bath"></i>
+                                        <div>
+                                            <h6>Bathroom</h6>
+                                            @if (Model.Property.BathSize != null)
+                                            {
+                                                <small>@Model.Property.BathSize sq feet</small>
+                                            }
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.Gym != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-dumbbell"></i>
+                                        <div>
+                                            <h6>Gym Area</h6>
+                                            <small>@Model.Property.Gym sq feet</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.GardenSize != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-tree"></i>
+                                        <div>
+                                            <h6>Garden</h6>
+                                            <small>@Model.Property.GardenSize sq feet</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @if (Model.Property.KitchenSize != null)
+                            {
+                                <li>
+                                    <div class="property-detail-feature-list-item">
+                                        <i class="fa fa-utensils"></i>
+                                        <div>
+                                            <h6>Kitchen</h6>
+                                            <small>@Model.Property.KitchenSize sq feet</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <h4 class="title-2">Property Images</h4>
+                    @if (@Model.PropertyImages != null)
+                    {
+                        <div class="ltn__property-details-gallery mb-30">
+                            <div class="row">
+                                @foreach (var propertyImage in @Model.PropertyImages)
+                                {
+                                    <div class="col-md-4">
+                                        <a href="@propertyImage.ImagePath" data-rel="lightcase:myCollection">
+                                            <img style="width:400px;height:200px" class="mb-30" src="@propertyImage.ImagePath" alt="Image">
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <h4 class="title-2 mb-10">Amenities</h4>
+                    <div class="property-details-amenities mb-60">
+                        <div class="row">
+                            @foreach (var feature in @Model.PropertyFeatures)
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="ltn__menu-widget">
+                                        <ul>
+                                            <li>
+                                                <label class="checkbox-item">
+                                                    @feature.Feature.Title
+                                                    <input type="checkbox" disabled checked="checked">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <h4 class="title-2 mb-10">Acceptings</h4>
+                    <div class="property-details-amenities mb-60">
+                        <div class="row">
+                            @foreach (var accepting in @Model.PropertyAcceptings)
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="ltn__menu-widget">
+                                        <ul>
+                                            <li>
+                                                <label class="checkbox-item">
+                                                    @accepting.Accepting.Title
+                                                    <input type="checkbox" disabled checked="checked">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @if (@Model.Property.showInspectionTime)
+                    {
+                        <h4 class="title-2">Inspection Schedule</h4>
+                        <div class="row" id="inspection" style="display:flex;">
+                            <div class="col-lg-4 mb-2">
+                                <div class="mb-3">
+                                    <label class="text-label form-label">
+                                        <strong>Inspection Date</strong>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <div class="mb-3">
+                                    <label class="text-label form-label">
+                                        <strong>From</strong>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <div class="mb-3">
+                                    <label class="text-label form-label">
+                                        <strong>To</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="inspectiondetail" style="display:block;">
+                            @for (int i = 0; i < @Model.Inspections.Count(); i++)
+                            {
+                                <div class="row">
+                                    <div class="col-lg-4 mb-2">
+                                        <div class="mb-3">
+                                            <span>
+                                                @Utility.ConvertToShortDateFormat(Model.Inspections[i].InspectionDate)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mb-2">
+                                        <div class="p-2">
+                                            <span>@Model.Inspections[i].From</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mb-2">
+                                        <div class="p-2">
+                                            <span>@Model.Inspections[i].To</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (@Model.Property.GoogleMapEmbedAPIURL != string.Empty && @Model.Property.GoogleMapEmbedAPIURL != null && @Model.Property.HideAddress == false)
+                    {
+                        <h4 class="title-2">Location</h4>
+                        <div class="property-details-google-map mb-60">
+                            <iframe src="@Model.Property.GoogleMapEmbedAPIURL" style="width:100%;height:100%;" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        </div>
+                    }
+                    @if (@Model.Property.VideoURL != string.Empty && @Model.Property.VideoURL != null)
+                    {
+                        var url = @Model.Property.VideoURL;
+                        var href = "https://www.youtube.com/embed/" + url + "?autoplay=1&showinfo=0%22";
+                        <h4 class="title-2">Property Video</h4>
+                        <div class="ltn__video-bg-img ltn__video-popup-height-500 bg-overlay-black-50 bg-image mb-60" data-bs-bg="@Model.Property.CoverImage">
+                            <a class="ltn__video-icon-2 ltn__video-icon-2-border---" href=@href data-rel="lightcase:myCollection">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        </div>
+                    }
+                    <h4 class="title-2">Related Properties</h4>
+                    <div class="row">
+                        <!-- ltn__product-item -->
+                        @if (Model.RelatedProperties != null)
+                        {
+                            foreach (var property in Model.RelatedProperties)
+                            {
+                                <div class="col-xl-6 col-sm-6 col-12">
+                                    <div class="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
+                                        <div class="product-img">
+                                            <a asp-action="detail" asp-controller="property" asp-route-uid="@property.uid"><img src="@property.CoverImage" alt="#"></a>
+                                            @*<div class="real-estate-agent">
+                                    <div class="agent-img">
+                                    <a href="team-details.html"><img src="~/img/blog/author.jpg" alt="#"></a>
+                                    </div>
+                                    </div>*@
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-badge">
+                                                <ul>
+                                                    <li class="sale-badg">For Rent</li>
+                                                </ul>
+                                            </div>
+                                            <h2 class="product-title"><a asp-action="detail" asp-controller="property" asp-route-uid="@property.uid">@property.CatogryID</a></h2>
+                                            <div class="product-img-location">
+                                                <ul>
+                                                    <li>
+                                                        <a asp-action="detail" asp-controller="property"
+                                                           asp-route-uid="@property.uid">
+                                                            <i class="flaticon-pin"></i>
+                                                            @property.Address, @property.City.Name
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ul class="ltn__list-item-2--- ltn__list-item-2-before--- ltn__plot-brief">
+                                                <li>
+                                                    <span>@property.Bed</span>
+                                                    Bedrooms
+                                                </li>
+                                                <li>
+                                                    <span>@property.Bathroom </span>
+                                                    Bathrooms
+                                                </li>
+                                                <li>
+                                                    <span>@property.TotalArea </span>
+                                                    square Ft
+                                                </li>
+                                            </ul>
+                                            @* <div class="product-hover-action">
+                                                <ul>
+                                                    <li>
+                                                        <a href="#" title="Quick View" data-bs-pid="@property.ID" ,
+                                                           data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+
+                                                            <i class="flaticon-expand"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                                            <i class="flaticon-heart-1"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a asp-action="detail" asp-controller="property" asp-route-uid="@property.uid" title="Compare">
+                                                            <i class="flaticon-add"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div> *@
+                                        </div>
+                                        <div class="product-info-bottom">
+                                            <div class="product-price">
+                                                <span>Rs @property.Rent?.ToString("#,##0")<label>/Month</label></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar---">
+                    <!-- Author Widget -->
+                    <div class="widget ltn__author-widget ">
+                        <div class="ltn__author-widget-inner text-center">
+                            <img src="@(Model.Property.Owner?.ProfilePicture!=null?Model.Property.Owner?.ProfilePicture:"/img/user-image.png")" alt="Image">
+                            <h5>@Model.Property.Owner?.Name</h5>
+                            @if (@Model.Property.SharePhone == true)
+                            {
+                                <small>@Model.Property.Owner?.Mobile</small>
+                            }
+                        </div>
+                    </div>
+                    <!-- Search Widget -->
+                    <div class="widget ltn__search-widget ">
+                        <h4 class="ltn__widget-title ltn__widget-title-border-2">Search Properties</h4>
+                        <div class="footer-newsletter">
+                            <form asp-controller="search" asp-action="search">
+                                <input asp-for="@Model.Searchphrase" class="input-control" id="txtSearch" placeholder="Search your keyword...">
+                                <div class="btn-wrapper ">
+                                    <button class="theme-btn-1 btn input-control-btn btn-news disabled" id="btnSearchProp"
+                                            type="submit" value="Search">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Form Widget -->
+                    @if (User.IsInRole(WebSiteRoles.Role_Tenant))
+                    {
+                        <div class="widget ltn__form-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border-2">Drop Messege For Enquiry</h4>
+                            <form id="frmMessage">
+                                <input id="pid" type="hidden" asp-for=@Model.Enquiry.PropertyID />
+                                <input type="hidden" asp-for=@Model.Enquiry.FromUserID
+                                       value="@HttpContextAccessor.HttpContext.Session.GetString("_UserId")" />
+                                <input type="hidden" asp-for="@Model.Enquiry.sendto"
+                                       value="landlord" />
+                                <div class="form-inline">
+                                    <select required id="ddlAbout" asp-for=@Model.Enquiry.Enquirytype
+                                            class="input-control">
+                                        <option value=@Enquiry.EnquriyType.aboutinspection>Inspection</option>
+                                        <option value=@Enquiry.EnquriyType.rentalapplication>Rental Application</option>
+                                        <option value=@Enquiry.EnquriyType.availability>Available Date</option>
+                                        <option value=@Enquiry.EnquriyType.leaselength>Length of Lease</option>
+                                    </select>
+                                    <span asp-validation-for="@Model.Enquiry.Enquirytype" class="text-danger"></span>
+                                </div>
+                                @* <div class="form-inline">
+                            <input id="ename" type="text" id="name"
+                            asp-for=@Model.Enquiry.Name class="input-control" placeholder="Name">
+                            <span id="sename" class="text-danger"></span>
+                            </div>
+                            <div class="form-inline">
+                            <input type="email" id="eemail" asp-for=@Model.Enquiry.Email class="input-control"
+                            placeholder=" email@example.com">
+                            <span id="seemail" class="text-danger"></span>
+                            </div>
+                            <span id="msgeSpan" class="text-danger"></span>
+                            <div class="form-inline">
+                            <input id="emobile" asp-for=@Model.Enquiry.Mobile class="input-control"
+                            maxlength="15" placeholder=" Mobile"
+                            oninput="formatMobileNumber(this)">
+                            <span id="semobile" class="text-danger"></span>
+                            </div> *@
+                                <div>
+                                    <textarea id="txtMessage" asp-for=@Model.Enquiry.Message
+                                              class="input-control" placeholder="Write Message...">
+                                                                                    </textarea>
+                                    <span id="spanMessage" class="text-danger"></span>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn theme-btn-1">
+                                        Send Messege
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                    <!-- Top Rated Product Widget -->
+                    <div class="widget ltn__top-rated-product-widget ">
+                        <h4 class="ltn__widget-title ltn__widget-title-border-2">Top Rated Properties</h4>
+                        <ul>
+                            @foreach (var property in Model.TopProperties)
+                            {
+                                <li>
+                                    <div class="top-rated-product-item clearfix">
+                                        <div class="top-rated-product-img">
+                                            <a asp-action="detail" asp-controller="property" asp-route-uid=@property.uid>
+                                                <img style="width:100px;height:80px;" src="@property.CoverImage" alt="#">
+                                            </a>
+                                        </div>
+                                        <div class="top-rated-product-info">
+                                            <div class="product-ratting">
+                                                <ul>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <h6>
+                                                <a asp-action="detail" asp-controller="property" asp-route-uid=@property.uid>
+                                                    @property.CatogryID In @property.City.Name
+                                                </a>
+                                            </h6>
+                                            <div class="product-price">
+                                                <span>Rs @property.Rent?.ToString("#,##0")</span>
+                                                @*<del>$35,000.00</del>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- Menu Widget (Category) -->
+                    <div class=" widget ltn__menu-widget ltn__menu-widget-2--- ltn__menu-widget-2-color-2---">
+                        <h4 class="ltn__widget-title ltn__widget-title-border-2">Top Categories</h4>
+                        <ul>
+                            @foreach (var category in Model.TopCategories)
+                            {
+                                <li><a href="#">@category.CategoryName <span>(@category.Total)</span></a></li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- Popular Product Widget -->
+                    <div class=" widget ltn__popular-product-widget">
+                        <h4 class="ltn__widget-title ltn__widget-title-border-2">Popular Properties</h4>
+                        <div class="row ltn__popular-product-widget-active slick-arrow-1">
+                            <!-- ltn__product-item -->
+                            @foreach (var property in Model.PopularProperties)
+                            {
+                                <div class="col-12">
+                                    <div class="ltn__product-item ltn__product-item-4 ltn__product-item-5 text-center---">
+                                        <div class="product-img">
+                                            <a asp-action="detail" asp-controller="property" asp-route-uid=@property.uid>
+                                                <img src="@property.CoverImage" alt="#">
+                                            </a>
+                                            @*<div class="real-estate-agent">
+                                        <div class="agent-img">
+                                        <a href="team-details.html"><img src="~/img/blog/author.jpg" alt="#"></a>
+                                        </div>
+                                        </div>*@
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-price">
+                                                <span>Rs @property.Rent?.ToString("#,##0")<label>/Month</label></span>
+                                            </div>
+                                            <h2 class="product-title"><a asp-action="detail" asp-controller="property" asp-route-uid=@property.uid>@property.CatogryID</a></h2>
+                                            <div class="product-img-location">
+                                                <ul>
+                                                    <li>
+                                                        <a asp-action="detail" asp-controller="property" asp-route-ID=@property.ID><i class="flaticon-pin"></i>@property.Address,@property.City.Name</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ul class="ltn__list-item-2--- ltn__list-item-2-before--- ltn__plot-brief">
+                                                <li>
+                                                    <span>@property.Bed </span>
+                                                    Bedrooms
+                                                </li>
+                                                <li>
+                                                    <span>@property.Bathroom </span>
+                                                    Bathrooms
+                                                </li>
+                                                <li>
+                                                    <span>@property.TotalArea </span>
+                                                    square Ft
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- Banner Widget -->
+                    <div class="widget ltn__banner-widget d-none">
+                        <a href="shop.html"><img src="~/img/banner/2.jpg" alt="#"></a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SHOP DETAILS AREA END -->
+<!-- MODAL AREA START (Quick View Modal) -->
+<div class="ltn__modal-area ltn__quick-view-modal-area">
+    <div class="modal fade" id="quick_view_modal" tabindex="-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <!-- <i class="fas fa-times"></i> -->
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ltn__quick-view-modal-inner">
+                        <div class="modal-product-item">
+                            <div class="row">
+                                <div class="col-lg-6 col-12">
+                                    <div class="modal-product-img">
+                                        <img src="~/img/product/4.png" alt="#">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="modal-product-info">
+                                        <div class="product-ratting">
+                                            <ul>
+                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                                <li><a href="#"><i class="far fa-star"></i></a></li>
+                                                <li class="review-total"> <a href="#"> ( 95 Reviews )</a></li>
+                                            </ul>
+                                        </div>
+                                        <h3><a href="product-details.html">3 Rooms Manhattan</a></h3>
+                                        <div class="product-price">
+                                            <span>$34,900</span>
+                                            <del>$36,500</del>
+                                        </div>
+                                        <hr>
+                                        <div class="modal-product-brief">
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                Dignissimos repellendus repudiandae incidunt quidem pariatur
+                                                expedita, quo quis modi tempore non.
+                                            </p>
+                                        </div>
+                                        <div class="modal-product-meta ltn__product-details-menu-1 d-none">
+                                            <ul>
+                                                <li>
+                                                    <strong>Categories:</strong>
+                                                    <span>
+                                                        <a href="#">Parts</a>
+                                                        <a href="#">Car</a>
+                                                        <a href="#">Seat</a>
+                                                        <a href="#">Cover</a>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="ltn__product-details-menu-2 d-none">
+                                            <ul>
+                                                <li>
+                                                    <div class="cart-plus-minus">
+                                                        <input type="text" value="02" name="qtybutton"
+                                                               class="cart-plus-minus-box">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="theme-btn-1 btn btn-effect-1"
+                                                       title="Add to Cart" data-bs-toggle="modal"
+                                                       data-bs-target="#add_to_cart_modal">
+                                                        <i class="fas fa-shopping-cart"></i>
+                                                        <span>ADD TO CART</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- <hr> -->
+                                        <div class="ltn__product-details-menu-3">
+                                            <ul>
+                                                <li>
+                                                    <a href="#" class="" title="Wishlist" data-bs-toggle="modal"
+                                                       data-bs-target="#liton_wishlist_modal">
+                                                        <i class="far fa-heart"></i>
+                                                        <span>Add to Wishlist</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="" title="Compare" data-bs-toggle="modal"
+                                                       data-bs-target="#quick_view_modal">
+                                                        <i class="fas fa-exchange-alt"></i>
+                                                        <span>Compare</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <hr>
+                                        <div class="ltn__social-media">
+                                            <ul>
+                                                <li>Share:</li>
+                                                <li>
+                                                    <a href="#" title="Facebook">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" title="Twitter">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" title="Linkedin">
+                                                        <i class="fab fa-linkedin"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" title="Instagram">
+                                                        <i class="fab fa-instagram"></i>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <label class="float-end mb-0">
+                                            <a class="text-decoration"
+                                               href="product-details.html">
+                                                <small>
+                                                    View
+                                                    Details
+                                                </small>
+                                            </a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL AREA END -->
+<!-- MODAL AREA START (Wishlist Modal) -->
+<div class="ltn__modal-area ltn__add-to-cart-modal-area">
+    <div class="modal fade" id="liton_wishlist_modal" tabindex="-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ltn__quick-view-modal-inner">
+                        <div class="modal-product-item">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="modal-product-img">
+                                        <img src="~/img/product/7.png" alt="#">
+                                    </div>
+                                    <div class="modal-product-info">
+                                        <h5><a href="product-details.html">3 Rooms Manhattan</a></h5>
+                                        <p class="added-cart">
+                                            <i class="fa fa-check-circle"></i> Successfully
+                                            added to your Wishlist
+                                        </p>
+                                        <div class="btn-wrapper">
+                                            <a href="wishlist.html" class="theme-btn-1 btn btn-effect-1">
+                                                View
+                                                Wishlist
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- additional-info -->
+                                    <div class="additional-info d-none">
+                                        <p>
+                                            We want to give you <b>10% discount</b> for your first order, <br>
+                                            Use discount code at checkout
+                                        </p>
+                                        <div class="payment-method">
+                                            <img src="~/img/icons/payment.png" alt="#">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL AREA END -->
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="/js/Popupmodel.js"></script>
+    <script src="~/js/formatmobilenum.js"></script>
+    <script src="~/js/enquiry/sendEnquiry.js"></script>
+    <script src="~/js/PropertyinPopupmodel.js"></script>
+    <script src="~/js/property/addRemoveFavouriteProperty.js"></script>
+    <script src="~/js/search/enableSearchbutton.js"></script>
+}

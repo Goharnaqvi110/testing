@@ -1,0 +1,82 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantEmployer
+
+@{
+    ViewData["Title"] = "Delete Reference";
+    Layout = null;
+}
+<div class="container">    
+    <form id="DeleteForm" asp-controller="tenant" asp-action="deleteemployer">
+        <input type="hidden" asp-for="ID">
+        <div class="row mt-4">
+            <div class="col-md-4  p-1">
+                <label>Occupation</label>
+                <input disabled type="text" asp-for=Occupation placeholder="Occupation" class="form-control" />
+            </div>
+            <div class="col-md-4 p-1">
+                <label>Employer Name</label>
+                <input disabled type="text" asp-for=EmployerName placeholder="Employer Name" class="form-control" />
+            </div>
+            <div class="col-md-4 p-1">
+                <label>Contact Name</label>
+                <input disabled type="text" asp-for=ContactName placeholder="Contact Name" class="form-control" />
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  p-1">
+                <label>Email</label>
+                <input disabled type="text" asp-for=Email placeholder="Email" class="form-control" />
+            </div>
+            <div class="col-md-4 p-1">
+                <label>Mobile</label>
+                <input disabled type="text" asp-for=Mobile placeholder="Mobile" class="form-control" />
+            </div>
+            <div class="col-md-4 p-1">
+                <label>Phone</label>
+                <input disabled type="text" asp-for=Phone placeholder="Phone" class="form-control" />
+            </div>
+        </div>
+        <div class="row">            
+            <div class="col-md-6  p-1">
+                <label>Website</label>
+                <input disabled type="text" asp-for=Website placeholder="Website" class="form-control" />
+            </div>
+            <div class="col-md-6  p-1">
+                <label>Address</label>
+                <input disabled type="text" asp-for=Address placeholder="Address" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  p-1">
+                <label>Start Date</label>
+                <input disabled type="text" placeholder="Start Date" id="datepicker" asp-for=StartDate readonly class="form-control datepicker" aria-required="true" />
+            </div>
+            <div class="col-md-4  p-1">
+                <label>Annual Income</label>
+                <input disabled type="text" asp-for=AnnualIncome placeholder="Annual Income" class="form-control" />
+            </div>
+            <div class="col-md-4  p-1">
+                <label>Job Type</label>
+                <select disabled asp-for=JobType class="form-control">                     
+                    <option value="Casual">Casual</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Contract">Contract</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">            
+            <div class="col-md-12  p-1">
+                <label>Additional Information</label>
+                <textarea disabled type="text" asp-for=AdditionalInformation placeholder="Additional Information" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </form>     
+</div>
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

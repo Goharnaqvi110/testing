@@ -1,0 +1,44 @@
+﻿@using Gharshare.Models
+@model Plan
+@{
+    ViewData["Title"] = "Delete Plan";
+}
+<div class="container"  style="padding:60px;">
+    <div class="col-md-12">
+    <h1>Delete Plan</h1>
+    <hr />
+</div>
+<form method="Post" asp-action="Delete" >
+ <div class="row">
+        <div class="col-md-6">
+            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Title" class="form-control" autocomplete="Name" aria-required="true" readonly/>
+                    <label asp-for="Title">Name</label>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="Description" class="form-control" autocomplete="Name" readonly/>
+                    <label asp-for="Description">Description</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" asp-for="MonthlyCharges" class="form-control" autocomplete="Name" readonly />
+                    <label asp-for="MonthlyCharges">Price</label>
+                </div>   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-end">
+            <button type="submit" class="btn btn-danger" style="width:100px;">Delete</button>
+            
+    </div>
+    <div class="col-md-6">
+        <a asp-action="Index" class="btn btn-secondary" style="width:100px;">Cancle</a>
+    </div>     
+    </div>
+    </form>
+    </div>
+    @section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

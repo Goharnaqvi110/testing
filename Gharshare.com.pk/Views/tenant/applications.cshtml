@@ -1,0 +1,136 @@
+﻿@using Gharshare.CommonHelper
+@model List<Gharshare.Models.Application>
+
+@{
+    ViewData["Title"] = "Application list";
+    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="page-heading-row">
+        <h2 class="page-heading heading-secondary">
+            <span id="property-address">Tenancy Application List</span>
+        </h2>
+    </div>
+    <div class="col-xl-12 bd-callout bd-callout-default">
+        <p>
+            Tip: Below is the list of applications you have sent to different landlords
+            for tanancy. Click on the view application to see details.
+        </p>
+    </div>
+    <div class="col-xl-12 bd-callout">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th style="width:30px;">
+                            <h6>No</h6>
+                        </th>
+                        <th><h6>Property Address</h6></th>
+                        <th><h6>Applicant Name</h6></th>
+                        <th><h6>Rent</h6></th>
+                        <th><h6>Lease Period</h6></th>
+                        <th><h6>Date</h6></th>
+                        <th><h6>Status</h6></th>
+                        <th><h6>Action</h6></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int sno = 0;
+
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            var application = Model[i];
+                            sno = @i + 1;
+                            <tr>
+                                <td>@sno</td>
+                                <td>@application.Property.Address</td>
+                                <td>@application.User.Name</td>
+                                <td>@Utility.Format(application.Rent)</td>
+                                <td>@application.LeasePeriod</td>
+                                <td>@Utility.ConvertToShortDateFormat(application.DateSubmitted)</td>
+                                <td>
+                                    @if (application.Status == 1)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-warning me-1"></i> Submitted
+                                        </div>
+                                    }
+                                    else if (application.Status == 2)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-success me-1"></i> Approved
+                                        </div>
+                                    }
+                                    else if (application.Status == 3)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-danger me-1"></i> Rejected
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="text-center" style="width:80px;">
+                                        <a href="#" id="@application.ID" onclick="ViewApplication(this.id);">
+                                            <i class="fa fa-eye"></i>
+                                            View
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7">
+                                <div id="noplan" class="row text-center p-3">
+                                    <h4>No record exists</h4>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @* <partial name="_Pager" model="@pager" /> *@
+        <div style="display:none" id="message" class="row text-center p-3">
+            <h4>No record exists</h4>
+        </div>        
+    </div>
+</div>
+
+<div id="divdocument" class="container-fluid d-none">
+    <div class="row" style="margin-left:0px;">
+        <div class="col-md-9 p-1">
+            <div class="card">
+                <div class="card-header">
+                    <h6>
+                        <span>Tenancy Application Document</span>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div id="dvapplication"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="card" style="height:150px;">
+                <div class="card-header">
+                    <h6>Application Status</h6>
+                </div>
+                <div class="card-body">
+                    <div id="divstatus" class="mb-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/updateApplicationStatus.js" type="text/javascript"></script>
+<script src="~/js/tenant/viewApplication.js"></script>
+
+
+

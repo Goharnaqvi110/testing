@@ -1,0 +1,88 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.Expense
+
+@{
+    Layout = null;
+}
+<div class="container">
+    <form asp-action="addexpense" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+            <input type="hidden" asp-for="PropertyID" />
+        </div>
+        <div class="row">
+            <label>Category</label>
+            <select required asp-for="CategoryID" class="nice-select" asp-items="ViewBag.Categories">
+                <option value="">Select Category</option>
+            </select>
+            <span asp-validation-for="CategoryID" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label>Title</label>
+            <input asp-for="Title" class="form-control" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label>Description</label>
+            <input asp-for="Description" class="form-control" required />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            <label>Amount</label>
+            <input asp-for="Amount" class="form-control" required />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <<div class="col-md-6">
+                <label>Expense Date</label>
+            <input type="text" required asp-for="ExpenseDate" class="form-control datepicker" />
+            <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+            </div>
+        </div>        
+        <div class="form-group">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="GSTIncluded" />
+                @Html.DisplayNameFor(model => model.GSTIncluded)
+            </label>
+        </div>
+        <div class="row p-1">
+            <span>Has this expense already been paid for?</span>
+        </div>
+        <div class="d-flex">
+            <label>
+                <input id="rdoyes" type="radio" class="form-check-input" value="true" asp-for="AlreadyPaid" /> Yes
+            </label>
+            <label style="margin-left:30px;">
+                <input id="rdono" type="radio" class="form-check-input" value="false" asp-for="AlreadyPaid" /> NO
+            </label>
+        </div>
+        <div id="divattachment" class="mb-2" style="display:none;">
+            <label>Attachment (max. 2 files)</label>
+            <div>
+                <input id="receipts" multiple type="file" name="receipts" class="form-control" />
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Save" class="btn btn-primary w-50" />             
+        </div>
+    </form>
+    <div>
+        <a asp-action="Index"></a>
+    </div>
+</div>
+ <partial name="_dtpPartial"></partial>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />   
+}   <script>
+        $(document).ready(function() {
+            $('#rdoyes').change(function() {
+                if (this.checked) {
+                    $('#divattachment').show();
+                }
+            });
+            $('#rdono').change(function() {
+                if (this.checked)
+                    $('#divattachment').hide();
+            });
+        });
+    </script>
+

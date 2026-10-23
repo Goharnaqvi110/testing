@@ -1,0 +1,173 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@using System.Text.RegularExpressions
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<Enquiry>
+@{
+    ViewData["Title"] = "Inbox";
+    var session = HttpContextAccessor.HttpContext.Session;
+    var userId = session.GetString("_UserId");
+    var userType = session.GetString("_UserType");
+    string modalPopupId = string.Empty;
+    if (userType == "admin" || userType == "superadmin") //admin or super admin
+    {
+        Layout = "_LayoutAdmin";
+        modalPopupId = "#largeModal";
+    }
+    else if (userType == "landlord")
+    {
+        Layout = "_LayoutLandlord";
+        modalPopupId = "#basicModal";
+    }
+    else if (userType == "tenant")
+    {
+        Layout = "_LayoutTenant";
+        modalPopupId = "#basicModal";
+    }
+    Pager pager = new Pager();
+    int pageNo = 0;
+    var functionCall = "sortEnquiries(";
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+        functionCall += $"{pager.CurrentPage},{pager.TotalPages},{pager.FromRecord},{pager.ToRecord},{pager.TotalItems},{pager.StartPage},{pager.EndPage},{pager.PageSize},{pager.SortOrderNum}";
+        functionCall += ",'',event,this)";
+    }
+     
+    //currentpage, totalPages, fromRec, toRec, totalItems, startPage, endPage,
+   // pageSize, sortOrderNo, searchPhrase, event, atag
+}
+<div class="container">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row m-2">
+                    <div class="offset-md-9 col-md-3">
+                        <a onclick="newEnquiry()" data-bs-target="#enquiryModal"
+                           data-bs-toggle="modal"
+                           class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            Create new enquiry
+                        </a>
+                    </div>
+                </div>
+                <div class="email-left-box px-0 mb-3">
+                    <div class="mail-list rounded mt-4">
+                        <a id="inbox" asp-controller="enquiry" asp-action="inbox" asp-route-type="to" class="list-group-item active"><i class="fa fa-inbox font-18 align-middle me-2"></i> Inbox @*<span class="badge badge-primary badge-sm float-end">198</span> *@</a>
+                        <a id="sent" asp-controller="enquiry" asp-action="inbox" asp-route-type="from" class="list-group-item"><i class="fa fa-paper-plane font-18 align-middle me-2"></i>Sent</a>
+                    </div>
+                </div>
+                <div class="email-right-box ms-0 ms-sm-4 ms-sm-0">
+                    <div role="toolbar" class="toolbar ms-1 ms-sm-0">
+                    </div>
+                    <div class="email-list mt-3">
+                        <div id="enquiryList">
+                            <table class="table table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        @* <th>
+                                        <strong>No</strong>
+                                        </th> *@
+                                        <th>
+                                            <h6>
+                                                From
+                                            </h6>
+                                        </th>
+                                        <th>
+                                            <h6>
+                                                Subject
+                                            </h6>
+                                        </th>
+                                        <th>
+                                            <h6>                                                 
+                                                <a href="#">Status</a>
+                                            </h6>
+                                        </th>
+                                        <th>
+                                            <h6>
+                                                <i id="dateSorting" class="fa fa-arrow-down"></i>
+                                                <a href="#" data-uid="@pager.Uid" data-id="@pager.Id"
+                                                onclick="eval(@functionCall)">Date</a>
+                                            </h6>
+                                        </th>
+                                        <th class="text-center">
+                                            <h6>Action</h6>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Any())
+                                    {
+
+                                        var count = 1;
+
+                                        foreach (var enq in Model)
+                                        {
+                                            <tr>
+                                                @* <td>@count</td> *@
+                                                <td style="width:180px;">
+                                                    <img src='@(enq.FromUser?.ProfilePicture ?? "../img/user-image.png")' class='rounded-lg me-2' width='24' alt=''>
+                                                    <span class="w-space-no">@enq.FromUser.Name</span>
+                                                </td>
+                                                <td style="width:280px;">
+                                                    @Utility.shortText(Html.Raw(enq.Message).ToString(), 30)
+                                                </td>
+                                                <td>
+                                                    @if (enq.Enquirystatus == Enquiry.EnquiryStatus.read)
+                                                    {
+                                                        <span class="badge badge-success">
+                                                            @Utility.GetEnumDisplayName(enq.Enquirystatus)
+                                                        </span>
+                                                    }
+                                                    else if (enq.Enquirystatus == Enquiry.EnquiryStatus.unread)
+                                                    {
+                                                        <span class="badge badge-warning">
+                                                            @Utility.GetEnumDisplayName(enq.Enquirystatus)
+                                                        </span>
+                                                    }
+                                                </td>
+                                                <td>@Utility.ConvertToShortDateFormat(enq.CreatedOn)</td>
+                                                <td class="text-center">
+                                                    <a href="#" onclick="loadEnquiryinPopup(this.id)" data-bs-toggle="modal"
+                                                       data-bs-target="#enquiryModal" id="@enq.ID">
+                                                        <i class="fa fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            count = count + 1;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                <div id="message" class="row text-center p-3">
+                                                    <h4>no record found.</h4>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <partial name="_AjaxPager" model="@pager" />
+                        <div class="row m-3 justify-content-center" id="response">
+                            <h4>&nbsp;</h4>
+                        </div>
+                    </div>
+                    <!-- panel -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/enquiry/newEnquiry.js"></script>
+<script src="~/js/enquiry/loaEnquiryinPopup.js"></script>
+<script src="~/js/enquiry/selectActiveItem.js"></script>
+
+<script src="/js/commonFunctions/recreatePaging.js"></script>
+<script src="/js/commonFunctions/formatDateToDDMMYY.js"></script>
+<script src="/js/enquiry/createEnquiryList.js"></script>
+<script src="/js/enquiry/getEnquiries.js"></script>
+<script src="/js/enquiry/sortEnquiries.js"></script>

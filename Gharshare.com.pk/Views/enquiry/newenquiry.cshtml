@@ -1,0 +1,133 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@inject IHttpContextAccessor Accessor
+@model Enquiry
+@{
+    ViewData["Title"] = "| New enquiry";
+    Layout = null;
+    var userId = Context.Session.GetString("_UserId");
+    var userType = Context.Session.GetString("_UserType");
+}
+<div class="row justify-content-center h-100 align-items-center">
+    <div class="col-md-12">
+        <div class="authincation-content">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="auth-form">
+                        <form id="frmMessage">
+                            <div class="row">
+                                <div class="mb-3 mb-0">
+                                    @if (userType == "tenant")
+                                    {
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" asp-for="sendto" checked
+                                                        value="admin" class="form-check-input">
+                                                Send to admin
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" asp-for="sendto"
+                                                       value="landlord" class="form-check-input">
+                                                Send to landlord
+                                            </label>
+                                        </div>
+                                    }
+                                    else if(userType=="landlord")
+                                    {
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" asp-for="sendto" id="radioAdmin" checked
+                                                       onclick="HideLandlord2TenantDropdown()"
+                                                        value="admin" class="form-check-input">
+                                                Send to admin
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" asp-for="sendto" id="radioLandlord2Tenant"
+                                                       onclick="showLandlord2TenantDropdown()"
+                                                       asp-for="sendto" value="tenant" class="form-check-input">
+                                                Send to tenant
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <select required class="nice-select" id="ddlLandlord2Tenant" style="display:none"
+                                            asp-for="tenantId" asp-items="@ViewBag.Tenants">
+                                                <option value="">-Select tenant-</option>
+                                            </select>
+                                        </div>
+                                    }
+                                    else
+                                    {                                        
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" asp-for="sendto" id="radioLandlord" checked
+                                                       onclick="showHideLandlordDropdown()"
+                                                       value="landlord" class="form-check-input">
+                                                Send to landlord
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <select class="nice-select w-100" required id="ddlLandlord" style="display:block"
+                                                    asp-for="landlordId" asp-items="@ViewBag.Landlords">
+                                                <option value="">-Select landlord-</option>
+                                            </select>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" asp-for="sendto" id="radioTenant"
+                                                       onclick="showHideTenantDropdown()"
+                                                       value="tenant" class="form-check-input">
+                                                Send to a teant
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <select class="nice-select w-100" required id="ddlTenant" style="display:none"
+                                                    asp-for="tenantId" asp-items="@ViewBag.Tenants">
+                                                <option value="">-Select tenant-</option>
+                                            </select>
+                                        </div>
+                                        }                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>Enquiry type</label>
+                                <select required class="nice-select" asp-for="Enquirytype">
+                                    <option value="">Select enquiry type</option>
+                                    <option value="@Enquiry.EnquriyType.aboutinspection">About inspection</option>
+                                    <option value="@Enquiry.EnquriyType.aboutproperty">aboutproperty</option>
+                                </select>
+                                <span asp-validation-for="Enquirytype" class="text-danger"></span>
+                            </div>
+                            <div class="row mb-2 flex">
+                                <label>Enquiry</label>
+                                <textarea required class="form-control" id="txtMessage" rows="4"
+                                          style="height: 100px;" asp-for="Message" placeholder="Type your message... ">
+                                </textarea>
+                                <span asp-validation-for="Message" id="spanMessage" class="text-danger"></span>
+
+                                <input type="hidden" asp-for="FromUserID" value="@userId">
+                                <input type="hidden" asp-for="Enquirystatus" value="@Enquiry.EnquiryStatus.unread">
+                                <input type="hidden" asp-for="CreatedOn" value="@DateTime.UtcNow">
+                                <input type="hidden" asp-for="DateReceived" value="@DateTime.UtcNow">
+                                @*<input type="hidden" asp-for="@Model.Enquiry.ToUserID"
+                                value="@Model.Property.Owner.Id">*@
+                            </div>
+                            <div class="row mb-2 text-center">
+                                <div class="mb-2">
+                                    <button type="submit" id="btnMessage" class="btn btn-primary">Send enquiry</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/enquiry/sendEnquiry.js"></script>
+<script src="~/js/enquiry/showLandlordDropdown.js"></script>
+<script src="~/js/enquiry/showTenantDropdown.js"></script>
+<script src="~/js/enquiry/showHideLandlord2TenantDropdown.js"></script>

@@ -1,0 +1,226 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@using System.Globalization
+@model vmPricing
+@{
+    ViewData["Title"] = "index";
+    Layout = "_LayoutLandlord";
+}
+
+<div class="container">
+    @* <div>
+    <br><br>
+    <h3 class="text-center">
+    Please select <span class="text-primary"> a Plan </span>
+    </h3>
+    <br>
+    </div> *@
+    <div class="row">
+        @if (Model.Plans.Any())
+        {
+            foreach (var plan in Model.Plans)
+            {
+                <div class="col-xl-4">
+                    <div class="card" style="@(plan.DefaultPlan ? "border: 1px solid red;" : "")">
+                        <div class="card-header section-bg-6 border-0 p-3" style="padding:0px;">
+                            <h3 class="card-title ">
+                                <span style="color:white;">@plan.BoxHeading</span>
+                            </h3>
+                        </div>
+                        <div class="card-body text-center">
+                            <input id="@plan.ID" class="d-none"
+                                   onchange="selectUnselectPlan(this,'@plan.Title',@plan.MonthlyCharges,@plan.UpFrontPrice)"
+                                   name="plan" type="radio">
+                            <label for="@plan.ID">
+                                <img src="@plan.ImagePath" class="service-icon"
+                                     style="width:242px;height:236px;" alt="#">
+                                <h4 class="mt-4">@plan.Title</h4>
+                                <p style="min-height:50px;">@plan.Tagline</p>
+                                <h4>
+                                    @if (plan.UpFrontPrice > 0)
+                                    {
+                                        <span>Rs @Utility.Format(plan.UpFrontPrice)</span>
+                                        <span class="fs-6 fw-light">
+                                            one-off +
+                                        </span>
+                                    }
+                                    Rs @Utility.Format(plan.MonthlyCharges)
+                                    <span class="fs-6 fw-light">/month*</span>
+                                </h4>
+                                <button class="btn btn-primary selectPlan w-100" type="button"
+                                        onclick="scrollToBottom(this,event,'@plan.Title',@plan.MonthlyCharges,@plan.UpFrontPrice)">
+                                    Select Plan
+                                    @* <i class="flaticon-right-arrow"></i> *@
+                                </button>
+                                @if (plan.Services.Any())
+                                {
+                                    foreach (var service in plan.Services)
+                                    {
+                                        <p class="pt-3">
+                                            <span class="ltn__secondary-color-3">
+                                                <img src="/img/publicsite/common/pinkcheck.png" alt="" class="custom-rounded me-1" width="15" height="15">
+                                            </span>@service.Service.Name
+                                        </p>
+                                    }
+                                }
+                            </label>
+                        </div>
+                        <div class="card-footer border-0 pt-0">
+                            <div class="card-footer border-0 pt-0">
+                                <p class="hover hidden text-center"></p>
+                                <span class="fas fa-arrow-right"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+@* test *@
+@* <div class="container-fluid mt-2">
+    <div class="row">
+        <input id="Key1" name="Key1" type="hidden" value="RMWyvUMvBDf67F5g">
+        <input id="Key2" name="Key2" type="hidden" value="4645179238464231">
+
+        <h3>Handshake</h3>
+        <form action="https://sandbox.bankalfalah.com/HS/HS/HS" id="HandshakeForm" method="post">
+            <input id="HS_RequestHash" name="HS_RequestHash" type="hidden" value="">
+            <input id="HS_IsRedirectionRequest" name="HS_IsRedirectionRequest" type="hidden" value="1">
+            <input id="HS_ChannelId" name="HS_ChannelId" type="hidden" value="1001">
+            <input id="HS_ReturnURL" name="HS_ReturnURL" type="hidden" value="https://localhost:51326/transaction/transcompleted">
+            <input id="HS_MerchantId" name="HS_MerchantId" type="hidden" value="25845">
+            <input id="HS_StoreId" name="HS_StoreId" type="hidden" value="035795">
+            <input id="HS_MerchantHash" name="HS_MerchantHash" type="hidden" value="OUU362MB1uqTRFrui/V8ulRzlKs3hsnBpHKvIGdNLDiNd6G0lIEK2oviNLQggPI/5xJHiQuCpAJvFzk4yqF7CA==">
+            <input id="HS_MerchantUsername" name="HS_MerchantUsername" type="hidden" value="dalufi">
+            <input id="HS_MerchantPassword" name="HS_MerchantPassword" type="hidden" value="6BlfH4rptT1vFzk4yqF7CA==">
+            <input id="HS_TransactionReferenceNumber" name="HS_TransactionReferenceNumber" autocomplete="off" placeholder="Order ID" value="">
+            <button type="submit" class="btn btn-custon-four btn-danger" id="handshake">Handshake</button>
+        </form>
+
+
+        <h3>Page Redirection Request</h3>
+        <form action="https://sandbox.bankalfalah.com/SSO/SSO/SSO" id="PageRedirectionForm" method="post" novalidate="novalidate">
+            <input id="AuthToken" name="AuthToken" type="hidden" value="">
+            <input id="RequestHash" name="RequestHash" type="hidden" value="">
+            <input id="ChannelId" name="ChannelId" type="hidden" value="1001">
+            <input id="Currency" name="Currency" type="hidden" value="PKR">
+            <input id="IsBIN" name="IsBIN" type="hidden" value="0">
+            <input id="ReturnURL" name="ReturnURL" type="hidden" value="https://localhost:51326/transaction/transcompleted">
+            <input id="MerchantId" name="MerchantId" type="hidden" value="25845">
+            <input id="StoreId" name="StoreId" type="hidden" value="035795">
+            <input id="MerchantHash" name="MerchantHash" type="hidden" value="OUU362MB1uqTRFrui/V8ulRzlKs3hsnBpHKvIGdNLDiNd6G0lIEK2oviNLQggPI/5xJHiQuCpAJvFzk4yqF7CA==">
+            <input id="MerchantUsername" name="MerchantUsername" type="hidden" value="dalufi">
+            <input id="MerchantPassword" name="MerchantPassword" type="hidden" value="6BlfH4rptT1vFzk4yqF7CA==">
+            <select autocomplete="off" id="TransactionTypeId" name="TransactionTypeId">
+                <option value="">Select Transaction Type</option>
+                <option value="1">Alfa Wallet</option>
+                <option value="2">Alfalah Bank Account</option>
+                <option value="3">Credit/Debit Card</option>
+            </select>
+            <input autocomplete="off" id="TransactionReferenceNumber" name="TransactionReferenceNumber" placeholder="Order ID" type="text" value="">
+            <input autocomplete="off" id="TransactionAmount" name="TransactionAmount" placeholder="Transaction Amount" type="text" value="">
+            <button type="submit" class="btn btn-custon-four btn-danger" id="run">RUN</button>
+        </form>
+    </div>
+</div> *@
+@* test end *@
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-xl-7 bd-callout bd-callout-default" style="margin-left:40px;">
+            <div class="page-heading-row">
+                <h4 class="page-heading heading-secondary pb-4">
+                    <span id="property-address" style="margin-left:20px;">
+                        Payment Details
+                    </span>
+                </h4>
+            </div>
+            <div class="row offset-md-1">
+                <label>Card Details *</label>
+                <input class="form-control" style="margin-left:0px;" required />
+                <span class="text-danger"></span>
+            </div>
+            <div class="row offset-md-1">
+                <label>Cardholder Name *</label>
+                <input class="form-control" style="margin-left:0px;" required />
+                <span class="text-danger"></span>
+            </div>
+            <div class="text-center">
+                <a class="btn btn-primary w-25">Pay</a>
+            </div>
+        </div>
+        <div class="col-xl-4 bd-callout bd-callout-default" style="margin-left:30px;">
+            <h4 class="page-heading heading-secondary pb-2">
+                <i class="fa fa-shopping-cart"></i>
+                <span id="property-address" style="margin-left:20px;">
+                    Purchase Summary
+                </span>
+            </h4>
+            <div class="row">
+                <h4 class="page-heading heading-secondary pb-2">
+                    <span id="title" class="text-primary mt-3">
+                        @Model.DefaultPlan.Title
+                    </span>
+                </h4>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <span>Property Address</span>
+                </div>
+                <div class="col-md-7">
+                    <span id="address">
+                        @ViewBag.PropertyAddress
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Price</span>
+                </div>
+                <div class="col-md-8">
+                    <span class="text-primary" id="price">
+                        Rs @Utility.Format(Model.DefaultPlan.UpFrontPrice) +
+                        Rs @Utility.Format(Model.DefaultPlan.MonthlyCharges)/month
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>GST</span>
+                </div>
+                <div class="col-md-8">
+                    <span id="gst" class="text-primary">
+                        @{
+                            var gst = (Model.DefaultPlan.MonthlyCharges + Model.DefaultPlan.UpFrontPrice) * 18 / 100;
+                            var total = Model.DefaultPlan.MonthlyCharges + Model.DefaultPlan.UpFrontPrice + gst;
+                        }
+                        Rs @Utility.Format(gst)
+                    </span>
+                </div>
+                <span class="mt-3" id="monthly">
+                    *after 3 months billed
+                    Rs @Utility.Format(Model.DefaultPlan.MonthlyCharges)/month
+                </span>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-5">
+                    <span>Total</span>
+                </div>
+                <div class="col-md-7">
+                    <span id="total">
+                        Rs @Utility.Format(total)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/plan/selectunselectplan.js"></script>
+<script src="/js/plan/scrolltoBottom.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+<script type="text/javascript" src="~/js/commonFunctions/PaybyAlfalahRedirect.js"></script>              

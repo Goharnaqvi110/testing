@@ -1,0 +1,145 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model List<Property>
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Subscription Plans";
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<div class="col-lg-12">
+    <div class="card m-5">
+        <div class="card-header row">
+            <div class="col-md-9"><h4 class="card-title">Property Ads</h4></div>
+            <div class="col-md-3">
+                <a onclick="loadAddplanView()" href="#"
+                   class="btn btn-primary" data-bs-toggle="modal"
+                   data-bs-target="#largeModal">
+                    <i class="fa fa-plus"></i>
+                    Create new property
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row m-2">
+                <div class="col-md-6">
+                    <input type="text" id="txtSearchAd" class="form-control"
+                           placeholder="Enter address to search property Ad..." />
+                </div>
+                <div class="offset-md-2 col-md-4">
+                    <select id="ddllandlords" asp-items="@ViewBag.Landlords" class="nice-select wide w-100">
+                        <option value="">Ads from all landlords</option>
+                    </select>
+                </div>
+            </div>
+            @if (Model.Any())
+            {
+                <div id="list" class="table-responsive">
+                    <table class="table table-responsive-md">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;">
+                                    <strong>No</strong>
+                                </th>
+                                <th>
+                                    <i class="@ViewData["SortIconAddress"]"></i>
+                                    <a asp-action="index" asp-route-pg="@ViewBag.pg"
+                                       asp-route-sortOrder="@ViewBag.AddressSortParam">
+                                        <strong>Property</strong>
+                                    </a>
+                                </th>
+                                <th>
+                                    <i class="@ViewData["SortIconLandlord"]"></i>
+                                    <a asp-action="index" asp-route-pg="@ViewBag.pg"
+                                       asp-route-sortOrder="@ViewBag.LandlordnameSortParam">
+                                        <strong>Landlord</strong>
+                                    </a>
+                                </th>
+                                <th><strong>Ad created on</strong></th>
+                                <th><strong>Status</strong></th>
+                                <th class="text-center"><strong>Action</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var property = Model[i];
+                                var sno = @i + 1;
+                                <tr>
+                                    <td>@sno</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="w-space-no">@property.Address</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="w-space-no">@property.Owner.Name</span></td>
+                                    <td>@Utility.ConvertToShortDateFormat(@property.CreatedOn)</td>
+                                    <td>
+                                        @if (!property.blockedbyAdmin)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa fa-circle text-success me-1"></i> Unblocked
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa fa-circle text-danger me-1"></i> blocked
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a asp-area="" asp-action="createad" asp-controller="property"
+                                               asp-route-id=@property.uid
+                                               class="btn btn-primary btn-xxs shadow me-1">
+                                                Edit ad
+                                            </a>
+                                            @if (!property.blockedbyAdmin)
+                                            {
+                                                <a href="#" onclick="blockAd(@property.ID)"
+                                                   class="btn btn-primary btn-xxs shadow" title="Remove ad from the website">
+                                                    Block Ad
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" onclick="unblockAd(@property.ID)"
+                                                   class="badge badge-success btn-xxs shadow" title="Make ad live">
+                                                    Unblock Ad
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <partial name="_Pager" model="@pager" />
+            }
+            else
+            {
+                <div id="noplan" class="row text-center p-3">
+                    <h4>No record exists</h4>
+                </div>
+            }
+            <div style="display:none" id="message" class="row text-center p-3">
+                @*used when no data in ajax success*@
+                <h4>No record exists</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/commonFunctions/formatDateToDDMMYY.js"></script>
+<script src="~/js/property/unblockAd.js"></script>
+<script src="~/js/property/blockAd.js"></script>
+<script src="~/js/property/createPropertyAdList.js"></script>
+<script src="~/js/property/searchPropertyAd.js"></script>
+<script src="~/js/property/getPropertyAdsbyLandlord.js"></script>

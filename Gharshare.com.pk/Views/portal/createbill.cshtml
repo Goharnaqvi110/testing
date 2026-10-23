@@ -1,0 +1,94 @@
+﻿@model Gharshare.Models.TenantBill
+
+@{
+    ViewData["Title"] = "createbill";
+    Layout = null;
+}
+<div class="container">
+    <form asp-action="createbill" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <input type="hidden" asp-for="LeaseAgreementID" class="form-control" />
+            <input type="hidden" asp-for="PropertyID" class="form-control" />
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-1">Category</div>
+                <select required asp-for="CategoryID" class="nice-select w-100" asp-items="@ViewBag.Categories">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label>Title</label>
+                <input type="text" required asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Amount</label>
+                <input required type="text" asp-for="Amount" class="form-control integeronly" value=@(Model.Amount.HasValue?Model.Amount:"") />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label>Due date</label>
+                <input required type="text" asp-for="DueDate" class="form-control datepicker" value="" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Description</label>
+                <input required type="text" asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>
+                    <input type="checkbox" class="form-check-input" asp-for="IsGSTIncluded" /> Is GST included?
+                </label>
+            </div>
+            @if(ViewBag.createbill)
+            {
+            <div class="col-md-6">
+                <label>
+                    <input type="checkbox" class="form-check-input" asp-for="BillTenantNow" /> Bill tenant now?
+                </label>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-6">
+                <label>
+                    <input onclick="    return false;" type="checkbox" class="form-check-input" asp-for="BillTenantNow" /> Bill tenant now?
+                </label>
+            </div>
+            }
+        </div>
+        <label>Attachment (max. 2 files)</label>
+        <div>
+            <input id="bill" multiple type="file" name="bill" class="form-control" />
+        </div>
+        <div class="row">
+            <label>Message</label>
+            <input type="text" required asp-for="Message" class="form-control" />
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" asp-for="CollectViaGharshare" /> Collect bill via this application?
+            </label>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Save" class="btn btn-primary w-50" />
+        </div>
+    </form>
+</div>
+<partial name="_dtpPartial"></partial>
+<script src="~/js/commonFunctions/integersOnly.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

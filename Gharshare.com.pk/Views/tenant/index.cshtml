@@ -1,0 +1,293 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model LeaseAgreement
+@{
+    Layout = "_LayoutTenant";
+    ViewData["Title"] = "My Dashboard";
+    int billCount = 0; int reportCount = 0;
+    if (Model != null)
+    {
+        billCount = Convert.ToInt16(ViewData["bills"]);
+        reportCount = Convert.ToInt16(ViewData["conditionReportCount"]);
+    }
+}
+<div class="container-fluid">
+    @if (ViewBag.profileExists == false)
+    {
+        <div class="alert alert-primary alert-dismissible fade show">
+            <a asp-action="profile" class="red-link">
+                <i class="fas fa-info-circle"></i>
+                    You tenancy profile is incomplete. Please
+                    Complete your profile before applying for tenancy.                
+            </a>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+            </button>
+        </div>
+    }
+    <div class="mb-sm-4 d-flex flex-wrap align-items-center text-head">
+        <h2 class="mb-3 me-auto"> My Dashboard</h2>
+    </div>
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-xl-7">
+                <div class="card">
+                    <div class="card-body pb-3">
+                        <div class="row">
+                            <div class="col-8 p-0">
+                                <div class="front-view-slider owl-carousel owl-carousel owl-loaded owl-drag owl-dot ">
+                                    <div class="items">
+                                        <div class="front-view">
+                                            <img src=@Model.Property.CoverImage style="width:100%;" alt="">
+                                            <div class="sale">
+                                            </div>
+                                            <div class="property-detail">
+                                                <div class="info">
+                                                    <h4 class="mb-2 text-white font-w600">
+                                                        @Model.Property.Address
+                                                    </h4>
+                                                    <p class="mb-2 text-white font-w500">Rent: Rs @Utility.Format(Model.Property.Rent)/monthly</p>
+                                                    <div>
+                                                        <span class="me-4 font-w500 text-white">
+                                                            <svg class="me-2" width="20" height="15"
+                                                                 viewBox="0 0 28 19" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M23.1 8.03846C25.7498 8.03846 28 10.2859 28 13.1538V17.5385H25.9V19H24.5V17.5385H3.5V19H2.1V17.5385H0V13.1538C0 10.3876 2.17398 8.03846 4.9 8.03846H23.1ZM21.7 0C23.5821 0 25.2005 1.57962 25.2 3.65385L25.2005 7.14522C24.5639 6.78083 23.8517 6.57692 23.1 6.57692L21.7 6.57618C21.7 5.32466 20.7184 4.38462 19.6 4.38462H15.4C14.8622 4.38462 14.3716 4.59567 14.0001 4.94278C13.629 4.59593 13.1381 4.38462 12.6 4.38462H8.4C7.24044 4.38462 6.30038 5.36575 6.3 6.57619L4.9 6.57692C4.14851 6.57692 3.43653 6.7807 2.8 7.14488V3.65385C2.8 1.68899 4.3096 0 6.3 0H21.7ZM12.6 5.84579C12.9799 5.84579 13.3 6.21117 13.3 6.57692L7.7 6.57618C7.7 6.12909 8.04101 5.84615 8.4 5.84615L12.6 5.84579ZM19.6 5.85107C19.9961 5.84578 20.2996 6.20175 20.3 6.57618H14.7C14.7 6.1227 15.041 5.84615 15.4 5.84615L19.6 5.85107Z"
+                                                                      fill="white" fill-opacity="0.6" />
+                                                            </svg>
+                                                            @Model.Property.Bed
+                                                        </span>
+                                                        <span class="me-4 font-w500 text-white">
+                                                            <svg class="me-2" width="14" height="20"
+                                                                 viewBox="0 0 19 22" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M19 10.4211L18.6388 12.249C18.0616 15.1706 15.4406 17.3684 12.5829 17.3684H11.6923L13.4082 22H2.28779V10.4211H19ZM5.14753 0C6.68536 0 8.00727 1.29706 8.00727 2.89474V7.52632H18.8743V8.68421H8.00727V9.26316H1.1439L1.14378 11.0001C0.481336 10.4964 0 9.64309 0 8.68421V2.89474C0 1.33809 1.25234 0 2.85974 0H5.14753Z"
+                                                                      fill="white" fill-opacity="0.6" />
+                                                            </svg>
+                                                            @Model.Property.Bathroom
+                                                        </span>
+                                                        <span class="me-4 font-w500 text-white">
+                                                            <svg class="me-2" width="18" height="14"
+                                                                 viewBox="0 0 23 16" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M21.9018 4.49675C20.4365 3.03139 18.7276 1.89671 16.8227 1.12424C14.9831 0.378271 13.0394 0 11.0457 0C9.052 0 7.10835 0.378271 5.26872 1.12424C3.36382 1.89671 1.65494 3.03139 0.189572 4.49675C-0.0631836 4.74947 -0.0631836 5.15923 0.189529 5.41203L2.08006 7.30265C2.20144 7.42403 2.36609 7.49224 2.53768 7.49224H2.53773C2.70937 7.49224 2.87397 7.42407 2.99534 7.30265C5.14567 5.15242 8.00469 3.9682 11.0457 3.9682C14.0866 3.9682 16.9456 5.15242 19.0959 7.30265C19.2172 7.42403 19.3819 7.49224 19.5535 7.49224C19.7251 7.49224 19.8898 7.42407 20.0111 7.30265L21.9016 5.41203C22.1546 5.15928 22.1546 4.74951 21.9018 4.49675Z"
+                                                                      fill="white" fill-opacity="0.6" />
+                                                                <path d="M11.0457 5.34747C8.37317 5.34747 5.86058 6.38818 3.97082 8.27794C3.71807 8.53065 3.71807 8.94042 3.97078 9.19321L5.86131 11.0838C6.11407 11.3366 6.52384 11.3365 6.77659 11.0839C7.91693 9.94367 9.43299 9.31575 11.0456 9.31575C12.6582 9.31575 14.1743 9.94371 15.3146 11.0839C15.436 11.2053 15.6006 11.2735 15.7723 11.2735C15.9439 11.2735 16.1085 11.2053 16.2299 11.0839L18.1203 9.19317C18.373 8.94046 18.373 8.53069 18.1203 8.27794C16.2307 6.38818 13.7181 5.34747 11.0457 5.34747Z"
+                                                                      fill="white" fill-opacity="0.6" />
+                                                                <path d="M11.0457 10.6951C9.80158 10.6951 8.6319 11.1795 7.75209 12.0592C7.63072 12.1806 7.5625 12.3452 7.5625 12.5169C7.5625 12.6885 7.63067 12.8532 7.75209 12.9745L10.588 15.8104C10.7144 15.9368 10.88 16 11.0456 16C11.2112 16 11.3769 15.9368 11.5033 15.8104L14.3393 12.9745C14.4607 12.8531 14.5289 12.6885 14.5289 12.5169C14.5289 12.3452 14.4607 12.1806 14.3393 12.0593C13.4595 11.1796 12.2898 10.6951 11.0457 10.6951Z"
+                                                                      fill="white" fill-opacity="0.6" />
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="buttons">
+
+                                                    <a href="javascript:void(0);">
+                                                        <?xml version="1.0" ?>
+                                                        <!DOCTYPE svg
+                                                                  PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+                                                        <svg enable-background="new 0 0 19 19" height="19px"
+                                                             id="Layer_1" version="1.1" viewBox="0 0 19 19"
+                                                             width="19px" xml:space="preserve"
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <g>
+                                                        <path d="M8.44,7.25C8.348,7.342,8.277,7.447,8.215,7.557L8.174,7.516L8.149,7.69   C8.049,7.925,8.014,8.183,8.042,8.442l-0.399,2.796l2.797-0.399c0.259,0.028,0.517-0.007,0.752-0.107l0.174-0.024l-0.041-0.041   c0.109-0.062,0.215-0.133,0.307-0.225l5.053-5.053l-3.191-3.191L8.44,7.25z"
+                                                              fill="white" />
+                                                        <path d="M18.183,1.568l-0.87-0.87c-0.641-0.641-1.637-0.684-2.225-0.097l-0.797,0.797l3.191,3.191l0.797-0.798   C18.867,3.205,18.824,2.209,18.183,1.568z"
+                                                              fill="white" />
+                                                        <path d="M15,9.696V17H2V2h8.953l1.523-1.42c0.162-0.161,0.353-0.221,0.555-0.293   c0.043-0.119,0.104-0.18,0.176-0.287H0v19h17V7.928L15,9.696z"
+                                                              fill="white" />
+                                                                            </g>
+                                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item ">
+                                                <p class="d-flex justify-content-between align-items-center m-0">
+                                                    <span class="key font-w600">Property Code:</span> 
+                                                    <span class="value">@Model.Property.PropertyCode</span>
+                                                </p>
+                                                <p class="d-flex justify-content-between align-items-center m-0">
+                                                    <span class="key font-w600">Plan:</span>
+                                                    <span class="value"> Match, Manage & Maintain </span>
+                                                </p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <p class="d-flex justify-content-between align-items-center m-0">
+                                                    <span class="key font-w600">View:</span> <span class="value">
+                                                        <a asp-action="detail" asp-controller="property" asp-route-uid=@Model.Property.uid
+                                                           class="ms-2">smartpropertymanager.pk</a>
+                                                    </span>
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-4 p-2">
+                                <div class="list-group list-group-flush">
+                                    @if (@Model.Property.Lease != null)
+                                    {
+                                        <a asp-action="lease" asp-route-uid=@Model.uid asp-controller="tenant"
+                                           class="list-group-item  px-0">
+                                            <i class="bi bi-file-earmark-text nav-icon"></i> Lease Agreement
+                                            @if (!Model.SignedByTenant)
+                                            {
+                                                <i class="fas fa-circle text-danger "></i>
+                                            }
+                                        </a>
+                                    }
+                                    <a asp-action="conditionreportlist" asp-route-uid=@Model.uid
+                                       class="list-group-item  px-0">
+                                        <i class="bi bi-image"></i>
+                                        Condition Report
+                                        @if (reportCount > 0)
+                                        {
+                                            <i class="fas fa-circle text-danger "></i>
+                                        }
+                                    </a>
+                                    <a asp-action="leaseoverview" asp-route-uid=@Model.uid asp-controller="tenant"
+                                       class="list-group-item  px-0">
+                                        <i class="bi bi-file-earmark-text nav-icon"></i> Lease Overview
+                                    </a>
+                                    <a asp-action="rentalpayments" asp-controller="portal" asp-route-lid=@Model.uid
+                                    asp-route-pid="@Model.Property.uid"
+                                       class="list-group-item  px-0">
+                                        <i class="bi bi-currency-dollar nav-icon"></i> Rental Payments
+                                    </a>
+                                    <a asp-action="bond" asp-controller="portal" asp-route-id=@Model.uid class="list-group-item  px-0">
+                                        <i class="bi bi-file-earmark-text nav-icon"></i> Bond
+                                        @if (!Model.IsBondPaid && Model.BondAmount > 0)
+                                        {
+                                            <i class="fas fa-circle text-danger "></i>
+                                        }
+                                    </a>
+                                    <a asp-action="bills" asp-controller="portal" asp-route-id=@Model.uid class="list-group-item  px-0">
+                                        <i class="bi bi-receipt nav-icon"></i> Bill Payment
+                                        @if (billCount > 0)
+                                        {
+                                            <i class="fas fa-circle text-danger "></i>
+                                        }
+                                    </a>
+                                    <a asp-action="paymentoptions" asp-controller="portal" asp-route-pid=@Model.Property.uid
+                                       class="list-group-item  px-0">
+                                        <i class="bi bi-wallet2 nav-icon"></i> Update Payment Method
+                                    </a>
+                                    <a asp-action="maintenance" asp-controller="portal" asp-route-pid=@Model.Property.uid
+                                       asp-route-lid=@Model.uid class="list-group-item  px-0">
+                                        <i class="bi bi-tools nav-icon"></i> Maintenance
+                                    </a>
+                                    @* <a asp-action="chat" asp-route-id=@Model.Property.OwnerId asp-controller="tenant"
+                                       asp-controller="chat" class="list-group-item  px-0">
+                                        <i class="bi bi-chat nav-icon nav-icon"></i> Messaging
+                                    </a> *@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card" style="height:200px;">
+                    <div class="card-header">
+                        <h6>Tenancy set-up checklist</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="mb-4">
+                            <ul>
+                                <li>
+                                    <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                    <span>Account created</span>
+                                </li>
+                                <li>
+                                    @if (Model.SignedByTenant)
+                                    {
+                                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                        <span>Lease signed</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times" style="font-size:15px;color:#EE3232"></i>
+                                        <span>Lease not signed. </span>
+                                        <a asp-controller="tenant" asp-action="viewleasedoc"
+                                           asp-route-uid="@Model.uid"
+                                           class="red-link">Sign it now</a>
+                                    }
+                                </li>
+                                <li>
+                                    @if (!Model.IsBondPaid && Model.BondAmount > 0)
+                                    {
+                                        <i class="fa fa-times" style="font-size:15px;color:#EE3232"></i>
+                                        <span>Bond amount not paid. </span>
+                                        <a asp-action="bond" asp-controller="portal" asp-route-id=@Model.uid
+                                           class="red-link">Pay bond now</a>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                        <span>Bond amount paid</span>
+                                    }
+
+                                </li>
+                                @if (reportCount > 0)
+                                {
+                                    <li>
+                                        <i class="fa fa-times" style="font-size:15px;color:#EE3232"></i>
+                                        <span>Condition report not signed. </span>
+                                        <a asp-action="conditionreportlist" asp-route-lid=@Model.ID
+                                           class="red-link">Sign it now</a>
+                                    </li>
+                                }
+                                <li>
+                                    @if (billCount > 0)
+                                    {
+                                        <i class="fa fa-times" style="font-size:15px;color:#EE3232"></i>
+                                        <span>All outstanding bills not paid. </span>
+                                        <a asp-action="bills" asp-controller="portal" asp-route-id=@Model.uid
+                                           class="red-link">Pay bill(s) now</a>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                        <span> All outstanding bills paid</span>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body pb-3">
+                        <p class="text-center">
+                            <a class="red-link" asp-action="index" asp-controller="home">
+                               <strong>You have not secured a rental property yet. Please explore properties
+                                    and send a tenancy application to the landlord.
+                                </strong>
+                            </a>
+                        </p>
+                        <div>
+                            <img src="~/img/no_property.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

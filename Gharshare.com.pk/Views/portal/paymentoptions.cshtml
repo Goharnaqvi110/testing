@@ -1,0 +1,179 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model PaymentoptionsVm
+@{
+    ViewData["Title"] = "Payment Options";
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    else
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Payment Options</h4>
+                </div>
+                <div class="card-body">
+                    <h4>Credit or Debit Card</h4>
+                    @if (Model.UserCreditCard.Any())
+                    {
+                        foreach (var account in Model.UserCreditCard)
+                        {
+                            string active = "";
+                            string check = "";
+                            Int64 selectedOption = 0;
+                            if (account.IsSelectedForPayment)
+                            {
+                                active = "active";
+                                check = "fa-check-circle";
+                                selectedOption = account.ID;
+                                <input type="hidden" id="selected" value="@selectedOption" />
+                            }
+                            else
+                            {
+                                check = "fa-circle-o";
+                            }
+                            <div class="row">
+                                <div class="col-xs-8 col-md-8 col-lg-8">
+                                    <div class="paymentMethodCard bankDetails ezidebit default @active"
+                                         onclick="selectPaymentMethod(this,@account.ID)">
+                                        <div class="flex">
+                                            <div class="col-xs-1 checkDefault">
+                                                <span class="option fa @check p-3"></span>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-1 mt-2">
+                                                <span class="fa fa-credit-card brand" style="font-size:18pt;">
+                                                </span>
+                                            </div>
+                                            <div class="col-xs-5 col-sm-5 methodNumber mt-2">
+                                                <p class="text-left">
+                                                    <span id="bankname" style="margin-right:5px;">
+                                                        @account.CardHolderName
+                                                    </span>
+                                                    @{
+                                                        string cardNo = account.CardNo;
+                                                        string lastFourDigits = cardNo;
+                                                        if (cardNo != null && cardNo.Length > 4)
+                                                            lastFourDigits = cardNo.Substring(cardNo.Length - 4);
+                                                    }
+                                                    <span id="account">******@lastFourDigits</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-4 hidden-xs updatedOn text-right mt-2">
+                                                <small>Updated: @Utility.ConvertToShortDateFormat(account.UpdatedOn)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-8 paymentMethodCard newMethod newBankAccount">
+                                <p class="red-link text-center">
+                                    No credit or debit card added
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    <h4>Bank Account</h4>
+                    @if (Model.UserBankAccounts.Any())
+                    {
+                        foreach (var account in Model.UserBankAccounts)
+                        {
+                            string active = "";
+                            string check = "";
+                            Int64 selectedOption = 0;
+                            if (account.IsSelectedForPayment)
+                            {
+                                active = "active";
+                                check = "fa-check-circle";
+                                selectedOption = account.ID;
+                                <input type="hidden" id="selected" value="@selectedOption" />
+                            }
+                            else
+                            {
+                                check = "fa-circle-o";
+                            }
+
+                            <div class="row">
+                                <div class="col-xs-8 col-md-8 col-lg-8">
+                                    <div class="paymentMethodCard bankDetails ezidebit default @active"
+                                         onclick="selectPaymentMethod(this,@account.ID)">
+                                        <div class="flex">
+                                            <div class="col-xs-1 checkDefault">
+                                                <span class="option fa @check p-3"></span>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-1 mt-2">
+                                                <span class="fa fa-university brand"></span>
+                                            </div>
+                                            <div class="col-xs-9 col-sm-6 methodNumber mt-2">
+                                                <p class="text-left">
+                                                    <span id="bankname" style="margin-right:5px;">
+                                                        @account.BankName
+                                                    </span>
+                                                    @{
+                                                        string accountNo = account.AccountNo;
+                                                        string lastFourDigits = accountNo;
+                                                        if (accountNo != null && accountNo.Length > 4)
+                                                            lastFourDigits = accountNo.Substring(accountNo.Length - 4);
+                                                    }
+                                                    <span id="account">******@lastFourDigits</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-3 hidden-xs updatedOn text-right mt-2">
+                                                <small>Updated: @Utility.ConvertToShortDateFormat(account.UpdatedOn)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-8 paymentMethodCard newMethod newBankAccount">
+                                <p class="red-link text-center">
+                                    No bank account added
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    <div class="row mt-2">
+                        <div class="col-md-5">
+                            <a class="btn btn-primary w-60" data-bs-toggle="modal"
+                               data-bs-target="#largeModal" onclick="loadPaymentmethodsUI()">
+                                <i class="fa fa-plus"></i>
+                                Add New Payment Method
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <form id="frmPaymentOption">
+                                <input type="hidden" name="selectedOptionId" id="selectedPaymentOption" />
+                                <button type="submit" id="btnUpdate" class="btn btn-primary w-50 disabled">
+                                    Update
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="~/js/portal/loadPaymentmethodsUI.js"></script>
+<script src="~/js/portal/selectPaymentMethod.js"></script>
+<script src="~/js/portal/updateUserPaymentOption.js"></script>

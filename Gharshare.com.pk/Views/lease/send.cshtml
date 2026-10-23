@@ -1,0 +1,53 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model LeaseViewVM
+@{
+    Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    ViewData["Title"] = "Send Lease Agreement to Tenant";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 form-floating p-1">
+            <div class="card">
+                <div class="card-header">
+                    <h6>                         
+                        <span>Lease Agreement Document</span>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <embed src="@Model.LeasePdfDoc.FilePath" height="900" width="100%" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card" style="height:230px;">
+                <div class="card-header">
+                    <h6>
+                        <i class="fa fa-envelope"></i>
+                        <span>Send Lease Agreement to Tenant(s)</span>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @if (!Model.leaseAgreement.Sent2Tenant)
+                    {
+                        <div class="row">
+                            <p>Click below button to send Lease Agreement to Tenant(s).</p>
+                        </div>
+                        <div class="row mt-3">
+                            <form id="frmLease">
+                                <input id="txtLeaseId" type="hidden" asp-for="@Model.leaseAgreement.ID" />
+                                <a id="btnSend" onclick="    sendLease2Tenant();"
+                               class="btn btn-primary w-100" href="#">
+                                    Send Lease Agreement
+                                </a>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="/js/lease/sendLease2Tenant.js"></script>
+}

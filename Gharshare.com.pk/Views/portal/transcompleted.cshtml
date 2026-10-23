@@ -1,0 +1,15 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model Transactionresult
+@{
+    ViewData["Title"] = "index";
+
+    if (User.IsInRole(WebSiteRoles.Role_Landlord))
+        Layout = "~/Views/Shared/_LayoutLandlord.cshtml";
+    else
+        Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+<div class="row">
+
+<span></span>
+</div>

@@ -1,0 +1,112 @@
+﻿@model Gharshare.Models.DemoVM
+@{
+    ViewData["Title"] = "Registered For Demo";
+}
+<!-- FEATURE AREA START ( Feature - 6) -->
+<div class="ltn__feature-area pt-120 pb-90 mb-120---">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-title-area ltn__section-title-2---">
+                    <h1 class="section-title animated fadeIn ms-4 mb-0">
+                        <a href="#">
+                            Thank you for
+                            registering!
+                        </a>
+                    </h1>
+                </div>
+                <p>
+                    Watch the short video below to access a demo of the <strong>Sharehouse</strong><span class="ltn__secondary-color-3"><strong>PK</strong></span> platform. <strong>
+                        <br>An
+                        email
+                    </strong>will also be sent to you shortly with a link to watch an extended guided
+                    tour.
+                </p>
+                <a asp-area="identity" asp-page="/account/register" class="theme-btn-1 btn btn-effect-1 m-md-0">Sign up for Free</i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FEATURE AREA END -->
+<!-- Demo Video AREA START -->
+<div class="ltn__contact-us-area section-bg-1 py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-6 align-self-center ">
+                <div class="about-us-info-wrap">
+                    <div class=" ltn__form-widget">
+                        <h2> <span class="ltn__secondary-color-3">See it in</span> action</h2>
+                        <p>
+                            Watch a demo with <strong>Rent</strong><span class="text-span-120"><strong class="bold-text-109">Better</strong></span> CEO,
+                            Jeremy Goldschmidt.<br>&zwj;<br>In this video Jeremy shows you how to set up your
+                            property on the platform, as well as an overview of some of the features that will
+                            help you manage your property - from <strong>Advertising, Lease Agreements</strong>
+                            and <strong>Bonds</strong> to <strong>Condition Reports</strong>,
+                            <strong>Maintenance</strong>, and <strong>Reporting</strong>. We'll help you feel
+                            confident knowing that you can do it <span class="ltn__secondary-color-3"><strong>Better!</strong></span><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-md-1 align-self-center mt-4 mt-lg-0">
+                <div class="ltn__video-img">
+                    <img src="/img/team/ceo.jpg" alt="video popup bg image">
+                    <a class="ltn__video-icon-2 ltn__secondary-bg ltn__video-icon-2-border---" href="https://youtu.be/X7R-q9rsrtU" data-rel="lightcase:myCollection">
+                        <i class="fa fa-play"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Demo Video END -->
+<!-- TESTIMONIAL AREA START (testimonial-7) -->
+<div class="ltn__testimonial-area section-bg-1--- bg-image-top pt-120 pb-70" data-bs-bg="img/bg/20.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2--- text-center">
+                    <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">Our Testimonial</h6>
+                    <h1 class="section-title">Clients Feedback</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row ltn__testimonial-slider-5-active slick-arrow-1">
+            @foreach (var testimonial in Model.Testimonials)
+            {
+                <div class="col-lg-4">
+                    <div class="ltn__testimonial-item ltn__testimonial-item-7">
+                        <div class="ltn__testimoni-info">
+                            <p style="min-height:450px;">
+                                <i class="flaticon-left-quote-1"></i>
+                                @testimonial.Description
+                            </p>
+                            <div class="ltn__testimoni-info-inner">
+                                <div class="ltn__testimoni-img">
+                                    <img src=@testimonial.ImagePath alt="#">
+                                </div>
+                                <div class="ltn__testimoni-name-designation">
+                                    <h5>@testimonial.Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+            }
+        </div>
+    </div>
+</div>
+<!-- TESTIMONIAL AREA END -->
+<script>
+    window.onload = function() {
+        var path = window.location.pathname; // gets the path after the domain name, e.g. "/demo/registered"
+        var url = path.split('/'); // splits the path into an array of strings using the "/" character as the separator
+        var page = url.pop(); // gets the last item in the array, which is the part of the URL after the last "/"
+        console.log(page);
+        if (page === "registered") {
+            document.getElementById("demoform").remove();
+        }
+    }
+</script>

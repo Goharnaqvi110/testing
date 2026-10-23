@@ -1,0 +1,117 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+@model LeaseViewVM
+@{
+    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+    ViewData["Title"] = "Lease Agreement";
+}
+<div class="container-fluid">
+    <h3 class="heading-main">Lease Agreement</h3>
+    <div class="row bd-callout bd-callout-default  m-1 mb-4">
+        <div class="col-xl-12">
+            <p>
+                <strong>Property Address:</strong>@Model.Property.Address
+            </p>
+            <p><b>About lease agreement</b></p>
+            <p>
+                A Lease Agreement is a legally binding, written agreement between a landlord and
+                a tenant. Each state and territory has their own regulations, and the lease
+                agreement that’s applicable to your state will be generated automatically for
+                you based on where your property is located.
+            </p>
+        </div>
+    </div>
+    <div class="row bd-callout  m-1 mb-4">
+        <div class="col-md-4 lease-agreement-grid-box" style="padding-left:25px;">
+            <div class="row">
+                <div class="col-md-10">
+                    <a asp-action="viewleasedoc" asp-controller="tenant" asp-route-uid=@Model.leaseAgreement.uid>
+                        <div class="row" style="margin-top:5px;"><h5>Lease Agreement</h5></div>
+                        <div class="row mb-0">
+                            <div class="col-md-6">
+                                <label>Received on:</label>
+                            </div>
+                            <div class="col-md-6">
+                                @Utility.ConvertToShortDateFormat(@Model.leaseAgreement.AgreementDate)
+                            </div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="col-md-6">
+                                <label>Lease:</label>
+                            </div>
+                            <div class="col-md-6">
+                                @Utility.ConvertToShortDateFormat(Model.leaseAgreement.From) -
+                                @Utility.ConvertToShortDateFormat(Model.leaseAgreement.To)
+                            </div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="col-md-6">
+                                <label>Status:</label>
+                            </div>
+                            <div class="col-md-6">
+                                @*@Utility.GetEnumDisplayName(@Model.leaseAgreement.LeaseStatus)*@
+                                @if (Model.leaseAgreement.SignedByTenant && Model.leaseAgreement.SignedByLandlord)
+                                {
+                                    <i class="fa fa-check-circle" style="font-size:15px;color:rgb(5, 184, 5)"></i>
+                                    <span>Finalised and Signed</span>
+                                }
+                                else if (! Model.leaseAgreement.SignedByTenant)
+                                {
+                                   <span class="red-link">Sign Required</span> 
+                                }
+                                else
+                                {
+                                   <span class="red-link">Landlord Sign Required</span> 
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <div class="dropdown custom-dropdown mb-0">
+                        <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-end" style="margin: 0px;">
+                            <a class="dropdown-item" href="javascript:void();">View</a>
+                            <a class="dropdown-item" href="javascript:void();">Download</a>
+                            <a class="dropdown-item text-danger" href="javascript:void();">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="container">
+        <div class="col-md-12 form-floating p-1">
+        <div class="row">
+        <h1>Lease Agreement</h1>
+        </div>
+        <div class="row">
+        <strong>Property Address:</strong> @Model.Property.Address<br />
+        </div>
+        <div class="row">
+            <strong>About lease agreement</strong>
+        </div>
+        <div class="row">
+            <p>A Lease Agreement is a legally binding, written agreement between a landlord and a tenant.
+             Each state and territory has their own regulations, and the lease agreement that’s applicable to your state will be generated automatically for you based on where your property is located.</p>
+        </div>
+        <a asp-action="viewleasedoc" asp-controller="tenant" asp-route-ID=@Model.leaseAgreement.ID class="pl-5">
+        <div class="row"><strong>Lease Agreement</strong></div>
+        <div class="row">
+            <div>Received on:</div>
+            <span>@Model.leaseAgreement.AgreementDate</span>
+            </div>
+            <div class="row">
+              <span>Lease:</span>@Model.leaseAgreement.From - @Model.leaseAgreement.To
+            </div>
+            <div class="row">
+            <div>Status:</div>
+            <span>@Model.leaseAgreement.LeaseStatus</span>
+            </div>
+          </a>
+        </div>
+</div>*@
+

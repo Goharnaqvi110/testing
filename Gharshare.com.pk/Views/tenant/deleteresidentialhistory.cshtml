@@ -1,0 +1,77 @@
+﻿@using Gharshare.CommonHelper
+@model Gharshare.Models.ApplicantHistory
+
+@{
+    ViewData["Title"] = "Delete Vehicle";
+    Layout = null;
+}
+<div class="container">
+    <form id="DeleteForm" asp-controller="tenant" asp-action="deleteresidentialhistory">
+        <input type="hidden" asp-for="ID">
+        <div class="row">
+            <div class="col-md-3  p-1">
+                <label>Unit No</label>
+                <input disabled type="text" asp-for=UnitNo placeholder="Unit No" class="form-control" />
+            </div>
+            <div class="col-md-3  p-1">
+                <label>Street No</label>
+                <input disabled type="text" asp-for=StreetNo placeholder="Street No" class="form-control" />
+            </div>
+            <div class="col-md-6  p-1">
+                <label>Street Name</label>
+                <input disabled type="text" asp-for=StreetName placeholder="Street Name" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3  p-1">
+                <label>Suburb</label>
+                <input disabled type="text" asp-for=Suburb placeholder="Suburb" class="form-control" />
+            </div>
+            <div class="col-md-3 p-1">
+                <label>PostCode</label>
+                <input disabled type="text" asp-for=PostCode placeholder="PostCode" class="form-control" />
+            </div>
+            @*<div class="col-md-3 p-1">
+            <label>State</label>
+            <input disabled type="text" asp-for=State placeholder="State" class="form-control" />
+            </div>
+            <div class="col-md-3 p-1">
+            <label>Country</label>
+            <input disabled type="text" asp-for=Country placeholder="Country" class="form-control" />
+            </div>*@
+        </div>
+        <div class="row">
+            <div class="col-md-4  p-1">
+                <label>Landlord Type</label>
+                <select disabled asp-for=LandlordType class="form-control">
+                    <option value="Real estate agent">Real estate agent</option>
+                    <option value="through landlord">Through a landlord</option>
+                    <option value="I own this home">I own this home</option>
+                    <option value="Living with family/friends">Living with family/friends</option>
+                </select>
+            </div>
+            <div class="col-md-4 p-1">
+                <label>Date Started Living</label>
+                <input disabled type="text" id="datepicker" readonly asp-for=DateStartedLiving placeholder="Date Started Living" class="form-control datepicker" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12  p-1">
+                <label>Additional Information</label>
+                <textarea disabled type="text" asp-for=AdditionalInformation placeholder="Additional Information" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <label>Reason for leaving</label>
+            <div class="col-md-12  p-1">
+                <textarea disabled type="text" asp-for=Reasonforleaving placeholder="Reason for leaving" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <input id="delete" disabled type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/js/ConfirmDelete.js" />

@@ -1,0 +1,922 @@
+﻿@using Gharshare.CommonHelper
+@using Gharshare.Models
+@model vmTenancyApplication
+@{
+    ViewData["Title"] = "My Tenancy Profile";
+    Layout = "~/Views/Shared/_LayoutTenant.cshtml";
+}
+
+@section metatags
+{
+    @*<link rel="stylesheet" href="/css/multistepform.css" />*@
+}
+<div class="container-fluid">
+    <h3 class="heading-main">User Profile For Tenancy</h3>
+    <div class="row bd-callout  m-1 mb-4">
+
+        <div class="col-xl-12">
+            <form id="signUpForm" asp-action="profile" asp-controller="tenant" enctype="multipart/form-data">
+                <input type="hidden" asp-for=@Model.Applicant.ID />
+                <input type="hidden" asp-for=@Model.Applicant.UserID />
+                <input type="hidden" asp-for=@Model.Applicant.uid />
+                <div id="smartwizard">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#step-1">
+                                Personal Details
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#step-2">
+                                Dependants
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#step-3">
+                                Pets
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#step-4">
+                                Vehicles
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#step-5">
+                                Residential History
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#step-6">
+                                Financials
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#step-7">
+                                References
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#step-8">
+                                Documents
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" style="margin-left:30px;margin-right:30px;height: 280px;">
+                        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                            <div class="row mt-2">
+                                <h3 class="text-center">
+                                    Personal <span class="text-primary"> Information</span>
+                                </h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 ">
+                                    <select required asp-for=@Model.Applicant.Title class="nice-select w-100">
+                                        <option selected value="">--Select Title--</option>
+                                        <option value="Mr">Mr</option>
+                                        <option value="Mrs">Mrs</option>
+                                        <option value="Ms">Ms</option>
+                                        <option value="Miss">Miss</option>
+                                        <option value="Dr">Dr</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <span asp-validation-for=@Model.Applicant.Title class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 ">
+                                    <select asp-for=@Model.Applicant.Gender class="nice-select w-100" required>
+                                        <option selected value="">--Select Gender--</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                        <option value="US">Unspecified</option>
+                                    </select>
+                                    <span asp-validation-for=@Model.Applicant.Gender class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 ">
+                                    <input readonly class="form-control" type="text" asp-for=@Model.Applicant.FirstName placeholder="First Name" />
+                                    <span asp-validation-for=@Model.Applicant.FirstName class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <input type="text" class="form-control" asp-for=@Model.Applicant.LastName placeholder="Last Name" />
+                                    <span asp-validation-for=@Model.Applicant.LastName class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <input type="text" required asp-for=@Model.Applicant.DOB placeholder="Date of birth" readonly class="form-control datepicker" />
+                                    <span asp-validation-for=@Model.Applicant.DOB class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <input class="form-control" maxlength="15" type="text" asp-for=@Model.Applicant.Mobile oninput="formatMobileNumber(this)" placeholder="Mobile" />
+                                    <span asp-validation-for=@Model.Applicant.Mobile class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <input readonly class="form-control" type="text" asp-for=@Model.Applicant.Email placeholder="Email" />
+                                    <span asp-validation-for=@Model.Applicant.Email class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 btn-group">
+                                    <div>
+                                        @Html.CheckBoxFor(m => m.Applicant.IsSmoker, new { @class = "form-check-input" })
+                                        <label>Are you a smoker?</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                            <div class="row mt-3">
+                                <h3 class="text-center">
+                                    Dependants
+                                </h3>
+                            </div>
+                            <p class="text-left mb-3">
+                                A person who depends on you and cannot be a lease holder (i.e. your child or any other person that relies on you financially).
+                            </p>
+                            @if (@Model.ApplicantDependents != null)
+                            {
+                                for (int i = 0; i < @Model.ApplicantDependents.Count; i++)
+                                {
+                                    <div class="row k">
+                                        <strong class="kk">Dependent-@(i + 1)</strong>
+                                    </div>
+                                    <div class="ad">
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <input type="hidden" asp-for=@Model.ApplicantDependents[i].ID>
+                                                <input type="hidden" asp-for=@Model.ApplicantDependents[i].uid>
+                                                <input type="hidden" asp-for=@Model.ApplicantDependents[i].CreatedbyUserId>
+                                                <input type="hidden" asp-for=@Model.ApplicantDependents[i].CreatedOn>
+                                                <input type="hidden" asp-for=@Model.ApplicantDependents[i].ApplicantID>
+                                                <input type="text" required class="form-control" asp-for=@Model.ApplicantDependents[i].FirstName placeholder="First Name" />
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].FirstName class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <input type="text" required class="form-control" asp-for=@Model.ApplicantDependents[i].LastName placeholder="Last Name" />
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].LastName class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <input type="text" required class="form-control integeronly" maxlength="3" asp-for=@Model.ApplicantDependents[i].Age placeholder="Age" />
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].Age class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <select required asp-for=@Model.ApplicantDependents[i].Gender class="nice-select w-100">
+                                                    <option selected value="">--Select Gender--</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="US">Unspecified</option>
+                                                </select>
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].Gender class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <input type="text" required class="form-control" asp-for=@Model.ApplicantDependents[i].Relationship placeholder="Relationship" />
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].Relationship class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <select required asp-for=@Model.ApplicantDependents[i].IsLivingWithYou class="nice-select w-100">
+                                                    <option selected value="">--Select Living Status--</option>
+                                                    <option value="Yes">Living with me</option>
+                                                    <option value="No">Not living with me</option>
+                                                </select>
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].IsLivingWithYou class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <select required asp-for=@Model.ApplicantDependents[i].IsReceivingChildSupport class="nice-select w-100">
+                                                    <option selected value="">--Receiving child support for? Select--</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                                <span asp-validation-for=@Model.ApplicantDependents[i].IsReceivingChildSupport class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <textarea class="form-control" type="text" asp-for=@Model.ApplicantDependents[i].AdditionalInformation placeholder="Additional Information" oninput="this.className = ''"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-end">
+                                                @*<a class="btn btn-danger" asp-action="deletedependent" asp-route-ID=@Model.ApplicantDependents[i].ID><i class="bi bi-trash"></i> Delete Dependent</a>*@
+                                                <a href="#" onclick="loadDependent(@Model.ApplicantDependents[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                   data-bs-target="#largeModal"><i class="bi bi-trash"></i> Delete Dependent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div id="dvappendDependent">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12  form-footer">
+                                    <button id="btnaddDependent" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle"></i>
+                                        Add New Dependent
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                            <div class="row mt-3">
+                                <h3 class="text-center">
+                                    Pets
+                                </h3>
+                            </div>
+                            <div id="dvPet" style="display:block;">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <p>Tell us some more information about your family pets.</p>
+                                    </div>
+                                </div>
+                                @if (@Model.ApplicantPets != null)
+                                {
+                                    for (int i = 0; i < @Model.ApplicantPets.Count; i++)
+                                    {
+                                        <div class="row p">
+                                            <strong class="pp">Pet-@(i + 1)</strong><hr />
+                                        </div>
+                                        <div class="ap">
+                                            <div class="row">
+                                                <div class="col-md-6 ">
+                                                    <input type="hidden" asp-for=@Model.ApplicantPets[i].ID>
+                                                     <input type="hidden" asp-for=@Model.ApplicantPets[i].uid>
+                                                    <input type="hidden" asp-for=@Model.ApplicantPets[i].CreatedOn>
+                                                    <input type="hidden" asp-for=@Model.ApplicantPets[i].CreatedbyUserId>
+                                                    <input type="hidden" asp-for=@Model.ApplicantPets[i].ApplicantID>
+                                                    <input type="hidden" asp-for=@Model.ApplicantPets[i].PicturePath>
+                                                    <input type="text" asp-for=@Model.ApplicantPets[i].Name placeholder="Name" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantPets[i].Name class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-6 ">
+                                                    <select asp-for=@Model.ApplicantPets[i].Type class="nice-select w-100">
+                                                        <option selected value="">--Select Type--</option>
+                                                        <option value="Bird">Bird</option>
+                                                        <option value="Cat">Cat</option>
+                                                        <option value="Dog">Dog</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                    <span asp-validation-for=@Model.ApplicantPets[i].Type class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 ">
+                                                    <input type="text" asp-for=@Model.ApplicantPets[i].Breed placeholder="Breed" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantPets[i].Breed class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-6 ">
+                                                    <input type="text" asp-for=@Model.ApplicantPets[i].age maxlength="3" placeholder="Age" class="form-control integeronly" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 ">
+                                                    <input type="text" asp-for=@Model.ApplicantPets[i].Size placeholder="Size" class="form-control" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label class="mt-2">Picture</label>
+                                                </div>
+                                                <div class="col-md-5  custom-file">
+                                                    <input type="file" asp-for=@Model.ApplicantPets[i].Petpic class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 ">
+                                                    <textarea type="text" asp-for=@Model.ApplicantPets[i].AdditionalInformation placeholder="Tell us about your pet" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-end">
+                                                <a href="#" onclick="loadPet(@Model.ApplicantPets[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                   data-bs-target="#largeModal"><i class="bi bi-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <div id="dvappendPet">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12  form-footer">
+                                        <button id="btnaddPet" class="btn btn-primary">
+                                            <i class="bi bi-plus-circle"></i> Add New Pet
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                            <div class="row mt-2">
+                                <h3 class="text-center">
+                                    Motor <span class="text-primary"> Vehicles</span>
+                                </h3>
+                            </div>
+                            <div id="dvPVcheckbox"></div>
+                            @*<div class="row">
+                            <div class="p-1 btn-group">
+                            <div class="p-1">
+                            <input type="checkbox" asp-for="@Model.ApplicantVehicles[0].IsPrimaryVehicle
+                            class="form-check-input" />
+                            </div>
+                            <div class="col-md-11 p-1">
+                            <div class="v">
+                            <strong class="vv">Primary Vehicle</strong>
+                            </div>
+                            </div>
+                            </div>
+                            </div>*@
+                            @if (@Model.ApplicantVehicles != null)
+                            {
+                                @for (int i = 0; i < @Model.ApplicantVehicles.Count; i++)
+                                {
+                                    if (@i == 0)
+                                    {
+                                        <div class="row v">
+                                            <strong class="vv">Primary Vehicle</strong><hr />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row v">
+                                            <strong class="vv">Vehicle-@(i + 1)</strong><hr />
+                                        </div>
+                                    }
+                                    <div class="avc row">
+                                        <div class="row">
+                                            <div class="btn-group">
+                                                <input type="checkbox" asp-for="@Model.ApplicantVehicles[i].IsPrimaryVehicle"
+                                                       class="form-check-input" />
+                                                <span class="vv p-1">Primary Vehicle</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <input type="hidden" asp-for=@Model.ApplicantVehicles[i].ID>
+                                            <input type="hidden" asp-for=@Model.ApplicantVehicles[i].uid>
+                                            <input type="hidden" asp-for=@Model.ApplicantVehicles[i].CreatedOn>
+                                            <input type="hidden" asp-for=@Model.ApplicantVehicles[i].CreatedbyUserId>
+                                            <input type="hidden" asp-for=@Model.ApplicantVehicles[i].ApplicantID>
+                                            <select asp-for=@Model.ApplicantVehicles[i].Type class="nice-select w-100">
+                                                <option selected value="">--Select Type of Vehicle--</option>
+                                                <option value="Other">Other</option>
+                                                <option value="Car">Car</option>
+                                                <option value="Truck">Truck</option>
+                                                <option value="Caravan">Caravan</option>
+                                                <option value="Motorbike">Motorbike</option>
+                                                <option value="Boat">Boat</option>
+                                                <option value="No Vehicle">No Vehicle</option>
+                                            </select>
+                                            <span asp-validation-for=@Model.ApplicantVehicles[i].Type class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <input type="text" asp-for=@Model.ApplicantVehicles[i].Registration placeholder="Registration" class="form-control" />
+                                            <span asp-validation-for=@Model.ApplicantVehicles[i].Registration class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <input type="text" asp-for=@Model.ApplicantVehicles[i].Make placeholder="Make" class="form-control" />
+                                            <span asp-validation-for=@Model.ApplicantVehicles[i].Make class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <input type="text" asp-for=@Model.ApplicantVehicles[i].Model placeholder="Model" class="form-control" />
+                                            <span asp-validation-for=@Model.ApplicantVehicles[i].Model class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-12 btn-group">
+                                            <div class="p-2">
+                                                <input type="checkbox" asp-for="@Model.ApplicantVehicles[i].NeedParking" class="form-check-input" />
+                                            </div>
+                                            <div class="pt-3 p-1">
+                                                <label>Will you be parking the motor vehicle on the property?</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-end">
+                                                <a href="#" onclick="loadVehicle(@Model.ApplicantVehicles[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                   data-bs-target="#largeModal"><i class="bi bi-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                }
+                            }
+                            <div id="dvappendVehicles"></div>
+                            <div class="row">
+                                <div class="col-md-3 form-floating form-footer p-1">
+                                    <button id="addVehicle" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle"></i>
+                                        Add New Vehicle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                            <div class="row mt-2">
+                                <h3 class="text-center">
+                                    Residential <span class="text-primary"> History</span>
+                                </h3>
+                            </div>
+                            <p class="left-text">
+                                Minimum 2 years living history required
+                            </p>
+                            @if (Model.ApplicantHistory != null)
+                            {
+                                for (int i = 0; i < @Model.ApplicantHistory.Count; i++)
+                                {
+                                    <div class="row h">
+                                        <strong class="hh">Residence-@(i + 1)</strong><hr />
+                                    </div>
+                                    <div class="ah">
+                                        <div class="row">
+                                            <div class="col-md-3 ">
+                                                <input type="hidden" asp-for=@Model.ApplicantHistory[i].ID>
+                                                <input type="hidden" asp-for=@Model.ApplicantHistory[i].ApplicantID>
+                                                <input type="hidden" asp-for=@Model.ApplicantHistory[i].CreatedOn>
+                                                <input type="hidden" asp-for=@Model.ApplicantHistory[i].CreatedbyUserId>
+                                                <input type="text" asp-for=@Model.ApplicantHistory[i].UnitNo placeholder="Unit No" class="form-control" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].UnitNo class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-3 ">
+                                                <input type="text" asp-for=@Model.ApplicantHistory[i].StreetNo placeholder="Street No" class="form-control integeronly" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].StreetNo class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <input type="text" asp-for=@Model.ApplicantHistory[i].StreetName placeholder="Street Name" class="form-control" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].StreetName class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="text" asp-for=@Model.ApplicantHistory[i].Suburb placeholder="Suburb" class="form-control" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].Suburb class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-6 p-1">
+                                                <input type="text" asp-for=@Model.ApplicantHistory[i].PostCode placeholder="PostCode" class="form-control integeronly" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].PostCode class="text-danger"></span>
+                                            </div>                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <select asp-for=@Model.ApplicantHistory[i].LandlordType class="nice-select w-100">
+                                                    <option selected value="">--Select type of landlord--</option>
+                                                    <option value="Real estate agent">Real estate agent</option>
+                                                    <option value="through landlord">Through a landlord</option>
+                                                    <option value="I own this home">I own this home</option>
+                                                    <option value="Living with family/friends">Living with family/friends</option>
+                                                </select>
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].LandlordType class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-3 p-1">
+                                                @{
+                                                    var startDate = Utility.ConvertToShortDateFormat(Model.ApplicantHistory[i].DateStartedLiving);
+                                                }
+                                                <input type="text" readonly asp-for=@Model.ApplicantHistory[i].DateStartedLiving value="@startDate"
+                                                placeholder="Date Started Living" class="form-control datepicker" aria-required="true" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].DateStartedLiving class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-3 p-1">
+                                                @{
+                                                    var endDate = Utility.ConvertToShortDateFormat(Model.ApplicantHistory[i].DateEndedLiving);
+                                                }
+                                                <input type="text" readonly asp-for=@Model.ApplicantHistory[i].DateEndedLiving value="@endDate"
+                                                placeholder="Date Ended Living" class="form-control datepicker" aria-required="true" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].DateEndedLiving class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-3 p-1">                                                
+                                                <input type="email"  asp-for=@Model.ApplicantHistory[i].Email
+                                                       placeholder="Landlord/Agent Email" class="form-control" aria-required="true" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].Email class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <input type="text" asp-for=@Model.ApplicantHistory[i].Phone  
+                                                       placeholder="Landlord/Agent Phone" class="form-control" aria-required="true" />
+                                                <span asp-validation-for=@Model.ApplicantHistory[i].Phone class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-9 ">
+                                                <textarea type="text" asp-for=@Model.ApplicantHistory[i].AdditionalInformation placeholder="Additional Information" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <textarea type="text" asp-for=@Model.ApplicantHistory[i].Reasonforleaving placeholder="Reason for leaving" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-end">
+                                                <a href="#" onclick="loadResidentialhistory(@Model.ApplicantHistory[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                   data-bs-target="#largeModal"><i class="bi bi-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div id="dvappendHistory"></div>
+                            <div class="row">
+                                <div class="col-md-3 form-floating form-footer p-1">
+                                    <button id="btnaddHistory" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Previous Residence</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                            <div class="row mt-2">
+                                <h3 class="text-center">
+                                    Financials
+                                </h3>
+                            </div>
+                            <p class="left-text">
+                                Please make sure to provide a minimum of 2 years employment history
+                            </p>
+                            <hr />
+                            <div class="row">
+                                <strong class="left-text">
+                                    Currently I am
+                                </strong>
+                                <div class="col-md-6">
+                                    <select required id="ddljobstatus" asp-for=@Model.Applicant.JobStatus class="nice-select w-100">
+                                        <option selected value="">--Select Current Status--</option>
+                                        <option value="employed">Employed</option>
+                                        <option value="selfemployed">Self-Employed</option>
+                                        <option value="unemployed">Unemployed</option>
+                                    </select>
+                                    <span asp-validation-for="@Model.Applicant.JobStatus" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row btn-group">
+                                <div>
+                                    <input type="checkbox" id="chkstudent" class="form-check-input" />
+                                    <span class="m-1">Are you a student?</span>
+                                </div>
+                                @*<div class="p-1">
+                                <strong>Are you a student?</strong>
+                                </div>*@
+                            </div>
+                            <div id="dvemployer" style="display:block;">
+                                @if (Model.ApplicantEmployer != null)
+                                {
+                                    for (int i = 0; i < @Model.ApplicantEmployer.Count; i++)
+                                    {
+                                        if (@i == 0)
+                                        {
+                                            <div class="row e">
+                                                <strong class="ee p-1">My Current Employer's Details</strong><br />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row e">
+                                                <strong class="ee p-1">Previous Employer-@i</strong><br />
+                                            </div>
+
+                                        }
+                                        <div>
+                                            <p class="left-text p-1">
+                                                Please fill in the below information and send a link to your reference, this will help to process your application.
+                                            </p>
+                                        </div>
+                                        <div class="ae">
+                                            <div class="row mt-4">
+                                                <div class="col-md-4 ">
+                                                    <input type="hidden" asp-for=@Model.ApplicantEmployer[i].ID>
+                                                    <input type="hidden" asp-for=@Model.ApplicantEmployer[i].uid>
+                                                    <input type="hidden" asp-for=@Model.ApplicantEmployer[i].CreatedOn>
+                                                    <input type="hidden" asp-for=@Model.ApplicantEmployer[i].CreatedbyUserId>
+                                                    <input type="hidden" asp-for=@Model.ApplicantEmployer[i].ApplicantID>
+                                                    <input required type="text" asp-for=@Model.ApplicantEmployer[i].Occupation placeholder="Occupation" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].Occupation class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-4 p-1">
+                                                    <input required type="text" asp-for=@Model.ApplicantEmployer[i].EmployerName placeholder="Employer Name" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].EmployerName class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-4 p-1">
+                                                    <input required type="text" asp-for=@Model.ApplicantEmployer[i].ContactName placeholder="Contact Name" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].ContactName class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">
+                                                    <input type="email" asp-for=@Model.ApplicantEmployer[i].Email placeholder="Email" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].Email class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-4 p-1">
+                                                    <input required type="text" maxlength="15" asp-for=@Model.ApplicantEmployer[i].Mobile oninput="formatMobileNumber(this)" placeholder="Mobile" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].Mobile class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-4 p-1">
+                                                    <input type="text" asp-for=@Model.ApplicantEmployer[i].Phone placeholder="Phone" class="form-control integeronly" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 ">
+                                                    <input type="text" asp-for=@Model.ApplicantEmployer[i].Website placeholder="Website" class="form-control" />
+                                                </div>
+                                                <div class="col-md-6 ">
+                                                    <input required type="text" asp-for=@Model.ApplicantEmployer[i].Address placeholder="Address" class="form-control" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].Address class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 ">
+                                                    @{
+                                                        var startDate = Utility.ConvertToShortDateFormat(Model.ApplicantEmployer[i].StartDate);
+                                                    }
+                                                    <input required type="text" placeholder="Start Date" id="datepicker" 
+                                                        asp-for=@Model.ApplicantEmployer[i].StartDate readonly class="form-control datepicker"
+                                                           aria-required="true" value="@startDate" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].StartDate class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-3 ">
+                                                    @{
+                                                        var endDate = Utility.ConvertToShortDateFormat(Model.ApplicantEmployer[i].EndDate);
+                                                    }
+                                                    <input required type="text" placeholder="End Date" 
+                                                        asp-for=@Model.ApplicantEmployer[i].EndDate readonly class="form-control datepicker" 
+                                                        aria-required="true" value="@endDate" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].EndDate class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-3 ">
+                                                    <input type="text" asp-for=@Model.ApplicantEmployer[i].AnnualIncome placeholder="Annual Income" class="form-control integeronly" />
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].AnnualIncome class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-3 ">
+                                                    <select required asp-for=@Model.ApplicantEmployer[i].JobType class="nice-select w-100">
+                                                        <option selected value="">--Select employment type--</option>
+                                                        <option value="Casual">Casual</option>
+                                                        <option value="PartTime">Part-Time</option>
+                                                        <option value="FullTime">Full-Time</option>
+                                                        <option value="Contract">Contract</option>
+                                                    </select>
+                                                    <span asp-validation-for=@Model.ApplicantEmployer[i].JobType class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 ">
+                                                    <textarea type="text" asp-for=@Model.ApplicantEmployer[i].AdditionalInformation placeholder="Additional Information" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="offset-md-11">
+                                                <a href="#" onclick="loadEmployer(@Model.ApplicantEmployer[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                   data-bs-target="#largeModal">
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <div id="dvappendEmployer">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12  form-footer">
+                                        <button id="btnaddEmployer" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Employer</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvstudent" style="display:none;">
+                                <div class="row">
+                                    <div class="col-md-4 ">
+                                        <input type="text" asp-for=@Model.ApplicantAddIncome.Title placeholder="Student No" class="form-control" />
+                                        <span asp-validation-for=@Model.ApplicantAddIncome.Title class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4 ">
+                                        <input type="text" asp-for=@Model.ApplicantAddIncome.Amount placeholder="Course Title" class="form-control" />
+                                        <span asp-validation-for=@Model.ApplicantAddIncome.Amount class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4 ">
+                                        <input type="text" asp-for=@Model.ApplicantAddIncome.Amount placeholder="Institute Name" class="form-control" />
+                                        <span asp-validation-for=@Model.ApplicantAddIncome.Amount class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvaddIncome" style="display:none;">
+                                <div class="row">
+                                    <div class="p-1 btn-group">
+                                        <div class="p-1">
+                                            <input type="checkbox" id="income" class="form-check-input" />
+                                        </div>
+                                        <div class="col-md-11 p-1">
+                                            <label>Do you have any additional source of income?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                        <input type="text" asp-for=@Model.ApplicantAddIncome.Title placeholder="Income Title" class="form-control" />
+                                        <span asp-validation-for=@Model.ApplicantAddIncome.Title class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <input type="text" asp-for=@Model.ApplicantAddIncome.Amount placeholder="Amount" class="form-control integeronly" />
+                                        <span asp-validation-for=@Model.ApplicantAddIncome.Amount class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                        <select asp-for=@Model.ApplicantAddIncome.PaymentTerm class="nice-select w-100">
+                                            <option selected value="">--Payment Term--</option>
+                                            <option value="Casual">Weekly</option>
+                                            <option value="Part-Time">Monthly</option>
+                                            <option value="Full-Time">Fortnightly</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <input type="text" asp-for=@Model.ApplicantAddIncome.AnnualTotal placeholder="Annual Total" class="form-control integeronly" />
+                                        <span asp-validation-for=@Model.ApplicantAddIncome.AnnualTotal class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
+                            <div class="row mt-2">
+                                <h3 class="text-center">
+                                    Personal <span class="text-primary"> References</span>
+                                </h3>
+                            </div>
+                            <p class="left-text">
+                                Please fill in the below information, this will help to process your application.
+                            </p>
+                            @if (Model.ApplicantReference != null)
+                            {
+                                for (int i = 0; i < Model.ApplicantReference.Count; i++)
+                                {
+                                    <div class="row r">
+                                        <strong class="rr">Reference-@(i + 1)</strong>
+                                    </div>
+                                    <div class="ar">
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <input type="hidden" asp-for=@Model.ApplicantReference[i].ID>
+                                                <input type="hidden" asp-for=@Model.ApplicantReference[i].uid>
+                                                <input type="hidden" asp-for=@Model.ApplicantReference[i].CreatedOn>
+                                                <input type="hidden" asp-for=@Model.ApplicantReference[i].CreatedbyUserId>
+                                                <input type="hidden" asp-for=@Model.ApplicantReference[i].ApplicantID>
+                                                <select asp-for=@Model.ApplicantReference[i].Type class="nice-select w-100">
+                                                    <option selected value="">--Select type--</option>
+                                                    <option value="Reference">Reference</option>
+                                                    <option value="Emergency contact">Emergency contact</option>
+                                                </select>
+                                                <span asp-validation-for=@Model.ApplicantReference[i].Type class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <input type="text" asp-for=@Model.ApplicantReference[i].FirstName placeholder="First Name" class="form-control" />
+                                                <span asp-validation-for=@Model.ApplicantReference[i].FirstName class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" asp-for=@Model.ApplicantReference[i].LastName placeholder="Last Name" class="form-control" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" asp-for=@Model.ApplicantReference[i].Relationship placeholder="Relationship" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <input type="email" asp-for=@Model.ApplicantReference[i].Email placeholder="Email" class="form-control" />
+                                                <span asp-validation-for=@Model.ApplicantReference[i].Email class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" asp-for=@Model.ApplicantReference[i].Mobile placeholder="Mobile" maxlength="15" oninput="formatMobileNumber(this)" class="form-control" />
+                                                <span asp-validation-for=@Model.ApplicantReference[i].Mobile class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" asp-for=@Model.ApplicantReference[i].Phone placeholder="Phone" class="form-control integeronly" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <textarea type="text" asp-for=@Model.ApplicantReference[i].AdditionalInformation placeholder="Additional Information" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-end">
+                                                <a href="#" onclick="loadReference(@Model.ApplicantReference[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                   data-bs-target="#largeModal"><i class="bi bi-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div id="dvappendReference">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12  form-footer">
+                                    <button id="btnaddReference" class="btn btn-primary m-2"><i class="bi bi-plus-circle"></i> Add Reference</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-8" class="tab-pane" role="tabpanel" aria-labelledby="step-8">
+                            <div id="p-2">
+                                <div class="row mt-2">
+                                    <h3 class="text-center">
+                                        Your <span class="text-primary"> Documents</span>
+                                    </h3>
+                                </div>
+                                <div class="row">
+                                    @if (Model.ApplicantDocument != null)
+                                    {
+                                        for (int i = 0; i < Model.ApplicantDocument.Count(); i++)
+                                        {
+                                            <div class="col-md-4">
+                                                <div class="p-1">
+                                                    <img src="@Model.ApplicantDocument[i].DocumentPath" style="height:150px; width:180px" alt="" class="img-a img-fluid">
+                                                </div>
+                                                <div>
+                                                    <strong>Document:</strong><span>@Model.ApplicantDocument[i].DocumentType.Name</span>
+                                                </div>
+                                                <div>
+                                                    <strong>Added on:</strong>
+                                                    <span>
+                                                        @Utility.ConvertToShortDateFormat(Model.ApplicantDocument[i].CreatedOn)
+                                                    </span>
+                                                </div>
+                                                <div class="p-1">
+                                                    <a href="#" onclick="loadDocument(@Model.ApplicantDocument[i].ID)" data-bs-toggle="modal" class="btn btn-danger"
+                                                    data-bs-target="#largeModal">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                    }   
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-floating">
+                                <strong>Primary Documents (Category A)</strong><hr />
+                                @{
+                                    bool FstRecrodSecDoc = true;
+                                    bool fstRecIncomeProoof = true;
+
+                                    @for (int i = 0; i < Model.ApplicantDocType.Count; i++)
+                                    {
+                                        if (Model.ApplicantDocType[i].type == 2 && FstRecrodSecDoc == true)
+                                        {
+                                            <hr />
+                                            <div class="left-text">
+                                                <strong>Secondary Documents (Category B)</strong>
+                                            </div>
+                                            FstRecrodSecDoc = false;
+                                        }
+                                        if (@Model.ApplicantDocType[i].type == 3 && fstRecIncomeProoof == true)
+                                        {
+                                            <hr />
+                                            <div class="left-text">
+                                                <strong>Proof of Income</strong>
+                                            </div>
+                                            fstRecIncomeProoof = false;
+                                        }
+                                        <div class="col-md-12 btn-group">
+                                            <div class="p-1">
+                                                <input type="hidden" asp-for=@Model.ApplicantDocType[i].ID />
+                                                <input type="hidden" asp-for=@Model.ApplicantDocType[i].Document />
+                                                <input type="hidden" asp-for=@Model.ApplicantDocType[i].Points />
+                                                <input type="checkbox" class="form-check-input" asp-for=@Model.ApplicantDocType[i].isSelected />
+                                            </div>
+                                            <div class="col-md-4 p-1">
+                                                <label asp-for=@Model.ApplicantDocType[i].Name>@Model.ApplicantDocType[i].Name</label>
+                                            </div>
+                                            <div class="p-1">
+                                                <input type="file" asp-for=@Model.ApplicantDocType[i].Document class="form-control" />
+                                            </div>
+                                        </div>
+                                    }
+                                    //<button type="submit" class="btn btn-primary">Save Profile</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Include optional progressbar HTML -->
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @*await Html.RenderPartialAsync("_ValidationScriptsPartial");*@
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_dtpPartial" />
+    @*<script type="text/javascript" src="~/js/Applicant/showHidePet.js"></script>*@
+    <script src="~/theme/vendor/jquery-smartwizard/dist/js/jquery.smartWizard.min.js"></script>
+    <!-- JQuery Smartwizard Initialization -->
+    <script type="text/javascript" src="~/js/Applicant/createProfile.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/showHideEmployer.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/showHideStudent.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/addDependent.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/addVehicle.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/addPet.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/addResidentialHistory.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/addReference.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/addemployer.js"></script>
+    <script type="text/javascript" src="~/js/commonFunctions/formatmobilenum.js"></script>
+    <script type="text/javascript" src="~/js/commonFunctions/integersOnly.js"></script>
+    <script type="text/javascript" src="~/js/commonFunctions/bindIntegerOnlyInput.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadDependent.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadPet.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadVehicle.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadDocument.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadEmployer.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadReference.js"></script>
+    <script type="text/javascript" src="~/js/Applicant/loadResidentialhistory.js"></script>
+}

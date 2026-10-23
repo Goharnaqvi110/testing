@@ -1,0 +1,67 @@
+﻿@using Gharshare.Models
+@using Gharshare.CommonHelper
+
+@{
+    ViewData["Title"] = "Select Payment Option";
+    Layout = null;
+}
+<div class="container-fluid">
+    <div class="row">
+        @* <p style="color: #99A2B5; text-align: center">
+        Please select your preferred payment method active-pm-type
+        </p> *@
+        <div class="pm-type-list" style="margin-bottom: 20px">
+            <div class="pm-type" id="new-cc" onclick="selectCard()">
+                <div class="pm-type-icon">
+                    <img class="img-responsive" alt="Payment via credit or debit"
+                         src="/img/credit-card.png">
+                    <input id="card" name="paymentmethod" type="radio" value="card" class="d-none" />
+                </div>
+                <div class="pm-type-name mt-5">Credit or Debit Card</div>
+                <div class="pm-type-secondary">1.5% charge</div>
+            </div>
+            <div class="pm-type" id="new-dd" onclick="selectBank()">
+                <div class="pm-type-icon">
+                    <img class="img-responsive"
+                         alt="Payment via bank account"
+                         src="~/img/bank-account.png">
+                    <input id="bank" name="paymentmethod" type="radio" value="bank" class="d-none" />
+                </div>
+                <div class="pm-type-name mt-5">Bank Account</div>
+                <div class="pm-type-secondary">No charge</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-right">
+                <a data-bs-dismiss="modal" href="javascript:void(0)"
+                   class="btn btn-secondary w-50">Cancel</a>
+            </div>
+            <div class="col-md-6">
+                <button id="btnNext" type="button"
+                        onclick="loadAddPaymentmethodUI($('#paymentMethod').val())"
+                    class="btn btn-primary w-50 disabled">
+                    Next
+                </button>
+            </div>
+        </div>
+        <input type="hidden" id="paymentMethod" />
+    </div>
+    <script src="~/js/portal/loadAddPaymentmethodUI.js"></script>
+    <script type="text/javascript">
+        function selectBank() {
+            $('#new-dd').addClass('active-pm-type');
+            $('#new-cc').removeClass('active-pm-type');
+            $('#bank').prop('checked', true);
+            $('#btnNext').removeClass('disabled');
+            $('#paymentMethod').val('bank');
+        }
+        function selectCard() {
+            $('#new-dd').removeClass('active-pm-type');
+            $('#new-cc').addClass('active-pm-type');
+            $('#card').prop('checked', true);
+            $('#btnNext').removeClass('disabled');
+            $('#paymentMethod').val('card');
+        }
+    </script>    
+</div>
+<script src="~/js/portal/saveUserCard.js"></script>

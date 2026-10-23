@@ -1,0 +1,160 @@
+﻿@using Gharshare.Models
+@model Tuple<Plan,List<Service>>
+@{
+    ViewData["Title"] = "Edit Plan";
+}
+<div class="container"  style="padding:60px;">
+<div class="col-md-12">
+    <h1>Edit Plan</h1>
+    <hr />
+</div>
+<form method="Post" asp-action="Edit" >
+ <div class="row">
+        <div class="col-md-6">
+            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating p-1">
+                    <input type="text" id="name" asp-for="@Model.Item1.Title" value="@Model.Item1.Title" class="form-control" autocomplete="Name" aria-required="true"/>
+                    <label asp-for="@Model.Item1.Title">Name</label>
+                    <input type="hidden" id="planid" value="@Model.Item1.ID" />
+                    <span asp-validation-for="@Model.Item1.Title" class="text-danger"></span>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" id="description" asp-for="@Model.Item1.Description" class="form-control" autocomplete="Name" />
+                    <label asp-for="@Model.Item1.Description">Description</label>
+                </div>
+                <div class="form-floating p-1">
+                    <input type="text" id="price" asp-for="@Model.Item1.MonthlyCharges" class="form-control" autocomplete="Name" />
+                    <label asp-for="@Model.Item1.MonthlyCharges">Price</label>
+                </div>   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-end">
+           @* <button type="submit" class="w-100 btn btn-primary">Update Plan</button>*@
+            <a class="float-right btn btn-primary" onclick="UpdatePlan();" style="width:100px;">Update</a>
+    </div>
+    <div class="col-md-6">
+        <a asp-action="Index" class="btn btn-secondary" style="width:100px;">Cancle</a>
+    </div>     
+    </div>
+    </form>
+    <div class="col-md-12 mt-5">
+    <h1>Plan Services</h1>    
+</div>    
+        <div class="row">
+        <div class="col-md-12">
+            <table id="ItemList" class="table table-bordered table-striped" >
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" class="col-4">Name</th>
+                        <th scope="col" class="col-7">Description</th>
+                        <th scope="col" class="col-1 text-center">
+                            <input type="checkbox" onClick="toggle(this)" class="form-check-input" /> All
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (@Model.Item2 != null)
+                        {
+                            var count = 1;
+
+                            @foreach (var service in Model.Item2)
+                            {                                
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>@service.Name</td>
+                                    <td>@service.Description</td>
+                                    <td>
+                                        <div class="text-center">
+                                            
+                                        </div>
+                                    </td>                                    
+                                </tr>
+                                count = count + 1;
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="text-end col-md-12 pt-2 ">
+        <a class="float-right btn btn-primary" onclick="SaveList();" style="width:200px;">Update Plan Services</a>
+    </div>    
+    </div>
+    <script type="text/javascript">
+
+    var SaveList=function(){
+
+        var planid = document.getElementById('planid').value;
+        //debugger
+        var arrItem=[];
+        var commaSeparatedIds="";
+        $("#ItemList tr td input[type=checkbox]").each(function(index,val){
+
+            var checkId=$(val).attr("Id");    
+            
+            var arr=checkId.split('_');
+            var currentCheckboxId=arr[1];
+            var isChecked=$("#"+checkId).is(":checked",true);
+            if(isChecked){
+
+                arrItem.push(currentCheckboxId);
+            }
+
+        })
+
+        if(arrItem.length !=0){
+             //debugger
+
+            commaSeparatedIds=arrItem.toString();
+            
+            $.ajax({
+                url:'/Admin/Plan/SaveList',
+                type:"POST",
+                dataType: "JSON", 
+                //data: JSON.stringify({ ItemList:commaSeparatedIds }),
+                data:{ItemList:commaSeparatedIds,Planid:planid},
+                success:function(response){
+                   // window.location = "https://www.aspsnippets.com/";
+                    window.location = "/Admin/Plan/Edit/"+planid.toString();
+
+                }
+            })
+        }
+    }
+
+</script>
+<script type="text/javascript">
+
+    var UpdatePlan=function(){
+
+        var planid = document.getElementById('planid').value;
+        var name= document.getElementById('name').value;;
+        var description= document.getElementById('description').value;;
+        var price= document.getElementById('price').value;;
+        
+
+        if(planid !=0){
+             //debugger
+            $.ajax({
+                url:'/Admin/Plan/UpdatePlan',
+                type:"POST",
+                dataType: "JSON", 
+                //data: JSON.stringify({ ItemList:commaSeparatedIds }),
+                data:{planid:planid,Name:name,Description:description,Price:price},
+                success:function(response){ 
+                    
+                    window.location = "/Admin/Plan/Index/";
+                }
+            })
+        }
+    }
+
+</script>
+    @section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
